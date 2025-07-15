@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name="reactions")
-public class Reactions {
+public class Reaction {
 		
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
