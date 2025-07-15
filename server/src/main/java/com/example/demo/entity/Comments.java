@@ -1,10 +1,40 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Table(name="comments")
 public class Comments {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer comments_id;
+	private Integer diary_id;
+	private Integer login_id;
+	private String time;
+	private String sentence;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "diary_id")
+	@JsonIgnore
+	private Diaries diaries;
 	
 }
+
+	
+	
+
