@@ -19,13 +19,14 @@ import lombok.NoArgsConstructor;
 @Table(name="reactions")
 public class Reaction {
 		
+	
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
-	private Diaries diaries;
+	private Diary diary;
 	
-	private Integer login_id;
+	private String login_id;
 	private Boolean reaction1;
 	private Boolean reaction2;
 	private Boolean reaction3;

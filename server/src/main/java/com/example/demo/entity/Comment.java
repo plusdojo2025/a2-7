@@ -23,7 +23,6 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer comments_id;
-	private Integer diary_id;
 	private Integer login_id;
 	private String time;
 	private String sentence;
@@ -31,7 +30,7 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
-	private Diaries diaries;
+	private Diary diary;
 	
 }
 
