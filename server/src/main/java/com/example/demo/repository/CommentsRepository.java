@@ -1,13 +1,9 @@
 package com.example.demo.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@SpringBootApplication
-public class CommentsRepository {
-	public static void main(String[] args) {
-		SpringApplication.run(CommentsRepository.class, args);
-	}
+import com.example.demo.entity.Comment;
+
+public interface CommentsRepository extends JpaRepository<Comment, Integer> {
+
 }
-
-
