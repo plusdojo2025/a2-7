@@ -21,15 +21,15 @@ public class LoginController {
             @RequestParam("loginId") String loginId,
             @RequestParam("password") String password) {
 
-        // ここで認証処理を入れてもよい（今回は省略）
+        // 認証処理をここに追加可能（今は省略）
 
-        // ログイン成功したと仮定して登録画面へリダイレクト
-        return new RedirectView("/Signup");
+        // ログイン成功後にホーム画面へリダイレクト
+        return new RedirectView("/home");
     }
 
-    // 登録画面（遷移先）
-    @GetMapping("/Signup")
-    public String showRegisterForm() {
-        return "Signup"; // signup.htmlを返す想定
+    // ホーム画面表示
+    @GetMapping("/home")
+    public String showHomePage() {
+        return "home"; // home.html を表示
     }
 }
