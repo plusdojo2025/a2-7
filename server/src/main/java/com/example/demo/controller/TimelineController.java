@@ -33,7 +33,8 @@ public class TimelineController {
 	@Autowired
 	private Postsrepository postsrepository;
 	
-	
+	@Autowired
+	private Usersrepository usersrepository;
 	
 	
 	//タイムライン初期表示
@@ -42,26 +43,38 @@ public class TimelineController {
 		
 		
 		//日記を時間順で取得
-		List<Post>posts= postsrepository.findAll();
+		List<Post>postList= postsrepository.findAll();
 		
 		//日記IDでリアクションを取得
-		List<List<Reaction>> reactionslist=new ArrayList<>();
-		
-		for(Post i:posts) {
+		//数字の配列で返す？
+		List<List<Reaction>> reactionList=new ArrayList<>();
+		for(Post i:postList) {
 			//日記ごとのリアクションリストを追加していく
-			reactionslist.add(reactionsrepository.findByDiary_id(0));//diary_id
+			reactionList.add(reactionsrepository.findByDiary_id(0));//diary_id
+			//もしTrueなら数を増やす（最終的にリアルタイムで反映させる）
+		
 		}
+		
+		int[] reaction4 = {0,0,0,0};
 		
 		//日記IDコメント数を取得
-		int[] comentslist= new int[posts.size()];
-		for(int i=0; i<posts.size();i++) {
-			comentslist[i]=commentsrepository.countByDiary_id(0);//diary_id
+		int[] comentList= new int[postList.size()];
+		for(int i=0; i<postList.size();i++) {
+			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
 		}
 		
+		//日記ごとのユーザー情報を取得
+		List<User> userList=new ArrayList<>();
+		for(Post pos:postList) {
+			//日記ごとのユーザーを追加していく
+			int login_id=pos.getLogin_id();//書き方後で確認
+			userList.add(usersrepository.findByLogin_id(0));//login_id
+		}
 		
-		model.addAttribute("posts",posts);
-		model.addAttribute("reactionslist",reactionslist);
-		model.addAttribute("comentslist",comentslist);
+		model.addAttribute("postList",postList);
+		model.addAttribute("reactionList",reactionList);
+		model.addAttribute("comentList",comentList);
+		model.addAttribute("userList",userList);
 		return "timeline";
 	}
 	
