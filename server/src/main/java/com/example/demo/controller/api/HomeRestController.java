@@ -29,6 +29,8 @@ public class HomeRestController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    
+    
 
     // タグで日記を検索するAPI
     @GetMapping("/tag")
