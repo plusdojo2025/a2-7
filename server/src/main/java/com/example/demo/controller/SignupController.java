@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SignupController {
 
     // 登録画面の表示
-    @GetMapping("/register")
+    @GetMapping("/Signup")
     public String showSignupForm() {
-        return "register"; // register.htmlを表示
+        return "Signup"; // register.htmlを表示
     }
 
     // 登録処理
-    @PostMapping("/register")
+    @PostMapping("/Signup")
     public String registerUser(
             @RequestParam String loginId,
             @RequestParam String password,

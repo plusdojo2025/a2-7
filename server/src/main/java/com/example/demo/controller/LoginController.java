@@ -24,12 +24,12 @@ public class LoginController {
         // ここで認証処理を入れてもよい（今回は省略）
 
         // ログイン成功したと仮定して登録画面へリダイレクト
-        return new RedirectView("/signup");
+        return new RedirectView("/Signup");
     }
 
     // 登録画面（遷移先）
-    @GetMapping("/signup")
+    @GetMapping("/Signup")
     public String showRegisterForm() {
-        return "signup"; // signup.htmlを返す想定
+        return "Signup"; // signup.htmlを返す想定
     }
 }
