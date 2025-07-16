@@ -41,6 +41,17 @@ export default class Timeline extends React.Component{
         });
     }    
 
+    addReaction=()=>{
+        // const {}=this.state;
+
+        // const reaction={};
+
+        // axios.post("/timeline/stamp",reaction)
+        // .then(json=>{
+        //     this.componentDidMount();
+        // });
+    }
+
 
     render(){
         const { honnninn,addcomment } = this.state;
@@ -94,8 +105,8 @@ export default class Timeline extends React.Component{
                     onChange={this.onInput}  // 入力が変更されるたびにstateを更新
                     placeholder="コメントを入力" 
                     rows="5" 
-                    cols="100"
-        />
+                    cols="100"/><br/>
+                    <input type="submit" value="送信"/>
                 </form>
                 
             </div>

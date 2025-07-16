@@ -14,7 +14,7 @@ public class Timeline {
 
 
 	@Id
-	private Diary diaryList;
+	private Diaries diaryList;
 	private Reaction reactionList;
 	private Comment comentList;
 	private User userList;
