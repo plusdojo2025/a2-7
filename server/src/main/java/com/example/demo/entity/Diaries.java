@@ -23,7 +23,7 @@ public class Diaries {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int diary_id;
-	private int login_id;
+	private String login_id;
 	private String sentence;
 	private int stamp;
 	private Timestamp resist_time;

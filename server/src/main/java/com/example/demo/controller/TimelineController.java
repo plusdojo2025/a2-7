@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.entity.Diaries;
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
+import com.example.demo.entity.Timeline;
+import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
+import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
+import com.example.demo.repository.UsersRepository;
 
 @Controller
 public class TimelineController {
@@ -30,28 +35,26 @@ public class TimelineController {
 	private TagsRepository tagsrepository;
 	
 	@Autowired
-	private Diariesrepository diariesrepository;
+	private DiariesRepository diariesrepository;
+	
 	
 	@Autowired
-	private Postsrepository postsrepository;
-	
-	@Autowired
-	private Usersrepository usersrepository;
+	private UsersRepository usersrepository;
 	
 	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public String timeline(@ModelAttribute Tag tag,Model model){
+	public Timeline timeline(@ModelAttribute Tag tag,Model model){
 		
 		
-		//ハッシュタグで日記を時間順で取得
+		
 		//現在全件取得になっている。まだできていない
-		List<Post>postList= postsrepository.findAll();
+		List<Diaries>diaryList= diariesrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
 		List<List<Reaction>> reactionList=new ArrayList<>();
-		for(int i=0;i<postList.size();i++) {
+		for(int i=0;i<diaryList.size();i++) {
 			//日記ごとのリアクションリストを追加していく
 			List<Reaction> reaction=reactionsrepository.findByDiary_id(0);//diary_id
 			reactionList.add(reaction);
@@ -75,37 +78,33 @@ public class TimelineController {
 		
 
 		//日記IDでコメント数を取得
-		int[] comentList= new int[postList.size()];
-		for(int i=0; i<postList.size();i++) {
+		int[] comentList= new int[diaryList.size()];
+		for(int i=0; i<diaryList.size();i++) {
 			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
 		}
 		
 		//日記ごとのユーザー情報を取得
 		List<User> userList=new ArrayList<>();
-		for(Post pos:postList) {
+		for(Diaries diary:diaryList) {
 			//日記ごとのユーザーを追加していく
-			int login_id=pos.getLogin_id();//書き方後で確認
-			userList.add(usersrepository.findByLogin_id(0));//login_id
+			String login_id=diary.getLogin_id();//書き方後で確認
+			userList.add(usersrepository.findByLoginId(login_id));//login_id
 		}
 		
 		//タグの扱いが分からんです。
-		
-		model.addAttribute("postList",postList);
-		model.addAttribute("reactionList",reactionList);
-		model.addAttribute("comentList",comentList);
-		model.addAttribute("userList",userList);
-		return "timeline";
+		Timeline TimelineData= new Timeline(diaryList,reactionList,comentList,userList);
+		return TimelineData;
 	}
 	
 	//タグ検索（未解決）
 	@PostMapping("/timeline/tag")
-	public String tag(@ModelAttribute Tag tag,Model model){
+	public List<Diaries> tag(@ModelAttribute Tag tag,Model model){
 		
 		//ハッシュタグIDで日記検索
-		List<Didary>diaries= diariesrepository.findByHashtag_id(hashtag_id).get();
-		model.addAttribute("diaries",diaries);
+		int id=tag.getHashtagId();
+		List<Diaries>diaries= diariesrepository.findByHashtag_id(id);//hashtag_id
 		
-		return "redirect:/timeline/tag/?tag=" + tag.getTags();//タグの名前を取ってくる
+		return diaries;
 	}
 	
 	//リアクションスタンプ処理

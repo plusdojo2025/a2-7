@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Calendar from './Calendar';
 
 function Home() {
   const [tag, setTag] = useState('');
@@ -47,6 +48,9 @@ function Home() {
           </li>
         ))}
       </ul>
+
+      {/* カレンダーを表示 */}
+      <Calendar />
     </div>
   );
 }
