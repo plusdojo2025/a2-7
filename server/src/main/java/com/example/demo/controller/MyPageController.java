@@ -61,6 +61,6 @@ public class MyPageController {
 		model.addAttribute("user", user);
 		model.addAttribute("message", "プロフィールを更新しました");
 		
-		return "redirect:/mypage/update";
+		return "user";
 	}
 }
