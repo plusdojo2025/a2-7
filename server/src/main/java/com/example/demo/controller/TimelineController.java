@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
+import com.example.demo.entity.Timeline;
+import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
+import com.example.demo.repository.UsersRepository;
 
 @Controller
 public class TimelineController {
@@ -30,28 +33,28 @@ public class TimelineController {
 	private TagsRepository tagsrepository;
 	
 	@Autowired
-	private Diariesrepository diariesrepository;
+	private DiariesRepository diariesrepository;
 	
 	@Autowired
-	private Postsrepository postsrepository;
+	private PostsRepository postsrepository;
 	
 	@Autowired
-	private Usersrepository usersrepository;
+	private UsersRepository usersrepository;
 	
 	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public String timeline(@ModelAttribute Tag tag,Model model){
+	public Timeline timeline(@ModelAttribute Tag tag,Model model){
 		
 		
 		//ハッシュタグで日記を時間順で取得
 		//現在全件取得になっている。まだできていない
-		List<Post>postList= postsrepository.findAll();
+		List<Diary>diaryList= diariesrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
 		List<List<Reaction>> reactionList=new ArrayList<>();
-		for(int i=0;i<postList.size();i++) {
+		for(int i=0;i<diaryList.size();i++) {
 			//日記ごとのリアクションリストを追加していく
 			List<Reaction> reaction=reactionsrepository.findByDiary_id(0);//diary_id
 			reactionList.add(reaction);
@@ -75,26 +78,22 @@ public class TimelineController {
 		
 
 		//日記IDでコメント数を取得
-		int[] comentList= new int[postList.size()];
-		for(int i=0; i<postList.size();i++) {
+		int[] comentList= new int[diaryList.size()];
+		for(int i=0; i<diaryList.size();i++) {
 			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
 		}
 		
 		//日記ごとのユーザー情報を取得
 		List<User> userList=new ArrayList<>();
-		for(Post pos:postList) {
+		for(Diary diary:diaryList) {
 			//日記ごとのユーザーを追加していく
-			int login_id=pos.getLogin_id();//書き方後で確認
+			int login_id=diary.getLogin_id();//書き方後で確認
 			userList.add(usersrepository.findByLogin_id(0));//login_id
 		}
 		
 		//タグの扱いが分からんです。
-		
-		model.addAttribute("postList",postList);
-		model.addAttribute("reactionList",reactionList);
-		model.addAttribute("comentList",comentList);
-		model.addAttribute("userList",userList);
-		return "timeline";
+		Timeline TimelineData= {diaryList,reactionList,comentList,userList};
+		return TimelineData;
 	}
 	
 	//タグ検索（未解決）

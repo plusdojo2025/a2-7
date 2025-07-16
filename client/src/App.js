@@ -14,6 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+<<<<<<< Updated upstream
 
      
         
@@ -23,6 +24,11 @@ function App() {
 
         {/*<img src={logo} className="App-logo" alt="logo" />
 
+=======
+     
+        
+        {/* <img src={logo} className="App-logo" alt="logo" />
+>>>>>>> Stashed changes
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -33,8 +39,13 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
+<<<<<<< Updated upstream
 
         </a> */}
+=======
+        </a> */}
+        
+>>>>>>> Stashed changes
       
         <BrowserRouter>
           <Routes>
@@ -51,11 +62,19 @@ function App() {
             {/* ホーム画面（タグ検索＋カレンダー含む） */}
             <Route path="/home" element={<Home />} />
 
+<<<<<<< Updated upstream
              {/* ホーム画面（タグ検索＋カレンダー含む） */}
             <Route path="/calendar" element={<Calendar />} />
 
             <Route path="/timeline" element={<Timeline></Timeline>}></Route>
             <Route path="/diarypage" element={<UserDiary></UserDiary>}></Route>
+=======
+            {/* タイムライン画面*/}
+            <Route path="/timeline" element={<Timeline/>}/>
+
+            {/* 日記詳細画面*/}
+            <Route path="/diarypage" element={<UserDiary/>}/>
+>>>>>>> Stashed changes
 
           </Routes>
         </BrowserRouter>
