@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import Timeline from './js/Timeline';
+import UserDiary from './js/UserDiary';
 import './App.css';
 
 import CalendarComponent from './Components/CalendarComponent';
@@ -41,6 +42,7 @@ function App() {
             {/*<Route index element={<BookList></BookList>}></Route>*/}
             
             <Route path="/timeline" element={<Timeline></Timeline>}></Route>
+            <Route path="/diarypage" element={<UserDiary></UserDiary>}></Route>
 
           </Routes>
         </BrowserRouter>
