@@ -64,7 +64,7 @@ public class UserInfoController {
 		repository.save(user);
         
         model.addAttribute("message", "パスワードを更新しました");
-        return "userinfo"; 
+        return "user"; 
     }
 	
 	
