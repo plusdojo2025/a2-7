@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/Timeline.css';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 export default class Timeline extends React.Component{
 
@@ -42,6 +43,7 @@ export default class Timeline extends React.Component{
         });
     }    
 
+
     //検索ボタン処理
     searchTag = () => {
         const {hashtag} = this.state;
@@ -55,6 +57,17 @@ export default class Timeline extends React.Component{
             //this.componentDidMount();
         });
     }    
+
+    addReaction=()=>{
+        // const {}=this.state;
+
+        // const reaction={};
+
+        // axios.post("/timeline/stamp",reaction)
+        // .then(json=>{
+        //     this.componentDidMount();
+        // });
+    }
 
 
     render(){
@@ -77,8 +90,8 @@ export default class Timeline extends React.Component{
         <div className="diary">
         <table>   
                 <tr>
-                    <td>〇</td>
-                    <td>さかな</td>
+                    <td><Link to="/mypage">〇</Link></td>
+                    <td><Link to="/mypage">さかな</Link></td>
                     <td>2025/7/11(金)20:58</td>
                 </tr>
         </table>
@@ -91,8 +104,8 @@ export default class Timeline extends React.Component{
 
                 <table>
                 <tr>
-                    <td>😊1　😡2　😢3　😌4</td>
-                    <td>💬4</td>
+                    <td onClick={this.addReaction}>😊1　😡2　😢3　😌4</td>
+                    <td><Link to="/diarypage">💬4</Link></td>
                 </tr>
                 </table>
             </div>
