@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Diary;
+import com.example.demo.entity.Diaries;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
@@ -31,12 +31,12 @@ public class HomeController {
     @GetMapping("/userdiary")
     public String diariesDetail(@RequestParam String date, Model model) {
         LocalDate localDate = LocalDate.parse(date);
-        Optional<Diary> opt = diaryRepository.findByDate(localDate);
+        Optional<Diaries> opt = diaryRepository.findByDate(localDate);
         if (opt.isPresent()) {
             model.addAttribute("diary", opt.get());
-            return "diary_detail"; // 日記詳細ページ
+            return "userdiary"; // 日記詳細ページ
         } else {
-            return "redirect:/diary/new?date=" + date; // 日記がなければ登録画面へ
+            return "redirect:/userdiary?date=" + date; // 日記がなければ登録画面へ
         }
     }
 
@@ -44,21 +44,21 @@ public class HomeController {
     @GetMapping("/diary")
     public String newDiary(@RequestParam(required = false) String date, Model model) {
         model.addAttribute("date", date); // 日付だけ渡しておく
-        return "diary_form"; // 日記登録フォーム
+        return "userdiary"; // 日記登録フォーム
     }
 
     // タグが含まれる日記を表示
-    @GetMapping("/userdiary")
+    @GetMapping("/seach")
     public String searchByTag(@RequestParam(required = false) String tag, Model model) {
-        List<Diary> results;
+        List<Diaries> results;
 
         if (tag == null || tag.isBlank()) {
-            results = diaryRepository.findAll(); // タグ未指定 → 一覧表示
+            results = diaryRepository.findAll();
         } else {
-            results = diaryRepository.findByTagsContaining("#" + tag); // 部分一致検索
+            results = diaryRepository.findByTagsContaining("#" + tag); // 例：#頑張った
         }
 
         model.addAttribute("results", results);
-        return "diary_list"; // 一覧を表示するHTML
+        return "diary_list";
     }
 }
