@@ -33,7 +33,8 @@ public class TimelineController {
 	@Autowired
 	private Postsrepository postsrepository;
 	
-	
+	@Autowired
+	private Usersrepository usersrepository;
 	
 	
 	//タイムライン初期表示
@@ -42,26 +43,54 @@ public class TimelineController {
 		
 		
 		//日記を時間順で取得
-		List<Post>posts= postsrepository.findAll();
+		List<Post>postList= postsrepository.findAll();
+		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
-		List<List<Reaction>> reactionslist=new ArrayList<>();
-		
-		for(Post i:posts) {
+		List<List<Reaction>> reactionList=new ArrayList<>();
+		for(int i=0;i<postList.size();i++) {
 			//日記ごとのリアクションリストを追加していく
-			reactionslist.add(reactionsrepository.findByDiary_id(0));//diary_id
+			List<Reaction> reaction=reactionsrepository.findByDiary_id(0);//diary_id
+			reactionList.add(reaction);
+			
+			//もしTrueなら数を増やす（最終的にリアルタイムで反映させる）
+			for(int j=0;j<reaction.size();j++) {
+				if(reaction.get(j).getReaction1()==true) {
+					reaction4.get(i)[0]+=1;
+				}
+				if(reaction.get(j).getReaction2()==true) {
+					reaction4.get(i)[1]+=1;
+				}
+				if(reaction.get(j).getReaction3()==true) {
+					reaction4.get(i)[2]+=1;
+				}
+				if(reaction.get(j).getReaction4()==true) {
+					reaction4.get(i)[3]+=1;
+				}
+			}
 		}
 		
-		//日記IDコメント数を取得
-		int[] comentslist= new int[posts.size()];
-		for(int i=0; i<posts.size();i++) {
-			comentslist[i]=commentsrepository.countByDiary_id(0);//diary_id
+
+		//日記IDでコメント数を取得
+		int[] comentList= new int[postList.size()];
+		for(int i=0; i<postList.size();i++) {
+			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
 		}
 		
+		//日記ごとのユーザー情報を取得
+		List<User> userList=new ArrayList<>();
+		for(Post pos:postList) {
+			//日記ごとのユーザーを追加していく
+			int login_id=pos.getLogin_id();//書き方後で確認
+			userList.add(usersrepository.findByLogin_id(0));//login_id
+		}
 		
-		model.addAttribute("posts",posts);
-		model.addAttribute("reactionslist",reactionslist);
-		model.addAttribute("comentslist",comentslist);
+		//タグの扱いが分からんです。
+		
+		model.addAttribute("postList",postList);
+		model.addAttribute("reactionList",reactionList);
+		model.addAttribute("comentList",comentList);
+		model.addAttribute("userList",userList);
 		return "timeline";
 	}
 	
@@ -73,7 +102,7 @@ public class TimelineController {
 		List<Didary>diaries= diariesrepository.findByHashtag_id(hashtag_id).get();
 		model.addAttribute("diaries",diaries);
 		
-		return "redirect:/timeline/tag/?tag=" + tag.tags.toString();//タグの名前を取ってくる
+		return "redirect:/timeline/tag/?tag=" + tag.getTags();//タグの名前を取ってくる
 	}
 	
 	//リアクションスタンプ処理
