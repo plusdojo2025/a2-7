@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,40 +18,55 @@ public class UserInfoController {
 	@Autowired
 	private UsersRepository repository;
 	
+	//初期表示
 	@GetMapping("/userinfo")
-	public String userinfo(Model model) {
-		
-		String nickname = getLoggedInUsername(); // ログインユーザー取得
-        User user = repository.findByNickname(nickname);
-		
-        if (user != null) {
-            // ユーザー情報をモデルに追加
-            model.addAttribute("user", user);
-        } else {
-            // ユーザーが見つからない場合の処理
-            return "";
-        }
-        
-		return "userinfo";
+	public String PasswordUpdatePage(Model model, Principal principal) {
+	    // ログインユーザーのloginId取得
+	    String loginId = principal.getName();
+
+	    // ユーザー情報取得
+	    User user = repository.findByLoginId(loginId);
+	    
+	    // ユーザー情報をモデルに追加
+	    model.addAttribute("user", user);
+
+	    return "userinfo";
 	}
 
-	// パスワード更新処理
-    @PostMapping("/userinfo/update")
-    public String updatePassword(@RequestParam("newPassword") String newPassword,
-                                 Model model) {
-        String nickname = getLoggedInUsername();
-        User user = repository.findByNickname(nickname);
 
-        if (user != null && newPassword != null && !newPassword.trim().isEmpty()) {
-            user.setPassword(newPassword); 
-            repository.save(user);
-            model.addAttribute("message", "パスワードが更新されました");
-        } else {
-            model.addAttribute("error", "新しいパスワードを入力してください");
+	// パスワード更新処理
+	@PostMapping("/userinfo/update")
+    public String updatePassword(
+            @RequestParam String loginId,                  // どのユーザーか識別するために loginId も受け取る想定
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword,
+            Principal principal,
+            Model model) {
+		
+		loginId = principal.getName(); // 安全に取得
+        // loginId でユーザー情報を取得
+        User user = repository.findByLoginId(loginId);
+        if (user == null) {
+            model.addAttribute("error", "ユーザーが見つかりません");
+            return "/userinfo/update"; // パスワード更新画面に戻る
         }
 
-        model.addAttribute("currentPassword", user.getPassword());
+        // 現在のパスワードが正しいかチェック
+        if (!user.getPassword().equals(currentPassword)) {
+            model.addAttribute("error", "現在のパスワードが違います");
+            return "/userinfo/update";
+        }
 
-        return "userinfo";
+        // 新しいパスワードをセットして更新
+        user.setPassword(newPassword);
+        
+		//更新されたユーザー情報をデータベースに保存（上書き）する。
+		repository.save(user);
+        
+        model.addAttribute("message", "パスワードを更新しました");
+        return "userinfo"; 
     }
+	
+	
+	
 }
