@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +11,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Comment;
+import com.example.demo.entity.Diaries;
+import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
+import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
+import com.example.demo.repository.TagsRepository;
+import com.example.demo.repository.UsersRepository;
 
 @Controller
 public class UserDiaryController {
 	
 	@Autowired
-	private Usersrepository usersrepository;
+	private UsersRepository usersrepository;
 	
 	@Autowired
 	private CommentsRepository commentsrepository;
@@ -32,10 +36,9 @@ public class UserDiaryController {
 	private TagsRepository tagsrepository;
 	
 	@Autowired
-	private Diariesrepository diariesrepository;
+	private DiariesRepository diariesrepository;
 	
-	@Autowired
-	private Postsrepository postsrepository;
+
 	
 
 	
@@ -44,10 +47,10 @@ public class UserDiaryController {
 	//日記詳細初期表示
 	//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
 	@GetMapping("/diarypage")
-	public String diarypage(@ModelAttribute Diary diary,Model model){
+	public String diarypage(@ModelAttribute Diaries diary,Model model){
 		
 		//日記を書いたユーザー情報取得
-		User user=usersrepository.findByLogin_id(0);//diary.getLogin_id()
+		User user=usersrepository.findByLoginId(diary.getLogin_id());//diary.getLogin_id()
 		
 		//コメントList取得
 		List<Comment> comment =commentsrepository.findByDiary_id(0);//diary.getdiary_id()
@@ -56,7 +59,7 @@ public class UserDiaryController {
 		List<List<User>> comUser=new ArrayList<>();
 		
 		for(int i=0;i<comment.size();i++) {
-			comUser.add(usersrepository.findByLogin_id(comment.get(i).getLogin_id()));
+			comUser.get(i).add(usersrepository.findByLoginId(comment.get(i).getLogin_id()));
 		}
 		
 		return "diarypage";
