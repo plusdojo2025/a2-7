@@ -44,20 +44,34 @@ public class TimelineController {
 		
 		//日記を時間順で取得
 		List<Post>postList= postsrepository.findAll();
+		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
-		//数字の配列で返す？
 		List<List<Reaction>> reactionList=new ArrayList<>();
-		for(Post i:postList) {
+		for(int i=0;i<postList.size();i++) {
 			//日記ごとのリアクションリストを追加していく
-			reactionList.add(reactionsrepository.findByDiary_id(0));//diary_id
+			List<Reaction> reaction=reactionsrepository.findByDiary_id(0);//diary_id
+			reactionList.add(reaction);
+			
 			//もしTrueなら数を増やす（最終的にリアルタイムで反映させる）
-		
+			for(int j=0;j<reaction.size();j++) {
+				if(reaction.get(j).getReaction1()==true) {
+					reaction4.get(i)[0]+=1;
+				}
+				if(reaction.get(j).getReaction2()==true) {
+					reaction4.get(i)[1]+=1;
+				}
+				if(reaction.get(j).getReaction3()==true) {
+					reaction4.get(i)[2]+=1;
+				}
+				if(reaction.get(j).getReaction4()==true) {
+					reaction4.get(i)[3]+=1;
+				}
+			}
 		}
 		
-		int[] reaction4 = {0,0,0,0};
-		
-		//日記IDコメント数を取得
+
+		//日記IDでコメント数を取得
 		int[] comentList= new int[postList.size()];
 		for(int i=0; i<postList.size();i++) {
 			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
@@ -70,6 +84,8 @@ public class TimelineController {
 			int login_id=pos.getLogin_id();//書き方後で確認
 			userList.add(usersrepository.findByLogin_id(0));//login_id
 		}
+		
+		//タグの扱いが分からんです。
 		
 		model.addAttribute("postList",postList);
 		model.addAttribute("reactionList",reactionList);
@@ -86,7 +102,7 @@ public class TimelineController {
 		List<Didary>diaries= diariesrepository.findByHashtag_id(hashtag_id).get();
 		model.addAttribute("diaries",diaries);
 		
-		return "redirect:/timeline/tag/?tag=" + tag.tags.toString();//タグの名前を取ってくる
+		return "redirect:/timeline/tag/?tag=" + tag.getTags();//タグの名前を取ってくる
 	}
 	
 	//リアクションスタンプ処理
