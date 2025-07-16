@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Reaction;
+import com.example.demo.entity.Tag;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.ReactionsRepository;
+import com.example.demo.repository.TagsRepository;
 
 @Controller
 public class TimelineController {
@@ -39,10 +41,11 @@ public class TimelineController {
 	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public String timeline(Model model){
+	public String timeline(@ModelAttribute Tag tag,Model model){
 		
 		
-		//日記を時間順で取得
+		//ハッシュタグで日記を時間順で取得
+		//現在全件取得になっている。まだできていない
 		List<Post>postList= postsrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
