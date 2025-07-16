@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+<<<<<<< Updated upstream
       <h2>カレンダー</h2>
 
       {/* タグ検索（HomeComponent はカレンダーも日記一覧も含まないように） */}
@@ -20,6 +21,9 @@ function App() {
       <CalendarComponent />
         
         <img src={logo} className="App-logo" alt="logo" />
+=======
+        {/*<img src={logo} className="App-logo" alt="logo" />
+>>>>>>> Stashed changes
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -31,7 +35,7 @@ function App() {
         >
           Learn React
         </a>
-        
+        */}
       
         <BrowserRouter>
           <Routes>
