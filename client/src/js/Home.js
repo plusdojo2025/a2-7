@@ -9,7 +9,7 @@ function Home() {
   // タグで検索 or 空欄ならすべて取得
   const fetchDiaries = async () => {
     try {
-      const response = await axios.get('/diary/search', {
+      const response = await axios.get('/userdiary', {
         params: tag ? { tag } : {},
       });
       setDiaries(response.data);
@@ -24,7 +24,7 @@ function Home() {
 
   // 感情スタンプを押す（→その日の日記へ移動）
   const handleStampClick = (date) => {
-    window.location.href = `/diary/detail?date=${date}`;
+    window.location.href = `/userdiary?date=${date}`;
   };
 
   return (
