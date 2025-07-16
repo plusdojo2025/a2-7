@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentsRepository;
@@ -41,8 +42,9 @@ public class UserDiaryController {
 	
 	
 	//日記詳細初期表示
+	//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
 	@GetMapping("/diarypage")
-	public String timeline(@ModelAttribute Diary diary,Model model){
+	public String diarypage(@ModelAttribute Diary diary,Model model){
 		
 		//日記を書いたユーザー情報取得
 		User user=usersrepository.findByLogin_id(0);//diary.getLogin_id()
@@ -59,5 +61,22 @@ public class UserDiaryController {
 		
 		return "diarypage";
 	}
-
+	
+	
+	//コメント送信(コメント登録)
+	//タイムライン画面の方にいた方が分かりやすかったら移動します。
+	@PostMapping("/timeline/comment")
+	public String diarypage(@ModelAttribute Comment comment){
+		//リアクションの反応を登録（既存データがある場合は更新）
+		commentsrepository.save(comment);
+		return "redirect:/diarypage";
+	}
+	
+	//日記更新
+	//日記削除
+		
 }
+		
+			
+			
+			
