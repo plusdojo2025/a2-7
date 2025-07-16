@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -14,10 +16,10 @@ public class Timeline {
 
 
 	@Id
-	private Diaries diaryList;
-	private Reaction reactionList;
-	private Comment comentList;
-	private User userList;
+	private List<Diaries> diaryList;
+	private List<List<Reaction>> reactionList;
+	private int[] comentList;
+	private List<User> userList;
 
 }
 

@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.entity.Diaries;
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
 import com.example.demo.entity.Timeline;
 import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
+import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
@@ -35,8 +37,6 @@ public class TimelineController {
 	@Autowired
 	private DiariesRepository diariesrepository;
 	
-	@Autowired
-	private PostsRepository postsrepository;
 	
 	@Autowired
 	private UsersRepository usersrepository;
@@ -47,9 +47,9 @@ public class TimelineController {
 	public Timeline timeline(@ModelAttribute Tag tag,Model model){
 		
 		
-		//ハッシュタグで日記を時間順で取得
+		
 		//現在全件取得になっている。まだできていない
-		List<Diary>diaryList= diariesrepository.findAll();
+		List<Diaries>diaryList= diariesrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
@@ -85,26 +85,26 @@ public class TimelineController {
 		
 		//日記ごとのユーザー情報を取得
 		List<User> userList=new ArrayList<>();
-		for(Diary diary:diaryList) {
+		for(Diaries diary:diaryList) {
 			//日記ごとのユーザーを追加していく
-			int login_id=diary.getLogin_id();//書き方後で確認
-			userList.add(usersrepository.findByLogin_id(0));//login_id
+			String login_id=diary.getLogin_id();//書き方後で確認
+			userList.add(usersrepository.findByLoginId(login_id));//login_id
 		}
 		
 		//タグの扱いが分からんです。
-		Timeline TimelineData= {diaryList,reactionList,comentList,userList};
+		Timeline TimelineData= new Timeline(diaryList,reactionList,comentList,userList);
 		return TimelineData;
 	}
 	
 	//タグ検索（未解決）
 	@PostMapping("/timeline/tag")
-	public String tag(@ModelAttribute Tag tag,Model model){
+	public List<Diaries> tag(@ModelAttribute Tag tag,Model model){
 		
 		//ハッシュタグIDで日記検索
-		List<Didary>diaries= diariesrepository.findByHashtag_id(hashtag_id).get();
-		model.addAttribute("diaries",diaries);
+		int id=tag.getHashtagId();
+		List<Diaries>diaries= diariesrepository.findByHashtag_id(id);//hashtag_id
 		
-		return "redirect:/timeline/tag/?tag=" + tag.getTags();//タグの名前を取ってくる
+		return diaries;
 	}
 	
 	//リアクションスタンプ処理
