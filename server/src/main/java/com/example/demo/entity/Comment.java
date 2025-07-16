@@ -23,7 +23,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer comments_id;
-	private Integer login_id;
+	private String login_id;
 	private String time;
 	private String sentence;
 	
