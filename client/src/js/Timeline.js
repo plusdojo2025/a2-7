@@ -35,7 +35,14 @@ export default class Timeline extends React.Component{
 
     render(){
         return (
-        <div>タイムライン画面</div>
+        <div>
+
+        <header>タイムライン</header>
+        <div>
+            日記
+        </div>
+
+        </div>
         );
     }
 }
