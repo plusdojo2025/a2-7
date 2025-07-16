@@ -28,7 +28,7 @@ public class HomeController {
     private ReactionsRepository reactionRepository;
 
     // カレンダーの感情スタンプを押すと、その日の日記画面へ遷移
-    @GetMapping("/diary/detail")
+    @GetMapping("/userdiary")
     public String diariesDetail(@RequestParam String date, Model model) {
         LocalDate localDate = LocalDate.parse(date);
         Optional<Diary> opt = diaryRepository.findByDate(localDate);
@@ -41,14 +41,14 @@ public class HomeController {
     }
 
     // 日記を書いていない日なら、日記登録画面に遷移
-    @GetMapping("/diary/new")
+    @GetMapping("/diary")
     public String newDiary(@RequestParam(required = false) String date, Model model) {
         model.addAttribute("date", date); // 日付だけ渡しておく
         return "diary_form"; // 日記登録フォーム
     }
 
     // タグが含まれる日記を表示
-    @GetMapping("/diary/search")
+    @GetMapping("/userdiary")
     public String searchByTag(@RequestParam(required = false) String tag, Model model) {
         List<Diary> results;
 
