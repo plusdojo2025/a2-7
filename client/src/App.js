@@ -1,5 +1,7 @@
 import logo from './logo.svg';
+import Timeline from './js/Timeline';
 import './App.css';
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
 
 function App() {
   return (
@@ -17,8 +19,18 @@ function App() {
         >
           Learn React
         </a>
-      </header>
-    </div>
+        
+      
+        <BrowserRouter>
+          <Routes>
+            {/*<Route index element={<BookList></BookList>}></Route>*/}
+            
+            <Route path="/timeline" element={<Timeline></Timeline>}></Route>
+
+          </Routes>
+        </BrowserRouter>
+        </header>
+       </div>
   );
 }
 
