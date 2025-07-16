@@ -48,7 +48,7 @@ public class HomeController {
     }
 
     // タグが含まれる日記を表示
-    @GetMapping("/diaries/search")
+    @GetMapping("/diary/search")
     public String searchByTag(@RequestParam(required = false) String tag, Model model) {
         List<Diary> results;
 
