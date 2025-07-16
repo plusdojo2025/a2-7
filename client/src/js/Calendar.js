@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'; // 日付クリック対応
 import jaLocale from '@fullcalendar/core/locales/ja'; // 日本語ロケール
 
-const CalendarComponent = () => {
+const Calendar = () => {
   const [events] = useState([
     { title: '日記あり', date: '2025-07-16' },
     { title: '嬉しかった日', date: '2025-07-20' },
@@ -18,6 +18,7 @@ const CalendarComponent = () => {
 
   return (
     <div>
+      <h2>カレンダー</h2>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -30,4 +31,4 @@ const CalendarComponent = () => {
   );
 };
 
-export default CalendarComponent;
+export default Calendar;

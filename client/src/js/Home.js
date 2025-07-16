@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function HomeComponent() {
+function Home() {
   const [tag, setTag] = useState('');
   const [diaries, setDiaries] = useState([]);
 
@@ -51,4 +51,4 @@ function HomeComponent() {
   );
 }
 
-export default HomeComponent;
+export default Home;
