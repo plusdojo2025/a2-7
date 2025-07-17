@@ -16,4 +16,5 @@ public interface KeywordsRepository extends JpaRepository<Keyword, Integer> {
 			@Param("start_day") LocalDateTime start_day,
 			@Param("end_day") LocalDateTime end_day);
 	List<Keyword> findAll();
+	
 }

@@ -11,7 +11,7 @@
 .home_box input{
    
     font-weight: bold;
-    color: #000;/*文字色*/
+    color: #fff;/*文字色*/
     background: #fff;
     border: solid 3px #000;/*線*/
     border-radius: 10px;/*角の丸み*/
@@ -20,7 +20,7 @@
 .home_box button{
 
     font-weight: bold;
-    color: #000;/*文字色*/
+    color: #fff;/*文字色*/
     background: #fff;
     border: solid 3px #000;/*線*/
     border-radius: 10px;/*角の丸み*/

@@ -1,5 +1,5 @@
 import React from "react";
-
+// import axios from 'axios';
 import styles from '../css/Graph.css';
 
 export default class Graph extends React.Component{
@@ -19,6 +19,12 @@ export default class Graph extends React.Component{
         return (
         <div>
             yabe-!!!
+            {diaries.map((diary) => 
+            <tr>
+                <td>{diary.stamp}</td>
+
+            </tr>
+            )}
         </div>
 
         );

@@ -50,9 +50,9 @@ public class GraphController {
 //		そのユーザーに合わせた感情スタンプの数(月範囲)を取得する。
 // 		Diaryのrepositoryで操作する。
 		int loginId = 1;
-		List<Diaries> stamplist = darepository.stampcounts();
+		List<Diaries> diarylist = darepository.findByLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
 		// ★ここからstampのカウントロジックを追加★
-		for (Diaries diaries : stamplist) {
+		for (Diaries diaries : diarylist) {
 		    Integer stampValue = diaries.getStamp(); // DiaryエンティティにgetStamp()メソッドがあると仮定
 		    if (stampValue != null) { // stampがnullでないことを確認
 		    	stamptallies.put(stampValue, stamptallies.getOrDefault(stampValue, 0) + 1);
