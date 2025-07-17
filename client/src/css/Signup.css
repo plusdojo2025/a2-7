@@ -1,6 +1,6 @@
 /* 全体の体裁 */
 .signup_container{
-    color:#000;
+   
     margin: 30px auto;
     
 }
@@ -26,7 +26,7 @@
      padding: 0.5em 1em;
     margin: 2em 0;
     font-weight: bold;
-    color: #000;/*文字色*/
+    color: #fff;/*文字色*/
     background: #FFF;
     border: solid 3px #000;/*線*/
     border-radius: 10px;/*角の丸み*/
@@ -37,5 +37,5 @@
 /* トップページに戻る */
 a{
     
-    color:#000;
+    color:#fff;
 }
