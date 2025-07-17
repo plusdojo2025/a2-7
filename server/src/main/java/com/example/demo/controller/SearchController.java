@@ -53,23 +53,24 @@ public class SearchController {
 		}
 	
 		
-		@GetMapping("/diarypage/{username}/{data}")
-		public String index() {
-			return "diarypage";
+		@GetMapping("/search/{username}/{date}")
+		public String index(@PathVariable String username, @PathVariable String data, Model model) {
+			
+			return "search";
 		}
 	
-		@PostMapping("/search/update/")
+		@PostMapping("/search/update")
 		public String update(@RequestBody Diaries diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "更新しました");
 			diariesrepository.save(diary);
-			return "redirect:/diarypage/";
+			return "redirect:/search";
 		}
 		
-		@PostMapping("/search/delete/")
+		@PostMapping("/search/delete")
 		public String del(@RequestBody Diaries diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "削除しました");
 			diariesrepository.delete(diary);
-			return "redirect:/diarypage/";
+			return "redirect:/search";
 		}
 }
 
