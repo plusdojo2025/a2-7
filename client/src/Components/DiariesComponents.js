@@ -113,7 +113,7 @@ handleImageUpload = () => {
   style={styles.textArea}
 />
 
-{/* <div style={styles.hashtagPreview}>
+ <div style={styles.hashtagPreview}>
   {this.state.sentence.split(' ').map((word, index) =>
     word.startsWith('#') ? (
       <span key={index} style={styles.hashtag}>{word} </span>
@@ -121,11 +121,12 @@ handleImageUpload = () => {
       <span key={index}>{word} </span>
     )
   )}
-</div> */}
+</div> 
 
 
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center', marginBottom: '20px' }}>
+  
   {/* Visibility select box */}
   <select
     name="login_id"
