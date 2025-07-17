@@ -8,6 +8,11 @@ import Home from './js/Home';
 import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
 import Signup from './js/Signup';
 import Login from './js/Login';
+import Gragh from './gragh/Gragh';
+import Mypage from './js/MyPage';
+import Search from './js/Search';
+import UserInfo from './js/UserInfo';
+
 
 
 function App() {
@@ -39,6 +44,12 @@ function App() {
             {/* ログイン画面 */}
             <Route path="/login" element={<Login />} />
 
+            {/* マイページ */}
+            <Route path="/mypage" element={<Mypage />} />
+
+            {/* 検索 */}
+            <Route path="/search" element={<Search />} />
+
             {/* 新規登録 */}
             <Route path="/signup" element={<Signup />} />
 
@@ -50,6 +61,12 @@ function App() {
 
             {/* 日記詳細画面*/}
             <Route path="/diarypage" element={<UserDiary/>}/>
+
+            {/* ユーザー情報*/}
+            <Route path="/userinfo" element={<UserInfo/>}/>
+
+            {/* グラフ*/}
+            <Route path="/gragh" element={<Gragh/>}/>
 
           </Routes>
         </BrowserRouter>
