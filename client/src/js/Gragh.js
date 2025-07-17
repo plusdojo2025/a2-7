@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from './gragh.css';
+import styles from './Gragh.css';
 
 export default class Gragh extends React.Component{
     constructor(props) {
