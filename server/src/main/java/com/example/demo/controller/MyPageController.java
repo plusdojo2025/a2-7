@@ -21,6 +21,7 @@ public class MyPageController {
 	//初期表示
 	//他のユーザーにも表示される
 	//読み取り専用
+	//nicknameとaFewWordsを取得して表示
 	@GetMapping("/mypage")
 	public String showMyPage(@RequestParam("loginId") String loginId, Model model) {
 		User user = repository.findByLoginId(loginId);
@@ -29,8 +30,9 @@ public class MyPageController {
 		return "mypage";
 	}
 
-	//本人のみがアクセス可能
+	//本人のみがアクセス可能な更新ページ
 	//ログイン中のユーザーIDを取得
+	//Principalは「安全にログイン中の本人の情報を取得する」
 	@GetMapping("/mypage/update/")
 	public String showMyPage(Model model, Principal principal) {
 	    String loginId = principal.getName(); 
@@ -47,6 +49,7 @@ public class MyPageController {
 	@PostMapping("/mypage/update")
 	public String updateMyPage(User formUser, Principal principal, Model model) {
 		String loginId = principal.getName();
+		//loginIdを使ってデータ取得
 		User user = repository.findByLoginId(loginId);
 		
 		// nickname と aFewWords を更新
