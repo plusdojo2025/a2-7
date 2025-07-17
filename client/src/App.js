@@ -12,6 +12,7 @@ import Graph from './js/Graph';
 import Mypage from './js/MyPage';
 import Search from './js/Search';
 import UserInfo from './js/UserInfo';
+import DairyComponent from './Components/DiariesComponentsTest';
 
 
 
@@ -67,6 +68,9 @@ function App() {
 
             {/* グラフ*/}
             <Route path="/graph" element={<Graph/>}/>
+
+            {/* 日記登録*/}
+            <Route path="/register" element={<DairyComponent/>}/>
 
           </Routes>
         </BrowserRouter>
