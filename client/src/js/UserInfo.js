@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import '../css/UserInfo.css';
 
 export default class UserInfo extends React.Component {
     //親コンポーネントから受け取るデータなどがpropsに入っている。
@@ -63,10 +64,11 @@ export default class UserInfo extends React.Component {
     render() {
         const{ currentPassword, newPassword, confirmPassword, message } = this.state;
         return (
-            <div style={{ maxWidth: 400, margin: '0 auto', padding: 20 }}>
+            <div style={{ maxWidth: 400, margin: '0 auto'}}>
                 <h2>パスワード変更</h2>
                 <form onSubmit={this.handleUpdatePassword}>
                     <div>
+                        <h3>現在のパスワード</h3>
                         <label>現在のパスワード：</label>
                         <input
                             type="password"
@@ -77,6 +79,7 @@ export default class UserInfo extends React.Component {
                         />
                     </div>
                     <div>
+                        <h3>新しいパスワード</h3>
                         <label>新しいパスワード：</label>
                         <input
                             type="password"
@@ -87,6 +90,7 @@ export default class UserInfo extends React.Component {
                         />
                     </div>
                     <div>
+                        <h3>新しいパスワード（確認）</h3>
                         <label>新しいパスワード（確認）：</label>
                         <input
                             type="password"
