@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/Signup.css';
 
 function Signup() {
   const [loginId, setLoginId] = useState('');
@@ -27,7 +28,7 @@ function Signup() {
       <h2>新規登録</h2>
       <form onSubmit={handleRegister}>
         <div>
-          <label>ログインID:</label><br />
+          <label>ログインID</label><br />
           <input
             type="text"
             value={loginId}
@@ -35,8 +36,11 @@ function Signup() {
             required
           />
         </div>
+
+        <br />
+        
         <div>
-          <label>パスワード:</label><br />
+          <label>パスワード</label><br />
           <input
             type="password"
             value={password}
@@ -44,8 +48,9 @@ function Signup() {
             required
           />
         </div>
+        <br />
         <div>
-          <label>ニックネーム:</label><br />
+          <label>ニックネーム</label><br />
           <input
             type="text"
             value={nickname}
@@ -53,10 +58,10 @@ function Signup() {
             required
           />
         </div>
-        <button type="submit">登録</button>
+        <button id ="signup" type="submit">登録</button>
       </form>
 
-      <p>すでにアカウントをお持ちの方は <a href="/login">ログイン</a></p>
+      <a href="/login">トップページに戻る</a>
     </div>
   );
 }

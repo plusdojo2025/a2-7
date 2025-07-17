@@ -1,0 +1,31 @@
+/* 全体の体裁 */
+.signup-container{
+    color:#000;
+    margin: 30px auto;
+    
+}
+
+/* 登録ボタン */
+#signup{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px auto;
+    max-width: 240px;
+    padding: 10px 25px;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #6bb6ff;
+    border:#6bb6ff;
+    border-radius: 50px;
+}
+
+
+
+/* トップページに戻る */
+a{
+    
+    color:#000;
+}

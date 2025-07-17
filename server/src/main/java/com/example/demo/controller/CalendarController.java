@@ -8,6 +8,6 @@ public class CalendarController {
 
     @GetMapping("/calendar")
     public String showCalendar() {
-        return "calendar"; // → templates/calendar.html を表示
+        return "calendar"; 
     }
 }

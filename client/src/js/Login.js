@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';  // useNavigateを追加
-
+import '../css/Login.css';
 function Login() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,7 @@ function Login() {
       <h2>ログイン</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <label>ログインID:</label><br />
+          <label>ログインID</label><br />
           <input
             type="text"
             value={loginId}
@@ -31,8 +31,9 @@ function Login() {
             required
           />
         </div>
+        <br />
         <div>
-          <label>パスワード:</label><br />
+          <label>パスワード</label><br />
           <input
             type="password"
             value={password}
@@ -40,10 +41,10 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">ログイン</button>
+        <button id="login" type="submit">ログイン</button>
       </form>
       <p className="Signup-link">
-        新規登録は<Link to="/signup">こちら</Link> {/* 小文字のほうが無難です */}
+        <Link to="/signup">新規登録はこちら</Link> {/* 小文字のほうが無難です */}
       </p>
     </div>
   );
