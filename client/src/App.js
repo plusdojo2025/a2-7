@@ -8,7 +8,7 @@ import Home from './js/Home';
 import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
 import Signup from './js/Signup';
 import Login from './js/Login';
-import Gragh from './gragh/Gragh';
+import Graph from './js/Graph';
 import Mypage from './js/MyPage';
 import Search from './js/Search';
 import UserInfo from './js/UserInfo';
@@ -66,7 +66,7 @@ function App() {
             <Route path="/userinfo" element={<UserInfo/>}/>
 
             {/* グラフ*/}
-            <Route path="/gragh" element={<Gragh/>}/>
+            <Route path="/graph" element={<Graph/>}/>
 
           </Routes>
         </BrowserRouter>
