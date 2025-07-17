@@ -39,26 +39,26 @@ export default class UserInfo extends React.Component {
         });
     }    
 
- handleUpdatePassword = async (e) => {
-    e.preventDefault();
-    const { currentPassword, newPassword, confirmPassword } = this.state;
+    handleUpdatePassword = async (e) => {
+        e.preventDefault();
+        const { currentPassword, newPassword, confirmPassword } = this.state;
 
-    if (newPassword !== confirmPassword) {
-      this.setState({ message: "新しいパスワードが一致しません。" });
-      return;
-    }
+        if (newPassword !== confirmPassword) {
+            this.setState({ message: "新しいパスワードが一致しません。" });
+            return;
+        }
 
-    try {
-      const response = await axios.post("/userinfo/updatate", {
-        currentPassword,
-        newPassword,
-      });
-      this.setState({ message: response.data.message || "パスワードを更新しました。" });
-    } catch (err) {
-      console.error("Error:", err);
-      this.setState({ message: "パスワードの更新に失敗しました。" });
-    }
-  };
+        try {
+            const response = await axios.post("/userinfo/updatate", {
+                currentPassword,
+                newPassword,
+            });
+            this.setState({ message: response.data.message || "パスワードを更新しました。" });
+        } catch (err) {
+            console.error("Error:", err);
+            this.setState({ message: "パスワードの更新に失敗しました。" });
+        }
+    };
 
     render() {
         const{ currentPassword, newPassword, confirmPassword, message } = this.state;
