@@ -1,8 +1,8 @@
 import React from "react";
 
-import styles from './Gragh.css';
+import styles from '../css/Graph.css';
 
-export default class Gragh extends React.Component{
+export default class Graph extends React.Component{
     constructor(props) {
         super(props);
         //stateの設定。

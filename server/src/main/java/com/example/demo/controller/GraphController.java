@@ -26,7 +26,7 @@ public class GraphController {
 	@Autowired
 	private DiariesRepository darepository;
 	
-	@GetMapping("/gragh")
+	@GetMapping("/graph")
 	public Map<String,Object> graph(
 		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
 		
