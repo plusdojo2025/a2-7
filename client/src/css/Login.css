@@ -1,6 +1,6 @@
 
 /* 全体の体裁 */
-.login-container{
+.login_container{
     color:#000;
     margin: 50px auto;
    
@@ -24,6 +24,16 @@
 
     
 
+}
+
+.login_container input{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    color: #000;/*文字色*/
+    background: #FFF;
+    border: solid 3px #000;/*線*/
+    border-radius: 10px;/*角の丸み*/
 }
 
 /* 新規登録はこちら */

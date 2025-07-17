@@ -1,5 +1,5 @@
 /* 全体の体裁 */
-.signup-container{
+.signup_container{
     color:#000;
     margin: 30px auto;
     
@@ -20,6 +20,16 @@
     background: #6bb6ff;
     border:#6bb6ff;
     border-radius: 50px;
+}
+
+.signup_container input{
+     padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    color: #000;/*文字色*/
+    background: #FFF;
+    border: solid 3px #000;/*線*/
+    border-radius: 10px;/*角の丸み*/
 }
 
 

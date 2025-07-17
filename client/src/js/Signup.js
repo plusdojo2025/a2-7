@@ -24,7 +24,7 @@ function Signup() {
   };
 
   return (
-    <div className="signup-container">
+    <div className="signup_container">
       <h2>新規登録</h2>
       <form onSubmit={handleRegister}>
         <div>

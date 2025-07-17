@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Calendar from './Calendar';
 import { useNavigate } from 'react-router-dom';
+import '../css/Home.css';
 
 function Home() {
   const [tag, setTag] = useState('');
@@ -11,7 +12,7 @@ function Home() {
   // タグで検索 or 空欄ならすべて取得
   const fetchDiaries = async () => {
     try {
-      const response = await axios.get('/api/diary/search', {
+      const response = await axios.get('http://localhost:8080/api/diary/search', {
         params: tag ? { tag } : {},
       });
       setDiaries(response.data);
@@ -37,7 +38,8 @@ function Home() {
 };
 
   return (
-    <div>
+    <div className="home_container">
+      <div className="home_box">
       {/* タグ検索ボックス */}
       <input
         type="text"
@@ -46,6 +48,7 @@ function Home() {
         onChange={(e) => setTag(e.target.value)}
       />
       <button onClick={fetchDiaries}>検索</button>
+      </div>
 
       {/* 検索結果の表示 */}
       <ul>

@@ -19,7 +19,7 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div className="login_container">
       <h2>ログイン</h2>
       <form onSubmit={handleLogin}>
         <div>
