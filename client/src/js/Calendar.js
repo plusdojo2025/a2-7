@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction'; // 日付クリック対応
 import jaLocale from '@fullcalendar/core/locales/ja'; // 日本語ロケール
+import '../css/Calendar.css';
 
 const Calendar = () => {
   const [events] = useState([
@@ -13,12 +14,11 @@ const Calendar = () => {
   const handleDateClick = (info) => {
     // 感情スタンプの日付クリック → 日記画面へ遷移
     const clickedDate = info.dateStr;
-    window.location.href = `/diary/detail?date=${clickedDate}`;
+    window.location.href = `/diary?date=${clickedDate}`;
   };
 
   return (
     <div>
-      <h2>カレンダー</h2>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

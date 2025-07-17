@@ -1,0 +1,46 @@
+
+/* 全体の体裁 */
+.login_container{
+    color:#000;
+    margin: 50px auto;
+   
+}
+
+/* ログインボタン */
+#login{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px auto;
+    max-width: 240px;
+    padding: 10px 25px;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #6bb6ff;
+    border:#6bb6ff;
+    border-radius: 50px;
+
+    
+
+}
+
+.login_container input{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    color: #000;/*文字色*/
+    background: #FFF;
+    border: solid 3px #000;/*線*/
+    border-radius: 10px;/*角の丸み*/
+}
+
+/* 新規登録はこちら */
+.Signup-link a{
+   color:#000;
+}
+
+
+
+
