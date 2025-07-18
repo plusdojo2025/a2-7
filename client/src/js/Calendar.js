@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction'; // 日付クリック
 import jaLocale from '@fullcalendar/core/locales/ja'; // 日本語ロケール
 import '../css/Calendar.css';
 
+
 const Calendar = () => {
   const [events] = useState([
     { title: '日記あり', date: '2025-07-16' },
@@ -14,7 +15,7 @@ const Calendar = () => {
   const handleDateClick = (info) => {
     // 感情スタンプの日付クリック → 日記画面へ遷移
     const clickedDate = info.dateStr;
-    window.location.href = `/diary?date=${clickedDate}`;
+    window.location.href = `/diarypage?date=${clickedDate}`;
   };
 
   return (
