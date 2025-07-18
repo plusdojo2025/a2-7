@@ -12,7 +12,7 @@ function Home() {
   // タグで検索 or 空欄ならすべて取得
   const fetchDiaries = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/diary/search', {
+      const response = await axios.get('http://localhost:8080/api/search', {
         params: tag ? { tag } : {},
       });
       setDiaries(response.data);
@@ -25,51 +25,46 @@ function Home() {
     fetchDiaries();
   }, []);
 
-  // 感情スタンプを押す（→その日の日記へ移動）実際の処理部分は「その日の日記があるか確認して、画面遷移を分岐する」役割
+  // 感情スタンプや日付クリック → 該当日の日記があるか確認し、画面を分岐
   const handleDiaryClick = async (date) => {
-  const res = await fetch(`http://localhost:8080/api/diary?date=${date}`);
-  const data = await res.json();
+    try {
+      const res = await fetch(`http://localhost:8080/api/diarypage?date=${date}`);
+      const data = await res.json();
 
-  if (data) {
-    navigate(`/diarypage?date=${date}`); // 日記詳細画面へ
-  } else {
-    navigate(`/diary?date=${date}`); // 日記登録画面へ
-  }
-};
+      if (data) {
+        navigate(`/diarypage?date=${date}`); // 詳細画面へ
+      } else {
+        navigate(`/regist?date=${date}`); // 登録画面へ
+      }
+    } catch (error) {
+      console.error('日記確認に失敗しました', error);
+    }
+  };
 
   return (
     <div className="home_container">
       <div className="home_box">
-      {/* タグ検索ボックス */}
-      <input
-        type="text"
-        placeholder="タグで検索（例: 頑張った）"
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-      />
-      <button onClick={fetchDiaries}>検索</button>
+        <input
+          type="text"
+          placeholder="タグで検索（例: 頑張った）"
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+        />
+        <button onClick={fetchDiaries}>検索</button>
       </div>
 
-      {/* 検索結果の表示 */}
-      <ul>
-        {diaries.map((diary) => (
-          <li key={diary.id}>{diary.content}</li>
-        ))}
-      </ul>
-
-      {/* 日記一覧 */}
-     {/* < <h2>日記一覧</h2>   一覧側は「日付を渡して関数を呼び出すだけ」、*/}
       <ul>
         {diaries.map((diary) => (
           <li key={diary.id}>
-            <strong>{diary.date}</strong>: {diary.content?.substring}...
+            <strong>{diary.date}</strong>: {diary.content}
+            <button onClick={() => navigate(`/diarypage?date=${diary.date}`)}>詳細へ</button>
             <button onClick={() => handleDiaryClick(diary.date)}>📅 感情スタンプ</button>
           </li>
         ))}
       </ul>
 
-      {/* カレンダーを表示 */}
-      <Calendar />
+      {/* カレンダーにクリック処理を渡す */}
+      <Calendar onDateClick={handleDiaryClick} />
     </div>
   );
 }
