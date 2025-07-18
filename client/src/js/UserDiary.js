@@ -1,6 +1,6 @@
 import React from "react";
 import '../css/UserDiary.css';
-//import axios from "axios";
+import axios from "axios";
 import { Link } from 'react-router-dom';
 
 export default class Timeline extends React.Component{
@@ -61,23 +61,33 @@ export default class Timeline extends React.Component{
 
     //画面で何か入力された時に、その値をstateとして保持する。
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
-    onInput = (e) => {
-        const hashtag = e.target.value;
-        this.setState({
-            hashtag: hashtag
-        });
-    }    
+     onInput = (e) => {
+    this.setState({ addcomment: e.target.value });
+    };    
 
-    addReaction=()=>{
-        // const {}=this.state;
+    // フォーム送信時の処理
+  onSubmit = (e) => {
+    e.preventDefault(); // ページがリロードされないようにする
 
-        // const reaction={};
+    const commentData = {
+        loginId:1,//本人のID取得
+        time:new Date().toISOString().slice(0, 16),// YYYY-MM-DDTHH:MM
+        sentence: this.state.addcomment, // 入力されたコメント
+        //diary:diary,
+    };
 
-        // axios.post("/timeline/stamp",reaction)
-        // .then(json=>{
-        //     this.componentDidMount();
-        // });
-    }
+    // Spring BootのバックエンドにPOSTリクエストを送信
+    axios.post('http://localhost:8080/timeline/comment', commentData)
+      .then((response) => {
+        console.log('コメントが送信されました:', response.data);
+        this.setState({ addcomment: "" }); // コメント送信後に入力欄をリセット
+      })
+      .catch((error) => {
+        console.error('コメント送信エラー:', error);
+      });
+
+      this.componentDidMount();
+  };
 
 
     render(){
@@ -143,7 +153,7 @@ export default class Timeline extends React.Component{
                         <td>{currentDate}　{currentTime}</td>
                     </tr>
                 </table>
-                <form>
+                <form onSubmit={this.onSubmit}>
                    <textarea 
                     value={addcomment}        // テキストエリアの値としてstateを設定
                     onChange={this.onInput}  // 入力が変更されるたびにstateを更新
