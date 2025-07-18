@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import '../css/MyPage.css';
 
 export default class MyPage extends React.Component{
     //親コンポーネントから受け取るデータなどがpropsに入っている。
@@ -25,11 +26,16 @@ export default class MyPage extends React.Component{
             //stateのbooksに受け取ったデータを保持する。
             //stateが変わると自動的に画面が再描画される。
             this.setState({
+                nickname: json.nickname,
+                aFewWords: json.aFewWords,
                 MyPage:json
             })
         });
     }
 
+    //画像ファイルを選択したときに、ファイル情報をstateに保存し、画像のプレビューを表示できるようにする処理
+    //ファイル選択フォームから最初に選ばれたファイルを取得
+    //fileが選択されているときのみ処理を行う
     handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -40,6 +46,7 @@ export default class MyPage extends React.Component{
         }
     };
 
+    //プロフィール情報（ニックネーム・ひとこと・画像など）をサーバーに送信して更新する処理
     handleUpdate = async () => {
         const { nickname, aFewWords, imageFile } = this.state;
 
@@ -52,7 +59,7 @@ export default class MyPage extends React.Component{
 
 
         try {
-            const res = await axios.post("/update-profile", formData, {
+            const res = await axios.post("/mypage/update", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -73,25 +80,32 @@ export default class MyPage extends React.Component{
         });
     }    
 
+
+    //画像は画像のみで更新可能にする
+    //ニックネームと自己紹介はセットにする
     render(){
         const { nickname, aFewWords, imagePreview } = this.state;
         return(
-            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+            <div>
+                <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
                 {/* ① アイコン画像エリア */}
-                <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+                <div>
                     <h3>① アイコン画像</h3>
                     {imagePreview ? (
                         <img
                             src={imagePreview}
                             alt="プロフィール画像"
-                            style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+                            style={{ width: '100px', height: '100px', borderRadius: '50%', }}
                         />
                     ) : (
-                        <div style={{ width: '100px', height: '100px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                        <div style={{ width: '100px', height: '100px', backgroundColor: '#ccc', borderRadius: '50%', display: 'flex'}} />
                     )}
                     <input type="file" accept="image/*" onChange={this.handleImageChange} />
                 </div>
 
+                
+                {/* ②～④ を form にまとめる */}
+                <form onSubmit={this.handleUpdate}>
                 {/* ② 名前表示エリア */}
                 <div style={{ marginBottom: '15px' }}>
                     <h3>② ニックネーム</h3>
@@ -101,28 +115,27 @@ export default class MyPage extends React.Component{
                         onChange={this.onInput}
                         placeholder="ニックネーム"
                         required
-                        style={{ width: '100%' }}
                     />
                 </div>
 
                 {/* ③ ひとこと表示エリア */}
                 <div style={{ marginBottom: '15px' }}>
-                    <h3>③ ひとこと</h3>
+                    <h3>③ 自己紹介</h3>
                     <textarea
                         value={aFewWords}
                         onChange={this.onInput}
                         placeholder="自己紹介やコメントを入力"
-                        rows="3"
+                        rows="5"
                         required
-                        style={{ width: '100%' }}
                     />
                 </div>
 
                 {/* ④ 更新ボタン */}
                 <div style={{ textAlign: 'center' }}>
                     <h3>④ プロフィール更新</h3>
-                    <button onClick={this.handleUpdate}>更新する</button>
+                    <button type="submit">更新する</button>
                 </div>
+                </form>
             </div>
         );
     }

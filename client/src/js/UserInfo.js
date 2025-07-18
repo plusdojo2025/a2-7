@@ -40,17 +40,21 @@ export default class UserInfo extends React.Component {
         });
     }    
 
+
+    //パスワード更新フォームの送信イベント
     handleUpdatePassword = async (e) => {
         e.preventDefault();
         const { currentPassword, newPassword, confirmPassword } = this.state;
 
+        //新しいパスワードと確認用パスワードが一致するかチェック
         if (newPassword !== confirmPassword) {
             this.setState({ message: "新しいパスワードが一致しません。" });
             return;
         }
 
+        //サーバーにパスワード更新リクエストを送る
         try {
-            const response = await axios.post("/userinfo/updatate", {
+            const response = await axios.post("/userinfo/update", {
                 currentPassword,
                 newPassword,
             });
@@ -61,14 +65,15 @@ export default class UserInfo extends React.Component {
         }
     };
 
+    //requiredでパスワードの入力を必須に
     render() {
         const{ currentPassword, newPassword, confirmPassword, message } = this.state;
         return (
-            <div style={{ maxWidth: 400, margin: '0 auto'}}>
+            
+            <div>
                 <h2>パスワード変更</h2>
                 <form onSubmit={this.handleUpdatePassword}>
                     <div>
-                        <h3>現在のパスワード</h3>
                         <label>現在のパスワード：</label>
                         <input
                             type="password"
@@ -79,7 +84,6 @@ export default class UserInfo extends React.Component {
                         />
                     </div>
                     <div>
-                        <h3>新しいパスワード</h3>
                         <label>新しいパスワード：</label>
                         <input
                             type="password"
@@ -90,7 +94,6 @@ export default class UserInfo extends React.Component {
                         />
                     </div>
                     <div>
-                        <h3>新しいパスワード（確認）</h3>
                         <label>新しいパスワード（確認）：</label>
                         <input
                             type="password"

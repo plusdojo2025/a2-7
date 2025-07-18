@@ -13,28 +13,42 @@ export default class Timeline extends React.Component{
         this.state = {
             hashtag:"",
             imagePreview:"",
+            
+            reaction1: this.props.reaction4.reaction1,
+            reaction2: this.props.reaction4.reaction2,
+            reaction3: this.props.reaction4.reaction3,
+            reaction4: this.props.reaction4.reaction4,
+            
             }
     }
 
     addReaction = (reactionIndex) => {
-        
+        let {reaction1,reaction2,reaction3,reaction4}=this.state;
         if(reactionIndex===1){
-            this.props.reaction1=!this.props.reaction1;
+            reaction1=!reaction1;
         }else if(reactionIndex===2){
-            this.props.reaction2=!this.props.reaction2;
+            reaction2=!reaction2;
         }else if(reactionIndex===3){
-            this.props.reaction3=!this.props.reaction3;
+            reaction3=!reaction3;
         }else if(reactionIndex===4){
-            this.props.reaction4=!this.props.reaction4;
+            reaction4=!reaction4;
         }
+
+        // stateを更新
+  this.setState({
+    reaction1,
+    reaction2,
+    reaction3,
+    reaction4
+  });
 
         axios.post('http://localhost:8080/timeline/stamp', {
       diary: this.props.user.diary,      
       login_id: this.props.user.login_id,
-      reaction1: this.props.reaction1,
-      reaction2: this.props.reaction2,
-      reaction3: this.props.reaction3,
-      reaction4: this.props.reaction4,
+      reaction1: reaction1,
+      reaction2: reaction2,
+      reaction3: reaction3,
+      reaction4: reaction4,
     })
       .then((response) => {
         console.log('データ送信成功:', response.data);
@@ -47,8 +61,8 @@ export default class Timeline extends React.Component{
      
 
     render(){
-        const { diary, reaction4, comment, user } = this.props;
-        const { hashtag,imagePreview } = this.state;
+        const { diary ,comment, user } = this.props;
+        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 } = this.state;
         return (
             <div className="diary">    
                 <table>   
@@ -75,10 +89,10 @@ export default class Timeline extends React.Component{
             
                              <table>
                             <tr>
-                                <td onClick={() => this.addReaction(0)}>😊 {reaction4[0]}</td>
-                                <td onClick={() => this.addReaction(1)}>😡 {reaction4[1]}</td>
-                                <td onClick={() => this.addReaction(2)}>😢 {reaction4[2]}</td>
-                                <td onClick={() => this.addReaction(3)}>😌 {reaction4[3]}</td>
+                                <td onClick={() => this.addReaction(0)}>😊 {reaction1}</td>
+                                <td onClick={() => this.addReaction(1)}>😡 {reaction2}</td>
+                                <td onClick={() => this.addReaction(2)}>😢 {reaction3}</td>
+                                <td onClick={() => this.addReaction(3)}>😌 {reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
                                 <td><Link to="/diarypage">💬{comment}</Link></td>
