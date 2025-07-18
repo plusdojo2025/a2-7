@@ -1,10 +1,24 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9f9f9; /* Optional: light background */
+}
+
 .container {
   width: 60%;
-  margin: auto;
-  padding: 1rem;
+  margin: 2rem auto;
+  padding: 2rem;
   text-align: center;
   font-family: sans-serif;
-  color :rgb(12, 30, 227);
+  color: rgb(1, 2, 12);
+  background-color: #fff;
+  border: 1px solid #ccc; /* Thin border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+  border-radius: 8px; /* Rounded corners */
 }
 
 .textArea {
@@ -16,15 +30,18 @@
   margin-bottom: 10px;
   direction: ltr;
   text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .hashtagPreview {
   text-align: left;
   padding: 8px;
-  background-color: rgb(83, 82, 85);
-  border: 1px solid #ddd;
+  background-color: #e9e9e9;
+  border: 1px solid #ccc;
   min-height: 30px;
-  color: white;
+  color: #333;
+  border-radius: 4px;
 }
 
 .hashtag {
@@ -40,13 +57,11 @@
   margin-bottom: 20px;
 }
 
-.select {
+.select, .imageInput {
   padding: 8px;
-}
-
-.imageInput {
-  padding: 6px;
   font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .stampBox {
@@ -60,6 +75,7 @@
   cursor: pointer;
   border-radius: 50%;
   transition: all 0.2s;
+  border: 2px solid transparent;
 }
 
 .button {
@@ -70,4 +86,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #218838;
 }
