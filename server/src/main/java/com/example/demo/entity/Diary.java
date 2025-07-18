@@ -32,7 +32,7 @@ public class Diary {
 
 
 	private String sentence;
-	private Integer stamp;
+	private int stamp;
 	private Timestamp resist_time;
 	
 	

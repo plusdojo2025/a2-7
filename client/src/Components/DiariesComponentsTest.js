@@ -6,6 +6,7 @@ export default class DiariesComponentTest extends Component {
   constructor(props) {
     super(props);
 
+    //split time and date as a array ISOstandard
     const today = new Date().toISOString().split('T')[0];
     //const now = new Date().toISOString();split('T')[1];
 

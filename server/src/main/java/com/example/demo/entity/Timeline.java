@@ -18,7 +18,7 @@ public class Timeline {
 	@Id
 	private List<Diary> diaryList;
 	private List<int[]> reactionList;
-	private int[] comentList;
+	private int[] commentList;
 	private List<User> userList;
 
 }

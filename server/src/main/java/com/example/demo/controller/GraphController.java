@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Diaries;
+import com.example.demo.entity.Diary;
 import com.example.demo.entity.Keyword;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.KeywordsRepository;
@@ -49,10 +49,10 @@ public class GraphController {
 		
 //		そのユーザーに合わせた感情スタンプの数(月範囲)を取得する。
 // 		Diaryのrepositoryで操作する。
-		int loginId = 1;
-		List<Diaries> diarylist = darepository.findByLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
+        String loginId = "user001";
+		List<Diary> diarylist = darepository.findByLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
 		// ★ここからstampのカウントロジックを追加★
-		for (Diaries diaries : diarylist) {
+		for (Diary diaries : diarylist) {
 		    Integer stampValue = diaries.getStamp(); // DiaryエンティティにgetStamp()メソッドがあると仮定
 		    if (stampValue != null) { // stampがnullでないことを確認
 		    	stamptallies.put(stampValue, stamptallies.getOrDefault(stampValue, 0) + 1);
@@ -64,9 +64,9 @@ public class GraphController {
 //		キーワード一覧を取得。
         List<Keyword> keywords = kwrepository.findAll();
 //		ユーザーの一か月分の日記を取得。
-		List<Diaries> diarylist = darepository.findByLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
+		
 //		一か月分の日記の中から、キーワードをカウントする。		
-		for (Diaries diaries : diarylist) {
+		for (Diary diaries : diarylist) {
             String sentence = diaries.getSentence();
             if (sentence == null) continue; // nullチェックは重要
 
