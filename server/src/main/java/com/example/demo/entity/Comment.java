@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer comments_id;
+	@Column(unique = true)
 	private String login_id;
 	private String time;
 	private String sentence;
@@ -30,7 +32,7 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
-	private Diaries diary;
+	private Diary diary;
 	
 }
 

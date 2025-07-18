@@ -24,7 +24,7 @@ public class Reaction {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
-	private Diaries diary;
+	private Diary diary;
 	
 	private String login_id;
 	private Boolean reaction1;

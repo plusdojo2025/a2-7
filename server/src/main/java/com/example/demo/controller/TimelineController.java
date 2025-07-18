@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.entity.Diaries;
+import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
-import com.example.demo.entity.Tag;
 import com.example.demo.entity.Timeline;
 import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
@@ -49,7 +48,7 @@ public class TimelineController {
 		
 		
 		//現在全件取得になっている。まだできていない
-		List<Diaries>diaryList= diariesrepository.findAll();
+		List<Diary>diaryList= diariesrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
 		//日記IDでリアクションを取得
@@ -85,9 +84,9 @@ public class TimelineController {
 		
 		//日記ごとのユーザー情報を取得
 		List<User> userList=new ArrayList<>();
-		for(Diaries diary:diaryList) {
+		for(Diary diary:diaryList) {
 			//日記ごとのユーザーを追加していく
-			String login_id=diary.getLogin_id();//書き方後で確認
+			String login_id=diary.getLoginId();//書き方後で確認
 			userList.add(usersrepository.findByLoginId(login_id));//login_id
 		}
 		
@@ -98,11 +97,11 @@ public class TimelineController {
 	
 	//タグ検索（未解決）
 	@PostMapping("/timeline/tag")
-	public List<Diaries> tag(@ModelAttribute Tag tag,Model model){
+	public List<Diary> tag(@ModelAttribute Tag tag,Model model){
 		
 		//ハッシュタグIDで日記検索
 		int id=tag.getHashtagId();
-		List<Diaries>diaries= diariesrepository.findByHashtag_id(id);//hashtag_id
+		List<Diary>diaries= diariesrepository.findByHashtag_id(id);//hashtag_id
 		
 		return diaries;
 	}
