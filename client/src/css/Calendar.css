@@ -1,5 +1,4 @@
 
-/* フルカレンダーの2025年7月の部分と題名の「カレンダー」部分 */
-.fc-toolbar-title {
-  color: #000 ;
-}
+.fc-toolbar-title,.fc .fc-col-header-cell-cushion , .fc .fc-daygrid-day-number {
+  color: #000;
+} 

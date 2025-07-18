@@ -9,7 +9,7 @@ class Burger extends React.Component {
 
   render () {
     return (
-      <Menu right>
+      <Menu noOverlay right>
         <a id="home" className="menu-item" href="/home">ホーム</a>
         <a id="graph" className="menu-item" href="/graph">グラフ分析</a>
         <a id="timeline" className="menu-item" href="/timeline">タイムライン</a>
