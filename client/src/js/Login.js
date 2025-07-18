@@ -4,18 +4,26 @@ import '../css/Login.css';
 function Login() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
+  const [error,setError] = useState('');//エラーメッセージ用のstate
   const navigate = useNavigate(); // ナビゲーション関数を取得
 
   const handleLogin = (e) => {
     e.preventDefault();
     // 仮のログイン処理。ここをAPI呼び出しなどに変えてください
     //if (loginId === 'user' && password === 'pass')
+
+    if(!loginId || !password ){
+      alert('ログインIDとパスワードを入力してください');
+      return;
+    }
+
     if (loginId && password) {
       // ログイン成功したらホーム画面へ遷移
       navigate('/home');
     } else {
       alert('ログインIDまたはパスワードが違います');
     }
+
   };
 
   return (
@@ -28,7 +36,7 @@ function Login() {
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            required
+          
           />
         </div>
         <br />
@@ -38,7 +46,8 @@ function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            maxLength={10}
+
           />
         </div>
         <button id="login" type="submit">ログイン</button>
