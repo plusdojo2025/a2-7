@@ -2,10 +2,9 @@
 import Timeline from './js/Timeline';
 import UserDiary from './js/UserDiary';
 import './App.css';
-
-import Calendar from './js/Calendar';
+//import Calendar from './js/Calendar';
 import Home from './js/Home';
-import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
+import { BrowserRouter,Routes,Route,Navigate} from 'react-router-dom';
 import Signup from './js/Signup';
 import Login from './js/Login';
 import Graph from './js/Graph';
@@ -17,10 +16,12 @@ import DairyComponent from './Components/DiariesComponentsTest';
 
 
 function App() {
+ 
+
   return (
     <div className="App">
       <header className="App-header">
-     
+         <h1 >TagMe</h1>
         
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -75,6 +76,10 @@ function App() {
           </Routes>
         </BrowserRouter>
         </header>
+
+        <footer>
+          <p>MoguMogu★Mix</p>
+        </footer>
        </div>
   );
 }
