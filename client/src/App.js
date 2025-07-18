@@ -4,7 +4,7 @@ import UserDiary from './js/UserDiary';
 import './App.css';
 //import Calendar from './js/Calendar';
 import Home from './js/Home';
-import { BrowserRouter,Routes,Route,Navigate} from 'react-router-dom';
+import { BrowserRouter,Routes,Route,Navigate, useLocation} from 'react-router-dom';
 import Signup from './js/Signup';
 import Login from './js/Login';
 import Graph from './js/Graph';
@@ -12,16 +12,24 @@ import Mypage from './js/MyPage';
 import Search from './js/Search';
 import UserInfo from './js/UserInfo';
 import DairyComponent from './Components/DiariesComponentsTest';
+import Burger from './js/Burger';
 
 
 
-function App() {
- 
+function AppContent() {
+ const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
+  
     <div className="App">
       <header className="App-header">
          <h1 >TagMe</h1>
+
+         {/* ログイン・サインアップ画面以外で表示 */}
+        {!isAuthPage && <Burger />}
+
+        
         
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -37,7 +45,7 @@ function App() {
         </a> */}
         
       
-        <BrowserRouter>
+       
           <Routes>
             {/*<Route index element={<BookList></BookList>}></Route>*/}
              {/* 初期表示時はログインへ */}
@@ -74,13 +82,22 @@ function App() {
             <Route path="/register" element={<DairyComponent/>}/>
 
           </Routes>
-        </BrowserRouter>
+        
         </header>
 
         <footer>
           <p>MoguMogu★Mix</p>
         </footer>
        </div>
+  
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,76 @@
+/* バーガーメニューのボタン */
+.bm-burger-button { 
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    right: 20px;/* 右にしたい場合はright,左にしたい場合はleft */
+    top: 20px;
+  }
+  
+  /* バーガーメニューのボタンの線 */
+  .bm-burger-bars {
+    background: #373a47;
+  }
+  
+  /* バーガーメニューのボタンの線（ホバー時）*/
+  .bm-burger-bars-hover {
+    background: #a90000;
+  }
+  
+  /* 閉じるボタン(Xの周辺） */
+  .bm-cross-button {
+    height: 24px;
+    width: 24px;
+  }
+  
+  /* 閉じるボタンのX */
+  .bm-cross {
+    background: #bdc3c7;
+  }
+  
+  /*バーガーメニューのwrapper*/
+  .bm-menu-wrap {
+    position: fixed;
+    height: 100%;
+  }
+  
+  /* バーガーメニューのwrapper */
+  .bm-menu {
+    background: #373a47;
+    font-size: 1.15em;
+  }
+  
+  /* bubble or elasticの際に必要 */
+  .bm-morph-shape {
+    fill: #373a47;
+  }
+  
+  /* アイテムリストのwrapper */
+  .bm-item-list {
+    color: #b8b7ad;
+  }
+  
+  /* アイテム */
+  .bm-item {
+    display: inline-block;
+    height: 50px;
+  }
+
+  .bm-item-list a{ /* メニューの個々のアイテムの設定 */
+    display:inline-block;
+    border-bottom:1px solid #747272;
+    line-height: 50px;
+    padding-left: 15px;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .bm-item-list a:hover{ /* 個々のアイテムのホバー */
+    background-color: #8a9195;
+    color: aliceblue;
+  }
+  
+  /* Styling of overlay */
+  .bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+  }
