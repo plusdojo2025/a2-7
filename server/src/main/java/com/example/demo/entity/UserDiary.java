@@ -12,14 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Timeline {
-
-
+public class UserDiary {
 	@Id
-	private List<Diary> diaryList;
-	private List<int[]> reactionList;
-	private int[] comentList;
-	private List<User> userList;
-
+	private List<Comment> commentList;
+	private List<User> com_userList;
 }
-

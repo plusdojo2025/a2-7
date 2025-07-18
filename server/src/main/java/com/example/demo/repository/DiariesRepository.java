@@ -9,5 +9,5 @@ import com.example.demo.entity.Diary;
 
 public interface DiariesRepository extends JpaRepository<Diary, Integer>{
 	
-	List<Diary> findByLoginIdAndDiaryTimeBetween(int loginId, LocalDate startofmonth, LocalDate endofmonth);
+	List<Diary> findByLoginIdAndDiaryTimeBetween(String loginId, LocalDate startofmonth, LocalDate endofmonth);
 }
