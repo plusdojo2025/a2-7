@@ -4,7 +4,6 @@ import '../css/Login.css';
 function Login() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
-  const [error,setError] = useState('');//エラーメッセージ用のstate
   const navigate = useNavigate(); // ナビゲーション関数を取得
 
   const handleLogin = (e) => {
@@ -53,7 +52,7 @@ function Login() {
         <button id="login" type="submit">ログイン</button>
       </form>
       <p className="Signup-link">
-        <Link to="/signup">新規登録はこちら</Link> {/* 小文字のほうが無難です */}
+        <Link to="/signup">新規登録はこちら</Link> 
       </p>
     </div>
   );

@@ -31,7 +31,7 @@ public class HomeController {
     private ReactionsRepository reactionRepository;
 
     // 日付指定で日記詳細を取得（存在しない場合はnull）
-    @GetMapping("/diary")
+    @GetMapping("/diarypage")
     public Diaries getDiaryByDate(@RequestParam String date) {
         LocalDate localDate = LocalDate.parse(date);
         Optional<Diaries> diarypage = diaryRepository.findByDate(localDate);
@@ -39,7 +39,7 @@ public class HomeController {
     }
 
     // タグ検索（日記のタグに #タグ名 が含まれているものを取得）
-    @GetMapping("/diary/search")
+    @GetMapping("/search")
     public List<Diaries> searchByTag(@RequestParam(required = false) String tag) {
         if (tag == null || tag.isBlank()) {
             return diaryRepository.findAll(); // タグなしなら全件返す
