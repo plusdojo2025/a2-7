@@ -7,7 +7,7 @@ export default class DiariesComponentTest extends Component {
     super(props);
 
     const today = new Date().toISOString().split('T')[0];
-    const now = new Date().toISOString();
+    const now = new Date().toISOString();split('T')[1];
 
     this.state = {
       login_id: '',
