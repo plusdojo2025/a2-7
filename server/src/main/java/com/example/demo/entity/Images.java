@@ -25,6 +25,8 @@ public class Images {
 	private byte[] imageData;
 	private String mimeType;
 	
+//	@OneToMany(mappedBy = "image")
+//	private List<Diary> diaries;
 	
 
 }
