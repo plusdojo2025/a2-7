@@ -63,7 +63,7 @@ public class UserDiaryController {
 		//コメントごとのユーザー情報取得
 		List<User> comUser=new ArrayList<>();	
 		for(int i=0;i<comment.size();i++) {
-			comUser.get(i).add(usersrepository.findByLoginId(comment.get(i).getLogin_id()));
+			comUser.add(usersrepository.findByLoginId(comment.get(i).getLogin_id()));
 		}
 		
 		UserDiary userdiary=new UserDiary(comment,comUser);

@@ -15,7 +15,7 @@ export default class Timeline extends React.Component{
             timeline: {
                 diaryList: [],
                 reaction4: [],
-                comentList: [],
+                commentList: [],
                 userList: []},
             hashtag:"",
             imagePreview:"",
@@ -61,20 +61,11 @@ export default class Timeline extends React.Component{
         });
     }    
 
-    addReaction=()=>{
-        // const {}=this.state;
-
-        // const reaction={};
-
-        // axios.post("/timeline/stamp",reaction)
-        // .then(json=>{
-        //     this.componentDidMount();
-        // });
-    }
+    
 
 
     render(){
-        const { diaryList, reaction4, comentList, userList } = this.state.timeline;
+        const { diaryList, reaction4, commentList, userList } = this.state.timeline;
         const { hashtag,imagePreview } = this.state;
         return (
         <div>
@@ -111,55 +102,28 @@ export default class Timeline extends React.Component{
                     <p>仕事頑張った！</p>
                     <p>#頑張った</p>
                 </div>
+                
                
                 <table>
                 <tr>
-                    <td onClick={this.addReaction}>😊1　😡2　😢3　😌4</td>
+                    <td onClick={() => this.addReaction(0)}>😊1 </td>
+                    <td onClick={() => this.addReaction(1)}>😡2 </td>
+                    <td onClick={() => this.addReaction(2)}>😢3 </td>
+                    <td onClick={() => this.addReaction(3)}>😌4 </td>
+                    
+                    
                     <td><Link to="/diarypage">💬4</Link></td>
                 </tr>
                 </table>
             </div>
 
         {diaryList.map((diarydata, index)  => (
-            <div className="diary">    
-                <table>   
-                <tr>
-                    <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                    <td><Link to="/mypage">{userList[index].nickname}</Link></td>
-                    <td>{diarydata.resist_time}</td>
-                </tr>
-                </table>
-                <div className="diary_sub">
-                    <p>{diarydata.sentence}</p>
-                    <p>#頑張った</p>
-                </div>
-               
-                <table>
-                <tr>
-                    <td onClick={this.addReaction}>😊{reaction4[index][0]}　😡{reaction4[index][1]}　😢{reaction4[index][2]}　😌{reaction4[index][3]}</td>
-
-                    {diarydata ? (//もしコメント公開設定なら
-                        <td><Link to="/diarypage">💬{comentList[index]}</Link></td>
-                    ) : (
-                        <td>🚫</td>
-                    )}
-
-✖✖
-
-
-                </tr>
-                </table>
-            </div>
+            
+            <TimelineDiaries diary={diaryList} reaction4={reaction4[index]} comment={commentList[index]} user={userList[index]}/>
+                
         ))} 
 
+    
             
 
         </main>

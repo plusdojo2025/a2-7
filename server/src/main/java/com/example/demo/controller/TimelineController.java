@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
@@ -108,9 +109,17 @@ public class TimelineController {
 	
 	//リアクションスタンプ処理
 	@PostMapping("/timeline/stamp")
-	public String stamp(@ModelAttribute Reaction reaction){
+	public String stamp(
+			@RequestParam("diary") Diary diary,
+			@RequestParam("login_id") String loginId,
+			@RequestParam("reaction1") Boolean reaction1,
+			@RequestParam("reaction2") Boolean reaction2,
+			@RequestParam("reaction3") Boolean reaction3,
+			@RequestParam("reaction4") Boolean reaction4){
+		
+		Reaction data=new Reaction(diary,loginId,reaction1,reaction2,reaction3,reaction4);
 		//リアクションの反応を登録（既存データがある場合は更新）
-		reactionsrepository.save(reaction);
+		reactionsrepository.save(data);
 		return "redirect:/timeline";
 	}
 }

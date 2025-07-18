@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.entity.Diaries;
+import com.example.demo.entity.Diary;
 import com.example.demo.entity.Tag;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
@@ -54,22 +54,21 @@ public class SearchController {
 			return "/search/tag";
 		}
 	
-		
 		@GetMapping("/{username}/{date}")
 		public String index(@PathVariable String username, @PathVariable String data, Model model) {
 			
 			return "/search";
 		}
-	
+
 		@PostMapping("/update")
-		public String update(@RequestBody Diaries diary, RedirectAttributes redirectAttributes) {
+		public String update(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "更新しました");
 			diariesrepository.save(diary);
 			return "redirect:/search";
 		}
 		
 		@PostMapping("/delete")
-		public String del(@RequestBody Diaries diary, RedirectAttributes redirectAttributes) {
+		public String del(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "削除しました");
 			diariesrepository.delete(diary);
 			return "redirect:/search";
