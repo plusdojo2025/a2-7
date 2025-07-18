@@ -106,10 +106,10 @@ export default class Timeline extends React.Component{
                
                 <table>
                 <tr>
-                    <td onClick={() => this.addReaction(0)}>😊 </td>
-                    <td onClick={() => this.addReaction(1)}>😡 </td>
-                    <td onClick={() => this.addReaction(2)}>😢 </td>
-                    <td onClick={() => this.addReaction(3)}>😌 </td>
+                    <td onClick={() => this.addReaction(0)}>😊1 </td>
+                    <td onClick={() => this.addReaction(1)}>😡2 </td>
+                    <td onClick={() => this.addReaction(2)}>😢3 </td>
+                    <td onClick={() => this.addReaction(3)}>😌4 </td>
                     
                     
                     <td><Link to="/diarypage">💬4</Link></td>
