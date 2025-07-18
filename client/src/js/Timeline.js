@@ -2,6 +2,7 @@ import React from "react";
 import '../css/Timeline.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import TimelineDiaries from '../Components/TimelineDiariesComponents'
 
 export default class Timeline extends React.Component{
 
@@ -11,10 +12,11 @@ export default class Timeline extends React.Component{
         super(props);
         //stateの設定。
         this.state = {
-            postList:[[]] ,
-            reactionList:[[]] ,
-            comentList:[] ,
-            userList:[] ,
+            timeline: {
+                diaryList: [],
+                reaction4: [],
+                comentList: [],
+                userList: []},
             hashtag:"",
             }
     }
@@ -71,6 +73,7 @@ export default class Timeline extends React.Component{
 
 
     render(){
+        const { diaryList, reaction4, comentList, userList } = this.state.timeline;
         const { hashtag } = this.state;
         return (
         <div>
@@ -87,21 +90,19 @@ export default class Timeline extends React.Component{
             <input type="submit"/>
             </form>
 
-        <div className="diary">
-        <table>   
+            <div className="diary">    
+                <table>   
                 <tr>
                     <td><Link to="/mypage">〇</Link></td>
                     <td><Link to="/mypage">さかな</Link></td>
                     <td>2025/7/11(金)20:58</td>
                 </tr>
-        </table>
+                </table>
                 <div className="diary_sub">
-                <p>仕事頑張った！</p>
-                <p>#頑張った</p>
+                    <p>仕事頑張った！</p>
+                    <p>#頑張った</p>
                 </div>
-                
-
-
+               
                 <table>
                 <tr>
                     <td onClick={this.addReaction}>😊1　😡2　😢3　😌4</td>
@@ -109,6 +110,29 @@ export default class Timeline extends React.Component{
                 </tr>
                 </table>
             </div>
+
+        {diaryList.map((diarydata, index)  => (
+            <div className="diary">    
+                <table>   
+                <tr>
+                    <td><Link to="/mypage">〇</Link></td>
+                    <td><Link to="/mypage">{userList[index].nickname}</Link></td>
+                    <td>{diarydata.resist_time}</td>
+                </tr>
+                </table>
+                <div className="diary_sub">
+                    <p>{diarydata.sentence}</p>
+                    <p>#頑張った</p>
+                </div>
+               
+                <table>
+                <tr>
+                    <td onClick={this.addReaction}>😊{reaction4[index][0]}　😡{reaction4[index][1]}　😢{reaction4[index][2]}　😌{reaction4[index][3]}</td>
+                    <td><Link to="/diarypage">💬{comentList[index]}</Link></td>
+                </tr>
+                </table>
+            </div>
+        ))} 
 
             
 

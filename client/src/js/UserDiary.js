@@ -11,14 +11,25 @@ export default class Timeline extends React.Component{
         super(props);
         //stateの設定。
         this.state = {
+                userdiary:{
+                   commentList:[],
+                   com_userList:[], 
+                },
                 honnninn:"",
                 addcomment:"",
-
-            }
+                currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                currentDate: new Date().toLocaleDateString(),  // 今日の日付
+            };
     }
 
     //マウント後に自動で動作する。
     componentDidMount(){
+        // 1秒ごとに現在時刻を更新
+    this.timerID = setInterval(() => {
+      this.updateTime();  // updateTimeメソッドを呼び出して時刻を更新
+      this.timerID = setInterval(() => this.updateTime(), 1000); // 1秒ごとに時刻を更新
+
+    }, 1000);
         //学習用にaxiosでなく、標準のfetchを利用している。
         fetch("/diarypage")
         .then(res => res.json())
@@ -27,10 +38,25 @@ export default class Timeline extends React.Component{
             //stateのbooksに受け取ったデータを保持する。
             //stateが変わると自動的に画面が再描画される。
             this.setState({
-                diarypage:json
+                userdiary:json
             })
-        });
+        });   
     }
+
+    componentWillUnmount() {
+    clearInterval(this.timerID);  // コンポーネントがアンマウントされる時にタイマーをクリア
+    
+  }
+  
+    // 時刻を更新するメソッド
+  updateTime() {
+    this.setState({
+      currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      currentDate: new Date().toLocaleDateString(), // 今日の日付も更新
+    });
+  }
+
+  
 
     //画面で何か入力された時に、その値をstateとして保持する。
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
@@ -54,7 +80,7 @@ export default class Timeline extends React.Component{
 
 
     render(){
-        const { honnninn,addcomment } = this.state;
+        const { honnninn,addcomment,currentTime,currentDate} = this.state;
         
         return (
         <div>
@@ -96,7 +122,7 @@ export default class Timeline extends React.Component{
                     <tr>
                         <td>〇</td>
                         <td>あなた</td>
-                        <td>現在時刻？</td>
+                        <td>{currentDate}　{currentTime}</td>
                     </tr>
                 </table>
                 <form>
