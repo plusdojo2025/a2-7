@@ -15,12 +15,22 @@ function Signup() {
     if (loginId && password && nickname) {
       console.log("登録完了:", { loginId, password, nickname });
 
+      const confirmResult = window.confirm("登録してもよろしいですか？");
+
+      if(confirmResult){
       // 実際にはここでAPIに登録リクエストを送るなどします
       alert("登録が完了しました！");
       navigate('/login');  // 登録後、ログインページへ遷移
+    }else{
+      //キャンセルした場合、何もせず終了
+      console.log("登録がキャンセルされました");
+    }
+
     } else {
       alert("すべての項目を入力してください。");
     }
+
+   
   };
 
   return (
@@ -33,7 +43,7 @@ function Signup() {
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            required
+            
           />
         </div>
 
@@ -45,7 +55,7 @@ function Signup() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            maxLength={10}
           />
         </div>
         <br />
@@ -55,7 +65,7 @@ function Signup() {
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            required
+            maxLength={15}
           />
         </div>
         <button id ="signup" type="submit">登録</button>

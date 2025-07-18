@@ -91,7 +91,7 @@ public class TimelineController {
 		}
 		
 		//タグの扱いが分からんです。
-		Timeline TimelineData= new Timeline(diaryList,reactionList,comentList,userList);
+		Timeline TimelineData= new Timeline(diaryList,reaction4,comentList,userList);
 		return TimelineData;
 	}
 	

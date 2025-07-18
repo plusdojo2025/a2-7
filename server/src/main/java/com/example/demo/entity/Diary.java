@@ -3,7 +3,6 @@ package com.example.demo.entity;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,13 +27,12 @@ public class Diary {
 	private int diary_id;
 	
 	@ManyToOne
-	@Column(unique = true)
 	@JoinColumn(name = "image_id")
 	private Images image;
 
 
 	private String sentence;
-	private int stamp;
+	private Integer stamp;
 	private Timestamp resist_time;
 	
 	
