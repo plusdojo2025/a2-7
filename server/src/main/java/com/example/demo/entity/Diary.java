@@ -26,13 +26,13 @@ public class Diary {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int diary_id;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "image_id")
-//	private Images image;
+	@ManyToOne
+	@JoinColumn(name = "image_id")
+	private Images image;
 
 
 	private String sentence;
-	private Integer stamp;
+	private int stamp;
 	private Timestamp resist_time;
 	
 	
