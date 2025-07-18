@@ -18,6 +18,7 @@ export default class Timeline extends React.Component{
                 comentList: [],
                 userList: []},
             hashtag:"",
+            imagePreview:"",
             }
     }
 
@@ -54,7 +55,7 @@ export default class Timeline extends React.Component{
         .then((response)=>{
             console.log(response.data);
             this.setState({
-                hashtag:""
+                hashtag:"",
             });
             //this.componentDidMount();
         });
@@ -74,7 +75,7 @@ export default class Timeline extends React.Component{
 
     render(){
         const { diaryList, reaction4, comentList, userList } = this.state.timeline;
-        const { hashtag } = this.state;
+        const { hashtag,imagePreview } = this.state;
         return (
         <div>
 
@@ -93,7 +94,15 @@ export default class Timeline extends React.Component{
             <div className="diary">    
                 <table>   
                 <tr>
-                    <td><Link to="/mypage">〇</Link></td>
+                    <td><Link to="/mypage">{imagePreview ? (
+                        <img
+                            src={imagePreview}
+                            alt="プロフィール画像"
+                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                    )}</Link></td>
                     <td><Link to="/mypage">さかな</Link></td>
                     <td>2025/7/11(金)20:58</td>
                 </tr>
@@ -115,7 +124,15 @@ export default class Timeline extends React.Component{
             <div className="diary">    
                 <table>   
                 <tr>
-                    <td><Link to="/mypage">〇</Link></td>
+                    <td><Link to="/mypage">{imagePreview ? (
+                        <img
+                            src={imagePreview}
+                            alt="プロフィール画像"
+                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                    )}</Link></td>
                     <td><Link to="/mypage">{userList[index].nickname}</Link></td>
                     <td>{diarydata.resist_time}</td>
                 </tr>
@@ -128,7 +145,16 @@ export default class Timeline extends React.Component{
                 <table>
                 <tr>
                     <td onClick={this.addReaction}>😊{reaction4[index][0]}　😡{reaction4[index][1]}　😢{reaction4[index][2]}　😌{reaction4[index][3]}</td>
-                    <td><Link to="/diarypage">💬{comentList[index]}</Link></td>
+
+                    {diarydata ? (//もしコメント公開設定なら
+                        <td><Link to="/diarypage">💬{comentList[index]}</Link></td>
+                    ) : (
+                        <td>🚫</td>
+                    )}
+
+✖✖
+
+
                 </tr>
                 </table>
             </div>

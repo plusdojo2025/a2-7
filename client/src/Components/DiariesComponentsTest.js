@@ -7,13 +7,13 @@ export default class DiariesComponentTest extends Component {
     super(props);
 
     const today = new Date().toISOString().split('T')[0];
-    const now = new Date().toISOString();split('T')[1];
+    //const now = new Date().toISOString();split('T')[1];
 
     this.state = {
       login_id: '',
       sentence: '',
       stamp: 0,
-      resist_time: now,
+      //resist_time: now,
       diary_time: today,
       image: null,
       imageName: ''

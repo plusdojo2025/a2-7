@@ -17,6 +17,7 @@ export default class Timeline extends React.Component{
                 },
                 honnninn:"",
                 addcomment:"",
+                imagePreview:"",
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
             };
@@ -80,7 +81,8 @@ export default class Timeline extends React.Component{
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate} = this.state;
+        const { honnninn,addcomment,currentTime,currentDate,imagePreview} = this.state;
+        const {commentList,com_userList,} = this.state.userdiary;
         
         return (
         <div>
@@ -92,7 +94,15 @@ export default class Timeline extends React.Component{
             <div className="diary">
                 <table>   
                     <tr>
-                        <td><Link to="/mypage">〇</Link></td>
+                        <td><Link to="/mypage">{imagePreview ? (
+                        <img
+                            src={imagePreview}
+                            alt="プロフィール画像"
+                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                    )}</Link></td>
                         <td><Link to="/mypage">さかな</Link></td>
                         <td>2025/7/11(金)20:58</td>
                     </tr>
@@ -120,7 +130,15 @@ export default class Timeline extends React.Component{
       <div className="addComment">
                 <table>   
                     <tr>
-                        <td>〇</td>
+                        <td>{imagePreview ? (
+                        <img
+                            src={imagePreview}
+                            alt="プロフィール画像"
+                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                    )}</td>
                         <td>あなた</td>
                         <td>{currentDate}　{currentTime}</td>
                     </tr>
@@ -140,7 +158,15 @@ export default class Timeline extends React.Component{
             <div className="comment">
                 <table>   
                     <tr>
-                        <td><Link to="/mypage">〇</Link></td>
+                        <td><Link to="/mypage">{imagePreview ? (
+                        <img
+                            src={imagePreview}
+                            alt="プロフィール画像"
+                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                    )}</Link></td>
                         <td><Link to="/mypage">メガネ</Link></td>
                         <td>2025/7/11(金)20:58</td>
                     </tr>
@@ -151,20 +177,21 @@ export default class Timeline extends React.Component{
                 
             </div>
 
+         {commentList.map((commentdata, index)  => (
             <div className="comment">
                 <table>   
                     <tr>
                         <td><Link to="/mypage">〇</Link></td>
-                        <td><Link to="/mypage">テント</Link></td>
-                        <td>2025/7/11(金)20:58</td>
+                        <td><Link to="/mypage">{com_userList[index].nickname}</Link></td>
+                        <td>{commentdata.time}</td>
                     </tr>
                 </table>
                 <div className="comment_sub">
-                    <p>お疲れ様☆</p>
+                    <p>{commentdata.sentence}</p>
                 </div>
                 
             </div>
-                            
+        ))}                     
             
         </main>
         <footer>フッター</footer>
