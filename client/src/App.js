@@ -24,8 +24,9 @@ function AppContent() {
   
     <div className="App">
       <header className="App-header">
-         <h1 className="tagme">TagMe</h1>
-
+        <div className="title">
+         <h1 >TagMe</h1>
+        </div>
          {/* ログイン・サインアップ画面以外で表示 */}
         {!isAuthPage && <Burger />}
 

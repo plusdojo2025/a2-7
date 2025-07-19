@@ -1,75 +1,82 @@
-/* バーガーメニューのボタン */
+/* ハンバーガーボタン（右上） */
 .bm-burger-button { 
-    position: fixed;
-    width: 28px;
-    height: 28px;
-    right: 20px;/* 右にしたい場合はright,左にしたい場合はleft */
-    top: 20px;
-  }
-  
-  /* バーガーメニューのボタンの線 */
-  .bm-burger-bars {
-    background: #373a47;
-  }
-  
-  /* バーガーメニューのボタンの線（ホバー時）*/
-  .bm-burger-bars-hover {
-    background: #a90000;
-  }
-  
-  /* 閉じるボタン(Xの周辺） */
-  .bm-cross-button {
-    height: 24px;
-    width: 24px;
-  }
-  
-  /* 閉じるボタンのX */
-  .bm-cross {
-    background: #bdc3c7;
-  }
-  
-  /*バーガーメニューのwrapper*/
-  .bm-menu-wrap {
-    position: fixed;
-    height: 100%;
-  }
-  
-  /* バーガーメニューのwrapper */
-  .bm-menu {
-    background: #373a47;
-    font-size: 1.15em;
-  }
-  
-  /* bubble or elasticの際に必要 */
-  .bm-morph-shape {
-    fill: #373a47;
-  }
-  
-  /* アイテムリストのwrapper */
-  .bm-item-list {
-    color: #b8b7ad;
-  }
-  
-  /* アイテム */
-  .bm-item {
-    display: inline-block;
-    height: 50px;
-  }
+  position: fixed;
+  width: 30px;
+  height: 24px;
+  right: 20px;
+  top: 60px;
+  z-index: 1000;
+   
+ 
+}
 
-  .bm-item-list a{ /* メニューの個々のアイテムの設定 */
-    display:inline-block;
-    border-bottom:1px solid #747272;
-    line-height: 50px;
-    padding-left: 15px;
-    text-decoration: none;
-    color: #fff;
-  }
+/* ボタンの3本線 */
+.bm-burger-bars {
+  background: #ffb347; /* 柔らかいオレンジ */
+  border-radius: 2px;
+  height: 4px;
+}
 
-  .bm-item-list a:hover{ /* 個々のアイテムのホバー */
-    background-color: #8a9195;
-    color: aliceblue;
-  }
+.bm-burger-bars-hover {
+  background: #ffa500;
+}
+
+/* メニュー全体のラップ */
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* メニュー背景 */
+.bm-menu {
+  background: #fdfdfd;
+  padding: 10px  10px;
+  font-size: 1.1em;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  overflow-y: scroll;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
   
-  .bm-overlay {
+}
+
+
+
+/* 閉じるボタン */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: #ccc;
+}
+
+/* アイテムリスト */
+.bm-item-list {
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+/* メニューリンク */
+.bm-item-list a {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #444;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bm-item-list a:hover {
+  background-color: #ffe5b4;  /* パステルオレンジ */
+  color: #000;
+}
+
+/* オーバーレイなし */
+.bm-overlay {
   display: none !important;
 }

@@ -6,8 +6,11 @@
 }
 
 /* ヘッダー 題名部分 */
-.tagme{
+.title{
   font-style:italic;
+  background-color: #f0f0f0; /* ←好きな色に変更可能 */
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* オプション: 下に影をつける */
 }
 
 
