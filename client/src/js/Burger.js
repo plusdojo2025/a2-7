@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import '../css/Burger.css';
 
-class Burger extends React.Component {
-  showSettings (event) {
-    event.preventDefault();
-  }
+const Burger = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  render () {
-    return (
-      <Menu noOverlay right>
-        <a id="home" className="menu-item" href="/home">ホーム</a>
-        <a id="graph" className="menu-item" href="/graph">グラフ分析</a>
-        <a id="timeline" className="menu-item" href="/timeline">タイムライン</a>
-        <a id="mypage" className="menu-item" href="/mypage">マイページ</a>
-        <a id="logout" className="menu-item" href="/login">ログアウト</a>
+  const handleToggle = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  return (
+    <>
+      <div className="custom-burger-button" onClick={handleToggle}>
+        <div className="bar" />
+        <div className="bar" />
+        <div className="bar" />
+      </div>
+
+      <Menu isOpen={isOpen} onStateChange={({ isOpen }) => setIsOpen(isOpen)} noOverlay right>
+        <a className="menu-item" href="/home">ホーム</a>
+        <a className="menu-item" href="/graph">グラフ分析</a>
+        <a className="menu-item" href="/timeline">タイムライン</a>
+        <a className="menu-item" href="/mypage">マイページ</a>
+        <a className="menu-item" href="/login">ログアウト</a>
       </Menu>
-    );
-  }
-}
-export default Burger;
+    </>
+  );
+};
 
+export default Burger;
