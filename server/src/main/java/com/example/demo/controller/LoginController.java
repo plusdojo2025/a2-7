@@ -1,35 +1,54 @@
 package com.example.demo.controller;
 
-import org.springframework.stereotype.Controller;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import com.example.demo.entity.User;
+import com.example.demo.repository.UsersRepository;
+
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/api")
 public class LoginController {
 
-    // ログイン画面表示
-    @GetMapping("/login")
-    public String showLoginForm() {
-        return "login"; // login.html を表示
-    }
+    @Autowired
+    private UsersRepository usersRepository;
 
-    // ログイン処理
     @PostMapping("/login")
-    public RedirectView login(
-            @RequestParam("loginId") String loginId,
-            @RequestParam("password") String password) {
+    public Map<String, Object> login(@RequestParam String loginId,
+                                     @RequestParam String password) {
+        Map<String, Object> result = new HashMap<>();
 
-        // ここで認証処理を入れてもよい（今回は省略）
+        // Optional を使わずに null チェック
+        User user = usersRepository.findByLoginId(loginId);
 
-        // ログイン成功したと仮定してホーム画面へリダイレクト
-        return new RedirectView("/home");
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
+                result.put("success", true);
+                result.put("message", "ログイン成功");
+            } else {
+                result.put("success", false);
+                result.put("message", "パスワードが違います");
+            }
+        } else {
+            result.put("success", false);
+            result.put("message", "ユーザーが見つかりません");
+        }
+
+        return result;
     }
 
     // 登録画面（遷移先）
     @GetMapping("/signup")
     public String showRegisterForm() {
-        return "signup"; // register.htmlを返す想定
+        return "signup";
     }
 }
