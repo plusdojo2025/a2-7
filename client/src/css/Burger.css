@@ -1,7 +1,7 @@
 /* 自作ボタン */
 .custom-burger-button {
   position: fixed;
-  top: 20px;
+  top: 60px;
   right: 20px;
   z-index: 9999;
   width: 30px;
@@ -30,12 +30,6 @@
   
 }
 
-/* ボタンの3本線 */
-.bm-burger-bars {
-  background: #ffb347;
-  border-radius: 2px;
-  height: 4px;
-}
 
 /* メニュー全体のラップ */
 .bm-menu-wrap {
@@ -61,16 +55,6 @@
 }
 
 
-/* 閉じるボタン */
-.bm-cross-button {
-  height: 24px;
-  width: 24px;
-}
-
-.bm-cross {
-  background: #ccc;
-}
-
 /* アイテムリスト */
 .bm-item-list {
   color: #333;
@@ -78,6 +62,7 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 1rem;
+  padding-top:100px;
 }
 
 /* メニューリンク */
