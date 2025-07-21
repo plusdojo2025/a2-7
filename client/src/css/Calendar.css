@@ -1,5 +1,18 @@
 
+
+
 .fc-toolbar-title,.fc .fc-col-header-cell-cushion , .fc .fc-daygrid-day-number {
   color: #000;
 } 
 
+
+
+/* 日曜日を赤 */
+.fc-day-sun a {
+  color: red !important;
+}
+
+/* 土曜日を水色 */
+.fc-day-sat a {
+  color: #1e90ff !important; /* 水色（DodgerBlue） */
+}

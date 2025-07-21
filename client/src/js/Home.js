@@ -1,16 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Calendar from './Calendar';
 import { useNavigate } from 'react-router-dom';
 import '../css/Home.css';
+
+const emojiMap = {
+  1: '😊',
+  2: '😡',
+  3: '😢',
+  4: '😌',
+};
 
 function Home() {
   const [tag, setTag] = useState('');
   const [diaries, setDiaries] = useState([]);
   const navigate = useNavigate();
 
-  // タグで検索 or 空欄ならすべて取得
-  const fetchDiaries = async () => {
+  // タグ検索 or 全件取得
+  const fetchDiaries = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/search', {
         params: tag ? { tag } : {},
@@ -19,22 +26,22 @@ function Home() {
     } catch (error) {
       console.error('日記の取得に失敗しました', error);
     }
-  };
+  }, [tag]);
 
   useEffect(() => {
     fetchDiaries();
-  }, []);
+  }, [fetchDiaries]);
 
-  // 感情スタンプや日付クリック → 該当日の日記があるか確認し、画面を分岐
+  // 日付クリック → 詳細 or 登録へ遷移
   const handleDiaryClick = async (date) => {
     try {
       const res = await fetch(`http://localhost:8080/api/diarypage?date=${date}`);
       const data = await res.json();
 
       if (data) {
-        navigate(`/diarypage?date=${date}`); // 詳細画面へ
+        navigate(`/diarypage?date=${date}`);
       } else {
-        navigate(`/regist?date=${date}`); // 登録画面へ
+        navigate(`/regist?date=${date}`);
       }
     } catch (error) {
       console.error('日記確認に失敗しました', error);
@@ -56,15 +63,23 @@ function Home() {
       <ul>
         {diaries.map((diary) => (
           <li key={diary.id}>
-            <strong>{diary.date}</strong>: {diary.content}
+            <strong>{diary.date}</strong>: {diary.content}{' '}
+            <span style={{ marginLeft: '10px' }}>
+              {emojiMap[Number(diary.emotion)] || ''}
+            </span>
             <button onClick={() => navigate(`/diarypage?date=${diary.date}`)}>詳細へ</button>
             <button onClick={() => handleDiaryClick(diary.date)}>📅 感情スタンプ</button>
           </li>
         ))}
       </ul>
 
-      {/* カレンダーにクリック処理を渡す */}
-      <Calendar onDateClick={handleDiaryClick} />
+      <Calendar
+        onDateClick={handleDiaryClick}
+        diaries={diaries.map(diary => ({
+          ...diary,
+          emotion: emojiMap[Number(diary.emotion)] || '',
+        }))}
+      />
     </div>
   );
 }

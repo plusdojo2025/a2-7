@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction'; // 日付クリック対応
-import jaLocale from '@fullcalendar/core/locales/ja'; // 日本語ロケール
+import interactionPlugin from '@fullcalendar/interaction';
+import jaLocale from '@fullcalendar/core/locales/ja';
 import '../css/Calendar.css';
 
+const Calendar = ({ onDateClick, diaries }) => {
+  const [events, setEvents] = useState([]);
 
-const Calendar = () => {
-  const [events] = useState([
-    { title: '日記あり', date: '2025-07-16' },
-    { title: '嬉しかった日', date: '2025-07-20' },
-  ]);
+  useEffect(() => {
+    // diaries を FullCalendar 用の event に変換
+    const newEvents = diaries
+      .filter(diary => diary.emotion) // 感情があるものだけ
+      .map(diary => ({
+        title: diary.emotion,        // 例: 😊
+        date: diary.date,            // 例: 2025-07-21
+        id: diary.id,                // 任意: 識別用
+      }));
+    setEvents(newEvents);
+  }, [diaries]);
 
   const handleDateClick = (info) => {
-    // 感情スタンプの日付クリック → 日記画面へ遷移
     const clickedDate = info.dateStr;
-    window.location.href = `/diarypage?date=${clickedDate}`;
+    onDateClick(clickedDate); // 親に通知（画面遷移）
   };
 
   return (
-    <div>
+    <div className="calendar_container">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         dateClick={handleDateClick}
         events={events}
-        locale={jaLocale} // 日本語化
+        locale={jaLocale}
         height="auto"
       />
     </div>
