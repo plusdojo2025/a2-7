@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.sql.Timestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -24,9 +26,14 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer comments_id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "login_id")
+	@JsonIgnore
 	@Column(unique = true)
-	private String login_id;
-	private String time;
+	private User user;
+	
+	private Timestamp time;
 	private String sentence;
 
 	@ManyToOne(fetch = FetchType.LAZY)

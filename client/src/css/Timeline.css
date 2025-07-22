@@ -5,7 +5,7 @@ main{
 
 .diary_sub{
     border: 2px solid black;  /* 2pxの黒い実線 */
-    padding: 20px;  /* 内側の余白 */
+   
     border-radius: 50px;
     
 }
