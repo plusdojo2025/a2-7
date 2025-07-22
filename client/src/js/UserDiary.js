@@ -188,12 +188,12 @@ export default class Timeline extends React.Component{
                 
             </div>
 
-         {commentList.map((commentdata, index)  => (
+         {diary.comment.map((commentdata, index)  => (
             <div className="comment">
                 <table>   
                     <tr>
                         <td><Link to="/mypage">〇</Link></td>
-                        <td><Link to="/mypage">{com_userList[index].nickname}</Link></td>
+                        <td><Link to="/mypage">{commentdata.user.nickname}</Link></td>
                         <td>{commentdata.time}</td>
                     </tr>
                 </table>
