@@ -65,9 +65,10 @@ function AppContent() {
             <Route path="/signup" element={<Signup />} />
 
             {/* ホーム画面（タグ検索＋カレンダー含む） */}
+            <Route path="/calendar" element={<Calendar />} />
+
             <Route path="/home" element={<Home />} />
 
-            <Route path="/calendar" element={<Calendar />} />
 
             {/* タイムライン画面*/}
             <Route path="/timeline" element={<Timeline/>}/>
