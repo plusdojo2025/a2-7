@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserDiary {
 	@Id
+	private Integer id;
 	private List<Comment> commentList;
 	private List<User> com_userList;
 }
