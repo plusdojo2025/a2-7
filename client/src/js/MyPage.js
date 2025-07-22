@@ -12,6 +12,7 @@ export default class MyPage extends React.Component{
             aFewWords: '',
             imagePreview: null,
             imageFile: null,
+            isOwner: false, 
         }
     }
 
@@ -28,6 +29,7 @@ export default class MyPage extends React.Component{
             this.setState({
                 nickname: json.nickname,
                 aFewWords: json.aFewWords,
+                isOwner: json.isOwner,
                 MyPage:json
             })
         });
@@ -59,7 +61,7 @@ export default class MyPage extends React.Component{
         formData.append("image", imageFile);
 
         try {
-            await axios.post("/mypage/update", formData, {
+            await axios.post("/mypage/update/image", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -74,18 +76,14 @@ export default class MyPage extends React.Component{
 
     //プロフィール情報（ニックネーム・ひとこと・画像など）をサーバーに送信して更新する処理
     handleUpdate = async () => {
-        const { nickname, aFewWords, imageFile } = this.state;
+        const { nickname, aFewWords} = this.state;
 
         const formData = new FormData();
         formData.append("nickname", nickname);
         formData.append("aFewWords", aFewWords);
-        if (imageFile) {
-            formData.append("image", imageFile);
-        }
-
 
         try {
-            const res = await axios.post("/mypage/update", formData, {
+            const res = await axios.post("/mypage/update/profile", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -109,61 +107,63 @@ export default class MyPage extends React.Component{
 
     //画像は画像のみで更新可能にする
     //ニックネームと自己紹介はセットにする
+    //isOwnerで本人のみにボタンが表示されるように
     render(){
-        const { nickname, aFewWords, imagePreview } = this.state;
+        const { nickname, aFewWords, imagePreview, isOwner } = this.state;
         return(
             <div>
                 <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
                 {/* ① アイコン画像エリア */}
-                <div>
-                    <h3>① アイコン</h3>
-                    {imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '100px', height: '100px', borderRadius: '50%', }}
-                        />
-                    ) : (
-                        <div style={{ width: '100px', height: '100px', backgroundColor: '#ccc', borderRadius: '50%', display: 'flex'}} />
-                    )}
-                    <input type="file" accept="image/*" onChange={this.handleImageChange} />
-                    {/* ↓画像アップロードボタンの追加*/}
-                    <button onClick={this.handleImageUpload}>アイコン更新</button>
-                </div>
+                <div className="mypage-box">
+                    <div>
+                        <h3>① アイコン</h3>
+                        {imagePreview ? (
+                            <img
+                                src={imagePreview}
+                                alt="プロフィール画像"
+                                style={{ width: '100px', height: '100px', borderRadius: '50%', }}
+                            />
+                        ) : (
+                            <div id="icon"/>
+                        )}
+                        {isOwner && <input type="file" accept="image/*" onChange={this.handleImageChange} />}
+                        {/* ↓画像アップロードボタンの追加*/}
+                        {isOwner && <button onClick={this.handleImageUpload}>アイコン更新</button>}
+                    </div>
 
-                
-                {/* ②～④ を form にまとめる */}
-                <form onSubmit={this.handleUpdate}>
-                {/* ② 名前表示エリア */}
-                <div style={{ marginBottom: '15px' }}>
-                    <h3>② ニックネーム</h3>
-                    <input
-                        type="text"
-                        value={nickname}
-                        onChange={this.onInput}
-                        placeholder="ニックネーム"
-                        required
-                    />
-                </div>
 
-                {/* ③ ひとこと表示エリア */}
-                <div style={{ marginBottom: '15px' }}>
-                    <h3>③ 自己紹介</h3>
-                    <textarea
-                        value={aFewWords}
-                        onChange={this.onInput}
-                        placeholder="自己紹介やコメントを入力"
-                        rows="5"
-                        required
-                    />
-                </div>
+                    {/* ②～④ を form にまとめる */}
+                    <form onSubmit={this.handleUpdate}>
+                        {/* ② 名前表示エリア */}
+                        <div>
+                            <h3>② ニックネーム</h3>
+                            <input
+                                type="text"
+                                name="nickname"
+                                value={nickname}
+                                disabled={!isOwner}
+                                onChange={this.onInput}
+                                placeholder="ニックネーム"
+                            />
+                        </div>
 
-                {/* ④ 更新ボタン */}
-                <div style={{ textAlign: 'center' }}>
-                    <h3>④ プロフィール更新</h3>
-                    <button type="submit">更新する</button>
+                        {/* ③ ひとこと表示エリア */}
+                            <h3>③ 自己紹介</h3>
+                            <textarea
+                                id="introduction"
+                                value={aFewWords}
+                                name="aFewWords"
+                                disabled={!isOwner}
+                                onChange={this.onInput}
+                                placeholder="自己紹介を入力"
+                            />
+
+                        {/* ④ 更新ボタン */}
+                        <div style={{ textAlign: 'center' }}>
+                            {isOwner && <button type="submit">更新する</button>}
+                        </div>
+                    </form>
                 </div>
-                </form>
             </div>
         );
     }
