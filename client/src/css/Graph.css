@@ -1,3 +1,97 @@
+@charset "UTF-8";
 .super_graph {
     color: black;
+}
+
+.tab-comments {
+  padding: 10px;
+  margin-bottom: 30px;
+  margin: auto;
+  font-size: 40px;
+  border: 1px solid #333333;
+  border-radius: 10px;
+  background-color: #9fdfec;
+  max-width: 900px;
+  text-align: center;
+}
+.check_results {
+	max-width: 700px;
+	padding: 10px;	
+	margin-bottom: 30px;
+	margin: auto;
+	border: 1px solid #333333;
+	border-radius: 10px;
+	text-align:center;
+
+}
+.tab-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 30px;
+	
+}
+
+/* ラジオボタンを非表示にする */
+.tab-input {
+    display: none;
+}
+
+/* タブのスタイル */
+.tab-labels {
+    display: flex;
+    border-bottom: 2px solid black;
+}
+
+.tab-group_left{
+  display: flex;
+  justify-content: flex-start; /* 左グループは左寄せ */
+}
+
+.tab-group_right{
+  display: flex;
+  justify-content: flex-end;   /* 右グループは右寄せ */
+}
+
+
+.tab-label {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid black;
+    border-bottom: none;
+    margin-right: 5px;
+    border-radius: 8px 8px 0 0;
+}
+.tab-title {
+    max-width: 700px;
+	padding: 10px;	
+	margin-bottom: 30px;
+	margin: auto;
+	border: 1px solid #333333;
+	border-radius: 10px;
+	text-align:center;
+
+}
+/* コンテンツエリアのスタイル */
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 2px solid black;
+    border-top: none;
+    background: white;
+}
+
+/* チェックされたタブのスタイル */
+#tab1:checked ~ .tab-labels .label1,
+#tab2:checked ~ .tab-labels .label2 {
+    background: #9fdfec;
+}
+
+.tab-label {
+	background: white;
+}
+
+/* チェックされたコンテンツを表示 */
+#tab1:checked ~ .content1,
+#tab2:checked ~ .content2 {
+    display: block;
 }
