@@ -2,7 +2,7 @@
 import Timeline from './js/Timeline';
 import UserDiary from './js/UserDiary';
 import './App.css';
-//import Calendar from './js/Calendar';
+import Calendar from './js/Calendar';
 import Home from './js/Home';
 import { BrowserRouter,Routes,Route,Navigate, useLocation} from 'react-router-dom';
 import Signup from './js/Signup';
@@ -66,6 +66,8 @@ function AppContent() {
 
             {/* ホーム画面（タグ検索＋カレンダー含む） */}
             <Route path="/home" element={<Home />} />
+
+            <Route path="/calendar" element={<Calendar />} />
 
             {/* タイムライン画面*/}
             <Route path="/timeline" element={<Timeline/>}/>

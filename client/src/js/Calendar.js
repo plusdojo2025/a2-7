@@ -4,25 +4,49 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import jaLocale from '@fullcalendar/core/locales/ja';
 import '../css/Calendar.css';
+import { useNavigate } from 'react-router-dom';
 
-const Calendar = ({ onDateClick, diaries }) => {
+const Calendar = () => {
+  const [diaries, setDiaries] = useState([]);
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
+  // APIから感情付き日記を取得
   useEffect(() => {
-    // diaries を FullCalendar 用の event に変換
-    const newEvents = diaries
-      .filter(diary => diary.emotion) // 感情があるものだけ
-      .map(diary => ({
-        title: diary.emotion,        // 例: 😊
-        date: diary.date,            // 例: 2025-07-21
-        id: diary.id,                // 任意: 識別用
-      }));
-    setEvents(newEvents);
-  }, [diaries]);
+    const fetchDiaries = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/diaries');
+        const data = await response.json();
+        setDiaries(data);
 
+        // 感情スタンプ付き日記を FullCalendar イベント形式に変換
+        const newEvents = data.map(diary => ({
+          title: diary.emotion,    // 😊など
+          date: diary.date,        // YYYY-MM-DD形式
+          id: diary.id,
+        }));
+        setEvents(newEvents);
+      } catch (error) {
+        console.error('日記の取得に失敗しました:', error);
+      }
+    };
+
+    fetchDiaries();
+  }, []);
+
+  // 日付クリック時の画面遷移ロジック
   const handleDateClick = (info) => {
     const clickedDate = info.dateStr;
-    onDateClick(clickedDate); // 親に通知（画面遷移）
+
+    const hasDiary = diaries.some(
+      (diary) => diary.date === clickedDate && diary.emotion
+    );
+
+    if (hasDiary) {
+      navigate(`/diarypage/${clickedDate}`);
+    } else {
+      navigate(`/register/${clickedDate}`);
+    }
   };
 
   return (
