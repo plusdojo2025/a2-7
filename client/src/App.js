@@ -2,7 +2,7 @@
 import Timeline from './js/Timeline';
 import UserDiary from './js/UserDiary';
 import './App.css';
-//import Calendar from './js/Calendar';
+import Calendar from './js/Calendar';
 import Home from './js/Home';
 import { BrowserRouter,Routes,Route,Navigate, useLocation} from 'react-router-dom';
 import Signup from './js/Signup';
@@ -27,7 +27,7 @@ function AppContent() {
         <div className="title">
          <h1 >TagMe</h1>
         </div>
-         {/* ログイン・サインアップ画面以外で表示 */}
+         {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
         {!isAuthPage && <Burger />}
 
         
@@ -65,7 +65,10 @@ function AppContent() {
             <Route path="/signup" element={<Signup />} />
 
             {/* ホーム画面（タグ検索＋カレンダー含む） */}
+            <Route path="/calendar" element={<Calendar />} />
+
             <Route path="/home" element={<Home />} />
+
 
             {/* タイムライン画面*/}
             <Route path="/timeline" element={<Timeline/>}/>

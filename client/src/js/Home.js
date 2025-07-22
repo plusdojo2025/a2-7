@@ -41,7 +41,7 @@ function Home() {
       if (data) {
         navigate(`/diarypage?date=${date}`);
       } else {
-        navigate(`/regist?date=${date}`);
+        navigate(`/register?date=${date}`);
       }
     } catch (error) {
       console.error('日記確認に失敗しました', error);
@@ -53,7 +53,7 @@ function Home() {
       <div className="home_box">
         <input
           type="text"
-          placeholder="タグで検索（例: 頑張った）"
+          placeholder="タグで検索（例: #頑張った）"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />

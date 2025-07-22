@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.repository.DiariesRepository;
-import com.example.demo.repository.ReactionsRepository;
-import com.example.demo.repository.TagsRepository;
 
 @RestController
 @RequestMapping("/api")
@@ -24,12 +22,7 @@ public class HomeController {
     @Autowired
     private DiariesRepository diaryRepository;
 
-    @Autowired
-    private TagsRepository tagRepository;
-
-    @Autowired
-    private ReactionsRepository reactionRepository;
-
+ 
     // 日付指定で日記を取得（なければnull）
     @GetMapping("/diarypage")
     public Diary getDiaryByDate(@RequestParam String date) {
