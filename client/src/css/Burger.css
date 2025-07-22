@@ -1,0 +1,90 @@
+/* 自作ボタン */
+.custom-burger-button {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  z-index: 9999;
+  width: 30px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.custom-burger-button .bar {
+  height: 4px;
+  background:	#ffbf7f ;
+  border-radius: 2px;
+}
+
+
+
+/* ハンバーガーボタン（右上） */
+.bm-burger-button { 
+  position: fixed;
+  width: 30px;
+  height: 24px;
+  right: 20px;
+  top: 20px;
+  
+}
+
+
+/* メニュー全体のラップ */
+.bm-menu-wrap {
+  position: fixed;
+  height: 100vh;
+  width: 300px;
+  top: 0;
+  right: 0;
+  
+}
+
+/* メニュー背景 */
+.bm-menu {
+  background: #fdfdfd;
+  padding: 20px 10px;
+  height: 100vh; /* ←ここを画面いっぱいに */
+  font-size: 1.1em;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* アイテムリスト */
+.bm-item-list {
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+  padding-top:100px;
+}
+
+/* メニューリンク */
+.bm-item-list a {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #444;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bm-item-list a:hover {
+  background-color: #ffe5b4;  /* パステルオレンジ */
+  color: #000;
+}
+
+/* オーバーレイなし */
+.bm-overlay {
+  display: none !important;
+}
+
+.bm-item-list a {
+  outline: none; /* ← 追加 */
+}

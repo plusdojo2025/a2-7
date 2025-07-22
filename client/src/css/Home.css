@@ -1,3 +1,9 @@
+body, html {
+  overflow-x: hidden; /* 横スクロール禁止 */
+  margin: 0;
+  padding: 0;
+}
+
 .home_box {
   display: flex;
   justify-content: center; /* ← 中身を中央寄せ */
@@ -5,13 +11,15 @@
   gap: 10px; /* 要素間の余白 */
   width: 100%; /* ← 幅は100%が良い */
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 50px 0;
+  padding-left:20px;
+  
 }
 
 .home_box input{
    
     font-weight: bold;
-    color: #fff;/*文字色*/
+    color: #000;/*文字色*/
     background: #fff;
     border: solid 3px #000;/*線*/
     border-radius: 10px;/*角の丸み*/
@@ -20,7 +28,7 @@
 .home_box button{
 
     font-weight: bold;
-    color: #fff;/*文字色*/
+    color: #000;/*文字色*/
     background: #fff;
     border: solid 3px #000;/*線*/
     border-radius: 10px;/*角の丸み*/
