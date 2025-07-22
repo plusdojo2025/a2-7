@@ -44,5 +44,23 @@ public class Diary {
 		
 	}
 	
+	@Column(unique = true)
+	private String loginId;
+	
+	@OneToMany(mappedBy = "diary"
+			, cascade = CascadeType.ALL
+			, fetch = FetchType.LAZY)
+	private List<Reaction> reactions;
+	
+	@OneToMany(mappedBy = "diary"
+			, cascade = CascadeType.ALL
+			, fetch = FetchType.LAZY)
+	private List<Comment> comments;
+	
+	@OneToMany(mappedBy = "diary"
+			, cascade = CascadeType.ALL
+			, fetch = FetchType.LAZY)
+	private List<Post> posts;
+	
 
 }

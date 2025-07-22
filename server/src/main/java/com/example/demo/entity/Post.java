@@ -20,12 +20,14 @@ import lombok.NoArgsConstructor;
 public class Post {
 
 	@Id
+	private Integer id;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
 	private Diary diary;
 	
-	@Id
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hashtag_id")
 	@JsonIgnore
