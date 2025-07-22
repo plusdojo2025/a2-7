@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../css/Signup.css';
 
 function Signup() {
@@ -8,29 +9,35 @@ function Signup() {
   const [nickname, setNickname] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    
-    // 仮の登録処理
+
     if (loginId && password && nickname) {
-      console.log("登録完了:", { loginId, password, nickname });
+      try {
+        const confirmResult = window.confirm("登録してもよろしいですか？");
+        if (!confirmResult) {
+          console.log("登録がキャンセルされました");
+          return;
+        }
 
-      const confirmResult = window.confirm("登録してもよろしいですか？");
+        // Spring BootのAPIにPOST送信
+        const response = await axios.post('http://localhost:8080/api/signup', {
+          loginId: loginId,
+          password: password,
+          nickname: nickname,
+        });
 
-      if(confirmResult){
-      // 実際にはここでAPIに登録リクエストを送るなどします
-      alert("登録が完了しました！");
-      navigate('/login');  // 登録後、ログインページへ遷移
-    }else{
-      //キャンセルした場合、何もせず終了
-      console.log("登録がキャンセルされました");
-    }
+        console.log("登録成功:", response.data);
+        alert("登録が完了しました！");
+        navigate('/login'); // 登録後ログイン画面へ遷移
 
+      } catch (error) {
+        console.error("登録失敗:", error);
+        alert("登録に失敗しました。");
+      }
     } else {
       alert("すべての項目を入力してください。");
     }
-
-   
   };
 
   return (
@@ -43,12 +50,11 @@ function Signup() {
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-            
           />
         </div>
 
         <br />
-        
+
         <div>
           <label>パスワード</label><br />
           <input
@@ -58,7 +64,9 @@ function Signup() {
             maxLength={10}
           />
         </div>
+
         <br />
+
         <div>
           <label>ニックネーム</label><br />
           <input
@@ -68,10 +76,13 @@ function Signup() {
             maxLength={15}
           />
         </div>
-        <button id ="signup" type="submit">登録</button>
+
+        <button id="signup" type="submit">登録</button>
       </form>
 
-      <a href="/login">トップページに戻る</a>
+      <p className="Login-link">
+        <Link to="/login">トップページに戻る</Link>
+      </p>
     </div>
   );
 }

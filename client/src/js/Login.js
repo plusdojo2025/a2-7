@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';  // useNavigateを追加
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/Login.css';
+
 function Login() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // ナビゲーション関数を取得
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // 仮のログイン処理。ここをAPI呼び出しなどに変えてください
-    //if (loginId === 'user' && password === 'pass')
 
-    if(!loginId || !password ){
+    if (!loginId || !password) {
       alert('ログインIDとパスワードを入力してください');
       return;
     }
 
-    if (loginId && password) {
-      // ログイン成功したらホーム画面へ遷移
-      navigate('/home');
-    } else {
-      alert('ログインIDまたはパスワードが違います');
-    }
+    try {
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          loginId,
+          password,
+        }),
+      });
 
+      const data = await response.json();
+
+      if (data.success) {
+        alert(data.message);  // ログイン成功メッセージ
+        navigate('/home');    // ホーム画面に遷移
+      } else {
+        alert(data.message);  // エラーメッセージ
+      }
+
+    } catch (error) {
+      console.error('ログインエラー:', error);
+      alert('通信エラーが発生しました');
+    }
   };
 
   return (
@@ -35,7 +52,6 @@ function Login() {
             type="text"
             value={loginId}
             onChange={(e) => setLoginId(e.target.value)}
-          
           />
         </div>
         <br />
@@ -46,7 +62,6 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             maxLength={10}
-
           />
         </div>
         <button id="login" type="submit">ログイン</button>
@@ -59,3 +74,4 @@ function Login() {
 }
 
 export default Login;
+
