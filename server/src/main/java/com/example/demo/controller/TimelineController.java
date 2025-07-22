@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
-import com.example.demo.entity.Timeline;
-import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
@@ -45,7 +43,7 @@ public class TimelineController {
 	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public Timeline timeline(@ModelAttribute Tag tag,Model model){
+	public List<Diary> timeline(@ModelAttribute Tag tag,Model model){
 		
 		
 		
@@ -53,55 +51,24 @@ public class TimelineController {
 		List<Diary>diaryList= diariesrepository.findAll();
 		List<int[]> reaction4 = new ArrayList<>();
 		
-		//日記IDでリアクションを取得
-		List<List<Reaction>> reactionList=new ArrayList<>();
-		for(int i=0;i<diaryList.size();i++) {
-			//日記ごとのリアクションリストを追加していく
-			List<Reaction> reaction=reactionsrepository.findByDiary_id(0);//diary_id
-			reactionList.add(reaction);
-			
-			//もしTrueなら数を増やす（最終的にリアルタイムで反映させる）
-			for(int j=0;j<reaction.size();j++) {
-				if(reaction.get(j).getReaction1()==true) {
-					reaction4.get(i)[0]+=1;
-				}
-				if(reaction.get(j).getReaction2()==true) {
-					reaction4.get(i)[1]+=1;
-				}
-				if(reaction.get(j).getReaction3()==true) {
-					reaction4.get(i)[2]+=1;
-				}
-				if(reaction.get(j).getReaction4()==true) {
-					reaction4.get(i)[3]+=1;
-				}
-			}
-		}
+		
 		
 
 		//日記IDでコメント数を取得
 		int[] comentList1= new int[diaryList.size()];
 		for(int i=0; i<diaryList.size();i++) {
-			comentList1[i]=commentsrepository.countByDiary_id(0);//diary_id
+			comentList1[i]=commentsrepository.countByDiaryId(0);//diary_id
 		}
 		
 		List<Integer> comentList = new ArrayList<>();
 		for (int i : comentList1) {
 			comentList.add(i);  // 自動ボクシングで int → Integer に変換される
 		}
-		
-		//日記ごとのユーザー情報を取得
-		List<User> userList=new ArrayList<>();
-		for(Diary diary:diaryList) {
-			//日記ごとのユーザーを追加していく
-			String login_id=diary.getLoginId();//書き方後で確認
-			userList.add(usersrepository.findByLoginId(login_id));//login_id
-		}
-		
-		
+			
 		
 		//タグの扱いが分からんです。
-		Timeline TimelineData= new Timeline(0,diaryList,reaction4,comentList,userList);
-		return TimelineData;
+		
+		return diaryList;
 	}
 	
 	//タグ検索（未解決）
@@ -110,9 +77,9 @@ public class TimelineController {
 		
 		//ハッシュタグIDで日記検索
 		int id=tag.getHashtagId();
-		List<Diary>diaries= diariesrepository.findByHashtagId(id);//hashtag_id
+		//List<Diary>diaries= diariesrepository.findByHashtagId(id);//hashtag_id
 		
-		return diaries;
+		return null;
 	}
 	
 	//リアクションスタンプ処理
@@ -125,7 +92,8 @@ public class TimelineController {
 			@RequestParam("reaction3") Boolean reaction3,
 			@RequestParam("reaction4") Boolean reaction4){
 		
-		Reaction data=new Reaction(diary,loginId,reaction1,reaction2,reaction3,reaction4);
+		Reaction data=new Reaction(diary.getDiary_id(), diary,loginId
+				,reaction1,reaction2,reaction3,reaction4);
 		//リアクションの反応を登録（既存データがある場合は更新）
 		reactionsrepository.save(data);
 		return "redirect:/timeline";

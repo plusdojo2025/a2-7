@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-public class ReactionId {
-	private Integer diaryId;
+public class ReactionId implements Serializable{
+	private int diaryId;
 	private String loginId;
 	
 	@Override

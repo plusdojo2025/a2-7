@@ -12,11 +12,7 @@ export default class Timeline extends React.Component{
         super(props);
         //stateの設定。
         this.state = {
-            timeline: {
-                diaryList: [],
-                reaction4: [],
-                commentList: [],
-                userList: []},
+            diary: [],
             hashtag:"",
             imagePreview:"",
             }
@@ -32,7 +28,7 @@ export default class Timeline extends React.Component{
             //stateのbooksに受け取ったデータを保持する。
             //stateが変わると自動的に画面が再描画される。
             this.setState({
-                timeline:json
+                diary:json
             })
         });
     }
@@ -67,8 +63,8 @@ export default class Timeline extends React.Component{
 
 
     render(){
-        const { diaryList, reaction4, commentList, userList } = this.state.timeline;
-        const { hashtag,imagePreview } = this.state;
+
+        const { diary,hashtag,imagePreview } = this.state;
         return (
 
 
@@ -78,7 +74,7 @@ export default class Timeline extends React.Component{
 
 
 
-            
+
         <div>
         <h1>タイムライン</h1>
             
@@ -125,9 +121,9 @@ export default class Timeline extends React.Component{
                 </table>
             </div>
 
-        {diaryList.map((diarydata, index)  => (
+        {diary.map((diarydata, index)  => (
             
-            <TimelineDiaries diary={diaryList} reaction4={reaction4[index]} comment={commentList[index]} user={userList[index]}/>
+            <TimelineDiaries diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
                 
         ))} 
 

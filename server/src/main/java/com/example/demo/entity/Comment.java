@@ -28,16 +28,18 @@ public class Comment {
 	private Integer comments_id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "login_id")
+	@JoinColumn(name = "loginId")
 	@JsonIgnore
-	@Column(unique = true)
 	private User user;
 	
 	private Timestamp time;
 	private String sentence;
 
+	@Column(name = "diary_id")
+	private int diaryId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_id")
+	@JoinColumn(name = "diary_id" , insertable = false, updatable = false)
 	@JsonIgnore
 	private Diary diary;
 	

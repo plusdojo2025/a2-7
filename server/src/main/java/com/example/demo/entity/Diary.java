@@ -4,8 +4,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -44,9 +45,13 @@ public class Diary {
 	private Date diary_time;
 
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "login_id")
+	@JsonIgnore
+	private User user;
 	
-	@Column(unique = true)
-	private String loginId;
+//	@Column(unique = true)
+//	private String loginId;
 	
 	@OneToMany(mappedBy = "diary"
 			, cascade = CascadeType.ALL

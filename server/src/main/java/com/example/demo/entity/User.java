@@ -36,4 +36,9 @@ public class User {
 			, fetch = FetchType.LAZY)
 	private List<Comment> comments;
 	
+	@OneToMany(mappedBy = "user"
+			, cascade = CascadeType.ALL
+			, fetch = FetchType.LAZY)
+	private List<Diary> diaries;
+	
 }
