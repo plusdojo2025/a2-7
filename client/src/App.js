@@ -23,16 +23,15 @@ function AppContent() {
   return (
   
     <div className="App">
-      {!isAuthPage && (
-        <header className="App-header">
-          <div className="title">
-            <h1>TagMe</h1>
-          </div>
-        {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
+      {/* ヘッダーは常に表示 */}
+      <header className="App-header">
+        <div className="title">
+          <h1>TagMe</h1>
+        </div>
+        {/* Burgerだけログイン・サインアップ画面で非表示 */}
         {!isAuthPage && <Burger />}
-        </header>
-      )}
-        
+      </header>
+      
 
         
         
@@ -50,7 +49,7 @@ function AppContent() {
         </a> */}
         
       
-       
+       <main className="App-main">
           <Routes>
             {/*<Route index element={<BookList></BookList>}></Route>*/}
              {/* 初期表示時はログインへ */}
@@ -90,7 +89,7 @@ function AppContent() {
             <Route path="/register" element={<DairyComponent/>}/>
 
           </Routes>
-        
+        </main>
        
 
         <footer>

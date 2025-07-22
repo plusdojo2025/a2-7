@@ -1,6 +1,6 @@
 /* 自作ボタン */
 .custom-burger-button {
-  position: fixed;
+ position: absolute; 
   top: 60px;
   right: 20px;
   z-index: 9999;

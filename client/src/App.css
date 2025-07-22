@@ -2,7 +2,18 @@
 
 .App {
   text-align: center;
-  
+  background-color: #ffffff;
+  min-height: 100vh;          /* 画面の高さに合わせる */
+  display: flex;
+  flex-direction: column;     /* 上下に並べる */
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin); 
 }
 
 /* ヘッダー 題名部分 */
@@ -15,16 +26,11 @@
 }
 
 
-.App-header {
-  background-color:fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #000;
-  
+.App-main {
+  flex: 1;                    /* メインが余白を埋める */
+  padding: 1rem;
 }
+
 
 
 /* .App-logo {
