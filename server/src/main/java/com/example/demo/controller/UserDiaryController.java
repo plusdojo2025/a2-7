@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Diary;
-import com.example.demo.entity.User;
-import com.example.demo.entity.UserDiary;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
@@ -48,27 +43,13 @@ public class UserDiaryController {
 	//日記詳細初期表示
 	//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
 	@GetMapping("/diarypage")
-	public UserDiary diarypage(@ModelAttribute Diary diary,Model model){
+	public Diary diarypage(@ModelAttribute Diary diary,Model model){
 		
-		//大元の日記情報の送り方はまだ不明
+		//日記データを取得
+		Diary diarydata=new Diary();
 		
 		
-		//コメント一覧の情報取得
-		//日記を書いたユーザー情報取得
-		User user=usersrepository.findByLoginId(diary.getLogin_id());//diary.getLogin_id()
-		
-		//コメントList取得（新しい時間順）
-		List<Comment> comment =commentsrepository.findByDiary_id(0);//diary.getdiary_id()
-		
-		//コメントごとのユーザー情報取得
-		List<User> comUser=new ArrayList<>();	
-		for(int i=0;i<comment.size();i++) {
-			comUser.add(usersrepository.findByLoginId(comment.get(i).getLogin_id()));
-		}
-		
-		UserDiary userdiary=new UserDiary(comment,comUser);
-		
-		return userdiary;
+		return diarydata;
 	}
 	
 	
