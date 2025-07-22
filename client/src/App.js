@@ -23,12 +23,16 @@ function AppContent() {
   return (
   
     <div className="App">
-      <header className="App-header">
-        <div className="title">
-         <h1 >TagMe</h1>
-        </div>
-         {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
+      {!isAuthPage && (
+        <header className="App-header">
+          <div className="title">
+            <h1>TagMe</h1>
+          </div>
+        {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
         {!isAuthPage && <Burger />}
+        </header>
+      )}
+        
 
         
         
@@ -87,7 +91,7 @@ function AppContent() {
 
           </Routes>
         
-        </header>
+       
 
         <footer>
           <p>©MoguMogu★Mix</p>

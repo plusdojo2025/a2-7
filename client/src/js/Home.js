@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import '../css/Home.css';
 
 const emojiMap = {
-  1: '😊',
-  2: '😡',
-  3: '😢',
-  4: '😌',
+      1:'😡',
+      2:'😕',
+      3:'😐',
+      4:'🙂',
+      5:'😍'
 };
 
 function Home() {
@@ -41,7 +42,7 @@ function Home() {
       if (data) {
         navigate(`/diarypage?date=${date}`);
       } else {
-        navigate(`/register?date=${date}`);
+        navigate(`/register`);
       }
     } catch (error) {
       console.error('日記確認に失敗しました', error);
