@@ -129,11 +129,9 @@ export default class Timeline extends React.Component{
                 </table>
             </div>
 
-         {diary.map((diarydata, index)  => (
-            
-            <TimelineDiaries diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
-                
-        ))}  
+         {Array.isArray(diary) && diary.map((diarydata, index)  => (
+    <TimelineDiaries key={index} diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
+            ))}
 
 
    

@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,8 @@ public class Diary {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int diary_id;
+	@Column(name = "diary_id")
+	private int diaryId;
 	
 	@ManyToOne
 	@JoinColumn(name = "image_id")
