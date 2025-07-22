@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
+import com.example.demo.entity.Tag;
 import com.example.demo.entity.Timeline;
 import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
@@ -78,9 +79,14 @@ public class TimelineController {
 		
 
 		//日記IDでコメント数を取得
-		int[] comentList= new int[diaryList.size()];
+		int[] comentList1= new int[diaryList.size()];
 		for(int i=0; i<diaryList.size();i++) {
-			comentList[i]=commentsrepository.countByDiary_id(0);//diary_id
+			comentList1[i]=commentsrepository.countByDiary_id(0);//diary_id
+		}
+		
+		List<Integer> comentList = new ArrayList<>();
+		for (int i : comentList1) {
+			comentList.add(i);  // 自動ボクシングで int → Integer に変換される
 		}
 		
 		//日記ごとのユーザー情報を取得
@@ -91,8 +97,10 @@ public class TimelineController {
 			userList.add(usersrepository.findByLoginId(login_id));//login_id
 		}
 		
+		
+		
 		//タグの扱いが分からんです。
-		Timeline TimelineData= new Timeline(diaryList,reaction4,comentList,userList);
+		Timeline TimelineData= new Timeline(0,diaryList,reaction4,comentList,userList);
 		return TimelineData;
 	}
 	
@@ -102,7 +110,7 @@ public class TimelineController {
 		
 		//ハッシュタグIDで日記検索
 		int id=tag.getHashtagId();
-		List<Diary>diaries= diariesrepository.findByHashtag_id(id);//hashtag_id
+		List<Diary>diaries= diariesrepository.findByHashtagId(id);//hashtag_id
 		
 		return diaries;
 	}

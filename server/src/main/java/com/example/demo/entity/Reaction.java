@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name="reactions")
+
 public class Reaction {
 		
 	
@@ -26,6 +28,7 @@ public class Reaction {
 	@JsonIgnore
 	private Diary diary;
 	
+	@Column(unique = true)
 	private String login_id;
 	private Boolean reaction1;
 	private Boolean reaction2;

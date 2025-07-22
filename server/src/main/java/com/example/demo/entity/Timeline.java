@@ -2,8 +2,13 @@ package com.example.demo.entity;
 
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +20,21 @@ import lombok.NoArgsConstructor;
 public class Timeline {
 
 
-	@Id
-	private Integer id;
-	private List<Diary> diaryList;
-	private List<int[]> reactionList;
-	private int[] commentList;
-	private List<User> userList;
+	 	@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Integer id;
+
+	    @OneToMany
+	    private List<Diary> diaryList;
+
+	    @ElementCollection
+	    private List<int[]> reactionList;
+
+	    @ElementCollection
+	    private List<Integer> commentList;
+
+	    @ManyToMany
+	    private List<User> userList;
 
 }
 

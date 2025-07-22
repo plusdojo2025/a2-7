@@ -2,11 +2,8 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,23 +16,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name="comments")
-public class Comment {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer comments_id;
-	@Column(unique = true)
-	private String login_id;
-	private String time;
-	private String sentence;
+@Table(name = "posts")
+public class Post {
 
+	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diary_id")
 	@JsonIgnore
 	private Diary diary;
 	
+	@Id
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hashtag_id")
+	@JsonIgnore
+	private Tag tag;
 }
-
-	
-	
-
