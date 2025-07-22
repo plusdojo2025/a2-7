@@ -27,7 +27,7 @@ function AppContent() {
         <div className="title">
          <h1 >TagMe</h1>
         </div>
-         {/* ログイン・サインアップ画面以外で表示 */}
+         {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
         {!isAuthPage && <Burger />}
 
         
