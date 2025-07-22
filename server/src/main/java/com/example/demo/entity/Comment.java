@@ -23,11 +23,7 @@ public class Comment {
 	private String login_id;
 	private String time;
 	private String sentence;
-	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "diary_id")
-	//@JsonIgnore
-	//private Diary diary;
+
 	private int diary_id;
 	
 }
