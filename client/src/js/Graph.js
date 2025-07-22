@@ -15,9 +15,7 @@ export default class Graph extends React.Component{
             { stamp: '5', count: 15 , word: 'ee', wordcount: 5}] ,
             activeTab: 'tab1',
             }
-        handleTabChange = (tabId) => {
-            this.setState({ activeTab: tabId });
-        };
+
     }
     render(){
         const data = this.state.diaries.map((diary, index) => ({
