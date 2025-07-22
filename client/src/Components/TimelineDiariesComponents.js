@@ -75,16 +75,21 @@ export default class Timeline extends React.Component{
       });
     }
 
+    
+    
+
      
 
     render(){
         const { diary ,comment, user } = this.props;
         const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 } = this.state;
+        
 
         let comsize = comment.length;
         return (
             <div className="diary">    
                 <table>   
+                    <tbody>
                 <tr>
                     <td><Link to="/mypage">{imagePreview ? (
                         <img
@@ -95,30 +100,32 @@ export default class Timeline extends React.Component{
                         ) : (
                             <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                             )}</Link></td>
-                            <td><Link to="/mypage">{user.nickname}</Link></td>
+                            <td><Link to="/mypage">{diary.nickname}</Link></td>
                             <td>{diary.resist_time}</td>
                             </tr>
+
+                            </tbody>
                             </table>
                             <div className="diary_sub">
                                 <p>{diary.sentence}</p>
                                 <p>#頑張った</p>
                             </div>
-                           
-                           {/* <TimelineDiaries key={diarydata.diary_id} diary={diarydata} loginId={userList[index]}/> */}
-            
+
                              <table>
+                                <tbody>
                             <tr>
-                                <td onClick={() => this.addReaction(0)}>😊 {reaction1}</td>
-                                <td onClick={() => this.addReaction(1)}>😡 {reaction2}</td>
-                                <td onClick={() => this.addReaction(2)}>😢 {reaction3}</td>
-                                <td onClick={() => this.addReaction(3)}>😌 {reaction4}</td>
+                                <td onClick={() => this.addReaction(0)}><button className="reactionButton">😊</button> {reaction1}</td>
+                                <td onClick={() => this.addReaction(1)}><button className="reactionButton">😡 </button>{reaction2}</td>
+                                <td onClick={() => this.addReaction(2)}><button className="reactionButton">😢</button> {reaction3}</td>
+                                <td onClick={() => this.addReaction(3)}><button className="reactionButton">😌 </button>{reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
-                                <td><Link to="/diarypage">💬{comsize}</Link></td>
+                                <td><Link to="/diarypage/${diary.diary_id}">💬{comsize}</Link></td>
                             ) : (
                             <td>🚫</td>
                         )} 
                     </tr>
+                    </tbody>
                 </table>
                             
             </div>
