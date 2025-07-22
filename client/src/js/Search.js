@@ -1,28 +1,60 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import '../css/Search.css';
+import '../App.css'
 
 
 export default class Search extends Component {
 
-    
   constructor(props) {
     super(props);
     
         this.state = {
+            inputText: '',
             username: "",
             login_id: "",
             diary_id: "",
             sentence: "",
             Tags: [],
             comment_id: "",
+            }
         }
 
-  }
+        // handleClick = () => {
+        //     const { inputText } = this.state;
+        //     const data = {};
+        //     axios.post("/search/${this.state.username}/${this.state.date}",data)
+        //     .then(json => {
+        //         console.log(json);
+        //         this.setState({
+                    
+        //         });
+        //         this.componentDidMount();
+        //     });
+
+        // };
         handleClick = () => {
-            const {diary_id} = this.state;
+const { inputText, login_id } = this.state;
+
+  axios.get(`http://localhost:8080/search`, {
+    params: {
+      keyword: inputText,
+      loginId: login_id
+    }
+  })
+  .then((res) => {
+    this.setState({ results: res.data });
+  })
+  .catch((err) => {
+    console.error("検索失敗:", err);
+  });
+};
+
+
+        handleCommentClick = () => {
+            const {diary_id, comments_id} = this.state;
             const data = {};
-            axios.post("/search/{username}/{date}",data)
+            axios.post("/search/${this.state.username}/${this.state.date}",data)
             .then(json => {
                 console.log(json);
                 this.setState({
@@ -32,22 +64,14 @@ export default class Search extends Component {
             });
 
         };
-        handleReactionClick = () => {
-
-        };
-        hundleCommentClick = () => {
-
-        };
             //画面で何か入力された時に、その値をstateとして保持する。
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
     onInput = (e) => {
-        const key = e.target.name;
-        console.log(key)
-        this.setState({
-            [key]: e.target.value
-        });
+        this.setState({ inputText: e.target.value });
+    }   
 
-        console.log(e.target.value);
+        viewStamp = (e) => {
+
     }   
 
     toggleModal = () => {
@@ -58,8 +82,8 @@ export default class Search extends Component {
     }
 
     deleteBook = (index) => {
-        const { books } = this.state;
-        const data = { id: books[index].id };
+        const { diary } = this.state;
+        const data = { id: diary[index].id };
         axios.post("/search/delete", data)
     .then(() => {
       this.fetchBooks(); // ← 削除後に再取得
@@ -72,42 +96,60 @@ export default class Search extends Component {
 
     render(){
 
-        const {tag, showMOdal, key, username, index, id} = this.state;
+        const {tag, showModal, key, username, index, id} = this.state;
 
         return(
+
         <div>
             <div>
                 {/*検索フォームに入力した文字の取り出し(未完)*/}
-  <input type="text" name="searchTag" onChange={this.onInput}placeholder="タグ検索"></input>
-  <button onClick={this.handleClick}>検索</button>
+  <input type="text" name="inputText" className="searchTag" onChange={this.onInput}
+   placeholder="タグ検索" value={this.state.inputText}/>
+
+  <button onClick={this.handleClick} className="searchButton">検索</button>
             </div>
+
+
 
 {/*user関連のあれこれ*/}
             <div className="searchDiary">
-                <span className="userImgSearch">{this.state.userimage}</span>
+                <span className="userImgSearch">{this.state.userimage}   
+                ●
+                </span>
                 <span className="userNameSearch">
                     {this.state.username}カラス
                 </span>
-                <div className="commentArea">今日もいい天気</div>
-                <button className="reactionButton">👍</button>
-                <button className="reactionButton">😘</button>
-                <button className="reactionButton">😲</button>
-                <button className="commentAll" onClick="">💬</button>
+                <div className="commentArea">今日もいい天気#現実逃避</div>
+                {/*私は押す処理が必要がなく、どのリアクションを押したか
+                アイコンを格納しておいて、入力されたアイコンIDを取得して表示*/}
+                <span classname="reactionAicon">{this.state.viewStamp}
+                <span className="reactionButton">😡</span>
+                <span className="reactionButton">😕</span>
+                <span className="reactionButton">😐</span>
+                <span className="reactionButton">🙂</span>
+                <span className="reactionButton">😍</span>
+                </span>
+
+                <button className="commentAll" onClick={this.handleCommentClick}>💬</button>
+                <span className="commentCount">1</span>
             </div>
 
-            <div className="userImgSearch">{this.state.userimage}</div>
-            <div className="userNameSearch">
+            <span className="userImgSearch">{this.state.userimage}
+                ■
+            </span>
+            <span className="userNameSearch">
                 {this.state.username}カラス
-            </div>
+            </span>
             
             <div className="commentArea">みんな今日は華金だで！！酒飲むぞー！！！ #今日も一日お疲れ様✨ </div>
 
             {/*モーダルやら*/}
-            {showMOdal &&
-            <div className="commentArea">
-                <button>×</button>
+            {/*<input type="submit" onClick={this.toggleModal} value="削除"></input>*/}
+            {showModal &&
+            <div className="modalArea">
+                <button onClick={this.toggleModal}>×</button>
                 <h2>日記を削除します。本当によろしいですか？</h2>
-                <button>キャンセル</button>
+                <button onClick={this.toggleModal}>キャンセル</button>
                 <button onClick={() => {this.deleteBook(index)}}>OK</button>
             </div>
             }
