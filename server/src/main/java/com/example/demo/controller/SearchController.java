@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,19 +46,14 @@ public class SearchController {
 			if(tag == null || tag.trim().isEmpty()) {
 				tags = tagsrepository.findAll();
 			}else {
-				tags = tagsrepository.findByNameContaining(tag);
+				tags = tagsrepository.findByTagsContaining(tag);
 			}
 			model.addAttribute("Tags", tags);
 			model.addAttribute("searchedTag", tag);
-			return "/search/tag";
-		}
-	
-		@GetMapping("/{username}/{date}")
-		public String index(@PathVariable String username, @PathVariable String data, Model model) {
-			
 			return "/search";
 		}
-
+		
+		//日記IDを用いて更新する
 		@PostMapping("/update")
 		public String update(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "更新しました");
@@ -67,6 +61,7 @@ public class SearchController {
 			return "redirect:/search";
 		}
 		
+		//日記IDを用いて削除する
 		@PostMapping("/delete")
 		public String del(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "削除しました");

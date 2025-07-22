@@ -8,7 +8,7 @@ import com.example.demo.entity.Tag;
 
 public interface TagsRepository extends JpaRepository<Tag, Integer> {
 	
-	List<Tag> findBytagsContaining(String tag);
+	List<Tag> findByTagsContaining(String tag);
 	
 	
 }
