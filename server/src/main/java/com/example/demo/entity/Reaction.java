@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -21,15 +22,23 @@ import lombok.NoArgsConstructor;
 @IdClass(ReactionId.class)
 public class Reaction {
 	
-	
-	
 	@Id
+	@Column(name = "diary_id")
+	private int diaryId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_id", referencedColumnName = "diary_id")
+	@JoinColumn(name = "diary_id", insertable = false, updatable = false)
 	@JsonIgnore
 	private Diary diary;
+
 	@Id
-	private String login_id;
+	@Column(name = "login_id")
+	private String loginId;
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "login_id")
+//	@JsonIgnore
+//	private User user;
 	
 	private Boolean reaction1;
 	private Boolean reaction2;

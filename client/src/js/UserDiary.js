@@ -11,13 +11,12 @@ export default class Timeline extends React.Component{
         super(props);
         //stateの設定。
         this.state = {
-                userdiary:{
-                   commentList:[],
-                   com_userList:[], 
-                },
+                diary:"",
                 honnninn:"",
                 addcomment:"",
                 imagePreview:"",
+
+
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
             };
@@ -39,7 +38,7 @@ export default class Timeline extends React.Component{
             //stateのbooksに受け取ったデータを保持する。
             //stateが変わると自動的に画面が再描画される。
             this.setState({
-                userdiary:json
+                diary:json
             })
         });   
     }
@@ -91,8 +90,10 @@ export default class Timeline extends React.Component{
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate,imagePreview} = this.state;
-        const {commentList,com_userList,} = this.state.userdiary;
+        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary} = this.state;
+
+        
+       
         
         return (
         <div>

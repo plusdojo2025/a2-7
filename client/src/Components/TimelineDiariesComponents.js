@@ -10,14 +10,31 @@ export default class Timeline extends React.Component{
     constructor(props) {
         super(props);
         //stateの設定。
+        let rea4 = [0, 0, 0, 0];
+
+        for (let i = 0; i < this.props.reaction4.length; i++) {
+            if (this.props.reaction4[i].reaction1) {
+                rea4[0]++;
+            }
+            if (this.props.reaction4[i].reaction2) {
+                rea4[1]++;
+            }
+            if (this.props.reaction4[i].reaction3) {
+                rea4[2]++;
+            }
+            if (this.props.reaction4[i].reaction4) {
+                rea4[3]++;
+            }
+        }
+
         this.state = {
             hashtag:"",
             imagePreview:"",
             
-            reaction1: this.props.reaction4.reaction1,
-            reaction2: this.props.reaction4.reaction2,
-            reaction3: this.props.reaction4.reaction3,
-            reaction4: this.props.reaction4.reaction4,
+            reaction1: rea4[0],
+            reaction2: rea4[1],
+            reaction3: rea4[2],
+            reaction4: rea4[3],
             
             }
     }
@@ -63,6 +80,8 @@ export default class Timeline extends React.Component{
     render(){
         const { diary ,comment, user } = this.props;
         const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 } = this.state;
+
+        let comsize = comment.length;
         return (
             <div className="diary">    
                 <table>   
@@ -95,7 +114,7 @@ export default class Timeline extends React.Component{
                                 <td onClick={() => this.addReaction(3)}>😌 {reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
-                                <td><Link to="/diarypage">💬{comment}</Link></td>
+                                <td><Link to="/diarypage">💬{comsize}</Link></td>
                             ) : (
                             <td>🚫</td>
                         )} 
