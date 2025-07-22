@@ -19,32 +19,18 @@ public class MyPageController {
 	private UsersRepository repository;
 	
 	//初期表示
-	//他のユーザーにも表示される
-	//読み取り専用
-	//nicknameとaFewWordsを取得して表示
+	//imageIdとnicknameとaFewWordsを取得して表示
 	@GetMapping("/mypage")
 	public String showMyPage(@RequestParam("loginId") String loginId, Model model) {
 		User user = repository.findByLoginId(loginId);
 		model.addAttribute("nickname", user.getNickname());
 		model.addAttribute("aFewWords", user.getAFewWords());
+		model.addAttribute("imageId", user.getImageId());
 		return "mypage";
 	}
 
-	//本人のみがアクセス可能な更新ページ
-	//ログイン中のユーザーIDを取得
-	//Principalは「安全にログイン中の本人の情報を取得する」
-	@GetMapping("/mypage/update/")
-	public String showMyPage(Model model, Principal principal) {
-	    String loginId = principal.getName(); 
-
-	    User user = repository.findByLoginId(loginId);
-	    model.addAttribute("nickname", user.getNickname());
-	    model.addAttribute("aFewWords", user.getAFewWords());
-	    return "mypage/update";
-	}
-
 	//マイページのアイコン画像を更新する
-	@PostMapping("/mypage/update")
+	@PostMapping("/mypage/update/image")
 	public String updateMyPageImage(User formUser, Principal principal, Model model) {
 		String loginId = principal.getName();
 		//loginIdを使ってデータ取得
@@ -59,13 +45,13 @@ public class MyPageController {
 		// 更新後のユーザー情報を再度モデルにセット
 		//更新後の user 情報と、成功メッセージをテンプレートに渡す。
 		model.addAttribute("user", user);
-		model.addAttribute("message", "アイコン画像を更新しました");
+		model.addAttribute("message", "アイコンを更新しました");
 
 		return "user";
 	}
     
     //マイページのニックネームとひとことを更新する
-	@PostMapping("/mypage/update")
+	@PostMapping("/mypage/update/profile")
 	public String updateMyPage(User formUser, Principal principal, Model model) {
 		String loginId = principal.getName();
 		//loginIdを使ってデータ取得
