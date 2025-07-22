@@ -83,6 +83,7 @@ export default class UserInfo extends React.Component {
                             required
                         />
                     </div>
+                    <br></br>
                     <div>
                         <label>新しいパスワード：</label>
                         <input
@@ -93,6 +94,7 @@ export default class UserInfo extends React.Component {
                             required
                         />
                     </div>
+                    <br></br>
                     <div>
                         <label>新しいパスワード（確認）：</label>
                         <input
@@ -103,7 +105,8 @@ export default class UserInfo extends React.Component {
                             required
                         />
                     </div>
-                    <button type="submit">更新</button>
+                    <br></br>
+                    <button type="submit" style={{ fontSize: '20px', padding: '12px 24px' }}>更新</button>
                 </form>
                 {message && <p style={{ color: 'red' }}>{message}</p>}
             </div>
