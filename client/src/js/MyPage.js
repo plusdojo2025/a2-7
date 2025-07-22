@@ -46,6 +46,32 @@ export default class MyPage extends React.Component{
         }
     };
 
+    //
+    // 画像のみアップロード
+    handleImageUpload = async () => {
+        const { imageFile } = this.state;
+        if (!imageFile) {
+            alert("画像を選択してください");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        try {
+            await axios.post("/mypage/update", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("画像をアップロードしました");
+        } catch (error) {
+            console.error(error);
+            alert("画像アップロードに失敗しました");
+        }
+    };
+
+
     //プロフィール情報（ニックネーム・ひとこと・画像など）をサーバーに送信して更新する処理
     handleUpdate = async () => {
         const { nickname, aFewWords, imageFile } = this.state;
@@ -90,7 +116,7 @@ export default class MyPage extends React.Component{
                 <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
                 {/* ① アイコン画像エリア */}
                 <div>
-                    <h3>① アイコン画像</h3>
+                    <h3>① アイコン</h3>
                     {imagePreview ? (
                         <img
                             src={imagePreview}
@@ -101,6 +127,8 @@ export default class MyPage extends React.Component{
                         <div style={{ width: '100px', height: '100px', backgroundColor: '#ccc', borderRadius: '50%', display: 'flex'}} />
                     )}
                     <input type="file" accept="image/*" onChange={this.handleImageChange} />
+                    {/* ↓画像アップロードボタンの追加*/}
+                    <button onClick={this.handleImageUpload}>アイコン更新</button>
                 </div>
 
                 

@@ -70,10 +70,16 @@ export default class Timeline extends React.Component{
         const { diaryList, reaction4, commentList, userList } = this.state.timeline;
         const { hashtag,imagePreview } = this.state;
         return (
-        <div>
 
-        <header>ヘッダー</header>
-        <main>
+
+
+
+
+
+
+
+            
+        <div>
         <h1>タイムライン</h1>
             
             <form>
@@ -127,9 +133,6 @@ export default class Timeline extends React.Component{
 
     
             
-
-        </main>
-        <footer>フッター</footer>
 
         </div>
         );

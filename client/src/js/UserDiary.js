@@ -97,7 +97,7 @@ export default class Timeline extends React.Component{
         return (
         <div>
 
-        <header>ヘッダー</header>
+
         <main>
         <h1>日記ページ</h1>
 
@@ -204,7 +204,7 @@ export default class Timeline extends React.Component{
         ))}                     
             
         </main>
-        <footer>フッター</footer>
+
 
         </div>
         );
