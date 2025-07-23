@@ -1,7 +1,7 @@
 --ユーザー情報
-insert into users (password, nickname, a_few_words, image_id) values ('abc','カラス','こんにちは！','10');
-insert into users (password, nickname, a_few_words, image_id) values ('def','めがね','よろしく','20');
-insert into users (password, nickname, a_few_words, image_id) values ('ghi','ねこ','おはよう！！！','30');
+insert into users (login_id,password, nickname, a_few_words, image_id) values ('1','abc','カラス','こんにちは！','10');
+insert into users (login_id,password, nickname, a_few_words, image_id) values ('2','def','めがね','よろしく','20');
+insert into users (login_id,password, nickname, a_few_words, image_id) values ('3','ghi','ねこ','おはよう！！！','30');
 --日記情報
 insert into diares (login_id, ｓentence, ｓtamp, image_id,resist_time,diary_time) values 
 (1,'今日も仕事頑張った✨',1,10,'2025-06-05 10:00:00','2025-06-05 10:00:00');
@@ -42,7 +42,7 @@ INSERT INTO posts (diary_id,hashtag_id) VALUES (3,1);
 --画像
 --INSERT INTO images (name,mime_type,image_data) VALUES ('カラス','jpeg'LOAD_FILE('/path/to/test.png'));
 --タイムライン
-INSERT INTO users (login_id,nickname) VALUES (1,'カラス');
+INSERT INTO users (login_id,nickname) VALUES ('4',,'カラス');
 INSERT INTO diaries (sentence, stamp,resist_time, diary_time,login_id) VALUES ('テストデータ','1',now(),now(),1);
 INSERT INTO reactions (diary_id,login_id) VALUES (1,1);
 INSERT INTO comments (comment_id,login_id,time,sentence,diary_id) VALUES (1,1,now(),'テストデータ',1);
