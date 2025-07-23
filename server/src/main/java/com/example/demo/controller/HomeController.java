@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Diary;
 import com.example.demo.repository.DiariesRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,9 +27,10 @@ public class HomeController {
  
     // 日付指定で日記を取得（なければnull）
     @GetMapping("/diarypage")
-    public Diary getDiaryByDate(@RequestParam String date) {
+    public Diary getDiaryByDate(@RequestParam String date,HttpSession session) {
+    	String loginId = (String)session.getAttribute("loginId");
         LocalDate localDate = LocalDate.parse(date);
-        Optional<Diary> diaryOpt = diaryRepository.findByDate(localDate);
+        Optional<Diary> diaryOpt = diaryRepository.findFirstByDateAndLoginId(localDate,loginId);
         return diaryOpt.orElse(null);
     }
 
@@ -37,7 +40,7 @@ public class HomeController {
         if (tag == null || tag.isBlank()) {
             return diaryRepository.findAll();
         }
-        return diaryRepository.findByTagsContaining("#" + tag);
+        return diaryRepository.findBySentenceLike("%" + "#" + tag + "%");
     }
 }
 
