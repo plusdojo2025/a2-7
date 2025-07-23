@@ -12,27 +12,27 @@ const Calendar = () => {
   const navigate = useNavigate();
 
   // APIから感情付き日記を取得
-  useEffect(() => {
-    const fetchDiaries = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/diaries');
-        const data = await response.json();
-        setDiaries(data);
+  // useEffect(() => {
+  //   const fetchDiaries = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:8080/api/diaries');
+  //       const data = await response.json();
+  //       setDiaries(data);
 
-        // 感情スタンプ付き日記を FullCalendar イベント形式に変換
-        const newEvents = data.map(diary => ({
-          title: diary.emotion,    // 😊など
-          date: diary.date,        // YYYY-MM-DD形式
-          id: diary.id,
-        }));
-        setEvents(newEvents);
-      } catch (error) {
-        console.error('日記の取得に失敗しました:', error);
-      }
-    };
+  //       // 感情スタンプ付き日記を FullCalendar イベント形式に変換
+  //       const newEvents = data.map(diary => ({
+  //         title: diary.emotion,    // 😊など
+  //         date: diary.date,        // YYYY-MM-DD形式
+  //         id: diary.id,
+  //       }));
+  //       setEvents(newEvents);
+  //     } catch (error) {
+  //       console.error('日記の取得に失敗しました:', error);
+  //     }
+  //   };
 
-    fetchDiaries();
-  }, []);
+  //   fetchDiaries();
+  // }, []);
 
   // 日付クリック時の画面遷移ロジック
   const handleDateClick = (info) => {
@@ -45,10 +45,11 @@ const Calendar = () => {
     if (hasDiary) {
       navigate(`/diarypage/${clickedDate}`);
     } else {
-      navigate(`/register`);
+      navigate(`/register`, { state: { selectedDate: clickedDate } });
+console.log("Clicked date:", clickedDate);
+
     }
   };
-  
 
   return (
     <div className="calendar_container">
