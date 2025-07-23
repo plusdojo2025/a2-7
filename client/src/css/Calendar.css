@@ -19,6 +19,7 @@
 
 
 /* カレンダーセル内のフォントを大きくしたいとき */
-.fc .fc-daygrid-day-number {
+.fc .fc-daygrid-day-number,
+.fc-day {
   font-size: 1.3rem;
 }
