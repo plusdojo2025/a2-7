@@ -87,9 +87,10 @@ function AppContent() {
             <Route path="/graph" element={<Graph/>}/>
 
             {/* 日記登録*/}
-            <Route path="/register" element={<DairyComponent/>}/>
+            <Route path="/registers" element={<DairyComponent/>}/>
 
-            <Route path="/diarypage/:date" element={<DiaryWrapper />} />
+          <Route path="/register" element={<DiaryWrapper />} />
+
 
 
           </Routes>

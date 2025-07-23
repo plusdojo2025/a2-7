@@ -47,11 +47,11 @@ public class LoginController {
                 //result.put("message", "ログイン成功");
             } else {
                 result.put("success", false);
-                result.put("message", "パスワードが違います");
+                result.put("message", "ログインIDが違います");
             }
         } else {
             result.put("success", false);
-            result.put("message", "ログインIDが違います");
+            result.put("message", "パスワードが違います");
         }
         return result;
     }

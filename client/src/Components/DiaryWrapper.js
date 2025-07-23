@@ -3,8 +3,11 @@ import DiariesComponentTest from './DiariesComponentsTest';
 
 const DiaryWrapper = () => {
   const location = useLocation();
-  const selectedDate = location.state?.selectedDate; // Get passed date
-  return <DiariesComponentTest selectedDate={selectedDate} />;
+  const selectedDate = location.state?.selectedDate;
+
+  console.log('🧭 selectedDate passed to DiaryWrapper:', selectedDate);
+
+  return <DiariesComponentTest key={selectedDate} selectedDate={selectedDate} />;
 };
 
 export default DiaryWrapper;
