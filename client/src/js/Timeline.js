@@ -30,7 +30,11 @@ export default class Timeline extends React.Component{
             this.setState({
                 diary:json
             })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
         });
+        
     }
 
     //画面で何か入力された時に、その値をstateとして保持する。
@@ -87,7 +91,8 @@ export default class Timeline extends React.Component{
             </form>
 
             <div className="diary">    
-                <table>   
+                <table> 
+                    <tbody>
                 <tr>
                     <td><Link to="/mypage">{imagePreview ? (
                         <img
@@ -101,6 +106,7 @@ export default class Timeline extends React.Component{
                     <td><Link to="/mypage">さかな</Link></td>
                     <td>2025/7/11(金)20:58</td>
                 </tr>
+                </tbody>  
                 </table>
                 <div className="diary_sub">
                     <p>仕事頑張った！</p>
@@ -109,6 +115,7 @@ export default class Timeline extends React.Component{
                 
                
                 <table>
+                    <tbody>  
                 <tr>
                     <td>😊1 </td>
                     <td>😡2 </td>
@@ -118,16 +125,16 @@ export default class Timeline extends React.Component{
                     
                     <td><Link to="/diarypage">💬4</Link></td>
                 </tr>
+                </tbody>
                 </table>
             </div>
 
-        {diary.map((diarydata, index)  => (
-            
-            <TimelineDiaries diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
-                
-        ))} 
+         {Array.isArray(diary) && diary.map((diarydata, index)  => (
+    <TimelineDiaries key={index} diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
+            ))}
 
-    
+
+   
             
 
         </div>

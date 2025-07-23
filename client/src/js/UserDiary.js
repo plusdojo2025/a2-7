@@ -31,7 +31,7 @@ export default class Timeline extends React.Component{
 
     }, 1000);
         //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch("/diarypage")
+        fetch("/diarypage/{diary_id}")
         .then(res => res.json())
         .then(json => {
             console.log(json);
@@ -188,21 +188,22 @@ export default class Timeline extends React.Component{
                 
             </div>
 
-         {diary.comment.map((commentdata, index)  => (
-            <div className="comment">
-                <table>   
-                    <tr>
-                        <td><Link to="/mypage">〇</Link></td>
-                        <td><Link to="/mypage">{commentdata.user.nickname}</Link></td>
-                        <td>{commentdata.time}</td>
-                    </tr>
-                </table>
-                <div className="comment_sub">
-                    <p>{commentdata.sentence}</p>
-                </div>
-                
-            </div>
-        ))}                     
+         {diary.comments && Array.isArray(diary.comments) && diary.comments.map((commentdata, index) => (
+    <div className="comment" key={index}>
+        <table>
+            <tbody> 
+                <tr>
+                    <td><Link to="/mypage">〇</Link></td>
+                    <td><Link to="/mypage">{commentdata.user.nickname}</Link></td>
+                    <td>{commentdata.time}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div className="comment_sub">
+            <p>{commentdata.sentence}</p>
+        </div>
+    </div>
+    ))}                   
             
         </main>
 

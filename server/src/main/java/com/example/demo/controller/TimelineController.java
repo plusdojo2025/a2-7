@@ -1,15 +1,15 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
@@ -20,7 +20,7 @@ import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
 
-@Controller
+@RestController
 public class TimelineController {
 
 	@Autowired
@@ -45,29 +45,18 @@ public class TimelineController {
 	@GetMapping("/timeline")
 	public List<Diary> timeline(@ModelAttribute Tag tag,Model model){
 		
-		
-		
+
 		//現在全件取得になっている。まだできていない
 		List<Diary>diaryList= diariesrepository.findAll();
-		List<int[]> reaction4 = new ArrayList<>();
+		System.out.println(diaryList.size()+"個のデータがあるよ");	
 		
-		
-		
-
-		//日記IDでコメント数を取得
-		int[] comentList1= new int[diaryList.size()];
-		for(int i=0; i<diaryList.size();i++) {
-			comentList1[i]=commentsrepository.countByDiaryId(0);//diary_id
-		}
-		
-		List<Integer> comentList = new ArrayList<>();
-		for (int i : comentList1) {
-			comentList.add(i);  // 自動ボクシングで int → Integer に変換される
-		}
-			
-		
-		//タグの扱いが分からんです。
-		
+		// リストが空でないか確認
+	    if (diaryList.isEmpty()) {
+	        // 空の場合の処理（例えば、空のリストを返す、エラーメッセージを設定など）
+	        System.out.println("タイムラインに表示するデータがありません");
+	        return Collections.emptyList();  // 空のリストを返す
+	    }
+	
 		return diaryList;
 	}
 	
@@ -92,7 +81,7 @@ public class TimelineController {
 			@RequestParam("reaction3") Boolean reaction3,
 			@RequestParam("reaction4") Boolean reaction4){
 		
-		Reaction data=new Reaction(diary.getDiary_id(), diary,loginId
+		Reaction data=new Reaction(diary.getDiaryId(), diary,loginId
 				,reaction1,reaction2,reaction3,reaction4);
 		//リアクションの反応を登録（既存データがある場合は更新）
 		reactionsrepository.save(data);

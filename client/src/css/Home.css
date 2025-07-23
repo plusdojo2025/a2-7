@@ -1,7 +1,8 @@
-body, html {
-  overflow-x: hidden; /* 横スクロール禁止 */
-  margin: 0;
-  padding: 0;
+
+
+.home_container{
+   overflow-x: hidden; /* 横スクロール禁止 */
+   
 }
 
 .home_box {
@@ -13,6 +14,7 @@ body, html {
   margin: 0 auto;
   padding: 50px 0;
   padding-left:20px;
+ 
   
 }
 

@@ -23,12 +23,15 @@ function AppContent() {
   return (
   
     <div className="App">
+      {/* ヘッダーは常に表示 */}
       <header className="App-header">
         <div className="title">
-         <h1 >TagMe</h1>
+          <h1>TagMe</h1>
         </div>
-         {/* ログイン・サインアップ画面以外でハンバーガーメニューを表示 */}
+        {/* Burgerだけログイン・サインアップ画面で非表示 */}
         {!isAuthPage && <Burger />}
+      </header>
+      
 
         
         
@@ -46,7 +49,7 @@ function AppContent() {
         </a> */}
         
       
-       
+       <main className="App-main">
           <Routes>
             {/*<Route index element={<BookList></BookList>}></Route>*/}
              {/* 初期表示時はログインへ */}
@@ -74,7 +77,7 @@ function AppContent() {
             <Route path="/timeline" element={<Timeline/>}/>
 
             {/* 日記詳細画面*/}
-            <Route path="/diarypage" element={<UserDiary/>}/>
+            <Route path="/diarypage/${diary.diary_id}" element={<UserDiary/>}/>
 
             {/* ユーザー情報*/}
             <Route path="/userinfo" element={<UserInfo/>}/>
@@ -86,8 +89,8 @@ function AppContent() {
             <Route path="/register" element={<DairyComponent/>}/>
 
           </Routes>
-        
-        </header>
+        </main>
+       
 
         <footer>
           <p>©MoguMogu★Mix</p>

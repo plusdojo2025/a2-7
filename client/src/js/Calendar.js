@@ -45,7 +45,7 @@ const Calendar = () => {
     if (hasDiary) {
       navigate(`/diarypage/${clickedDate}`);
     } else {
-      navigate(`/register/${clickedDate}`);
+      navigate(`/register`);
     }
   };
 
