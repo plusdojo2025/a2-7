@@ -26,6 +26,11 @@ public class User {
 	@Id
 	@Column(unique = true)
 	private String loginId;
+
+	
+
+	
+	
 	@JsonIgnore
 	private String password;
 	private String nickname;
@@ -41,5 +46,7 @@ public class User {
 			, cascade = CascadeType.ALL
 			, fetch = FetchType.LAZY)
 	private List<Diary> diaries;
+
+	
 	
 }
