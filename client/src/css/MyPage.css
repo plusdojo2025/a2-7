@@ -5,6 +5,9 @@
   border: dashed 2px white;
   padding: 0.2em 0.5em;
   color: rgb(242, 247, 244);
+  width: 50%;
+  margin: 0 auto; /* ← これで中央に寄せる */
+  margin-bottom: 20px;
 }
 
 .mypagetitle:after {
@@ -25,11 +28,13 @@
     margin-bottom: 20px;             /* ボックス間の余白 */
     background-color: #f9f9f9;       /* 背景色 */
     box-shadow: 2px 2px 8px rgba(252, 251, 251, 0); /* 軽い影 */
-    display: 'flex',
+    /* display: flex; */
+    width: 40%;
+    margin: 0 auto; /* ← これで中央に寄せる */
 }
 
 #introduction{
-    width: 100%;
+    width: 70%;
     height: 150px;
     resize: vertical;
     /* 垂直方向だけリサイズ可能にしたい場合 */
@@ -48,4 +53,6 @@
   height: 100px; 
   background-color: #ccc; 
   border-radius: 50%;
+  margin: 0 auto; /* ← これで中央に寄せる */
+  margin-bottom: 20px;
 }

@@ -30,7 +30,7 @@ export default class MyPage extends React.Component{
                 nickname: json.nickname,
                 aFewWords: json.aFewWords,
                 isOwner: json.isOwner,
-                MyPage:json
+                imagePreview: `/images/${json.imageId}`,
             })
         });
     }
@@ -67,6 +67,7 @@ export default class MyPage extends React.Component{
                 },
             });
             alert("画像をアップロードしました");
+            this.componentDidMount(); // ←追加: 更新後に再取得
         } catch (error) {
             console.error(error);
             alert("画像アップロードに失敗しました");
@@ -75,17 +76,19 @@ export default class MyPage extends React.Component{
 
 
     //プロフィール情報（ニックネーム・ひとこと・画像など）をサーバーに送信して更新する処理
-    handleUpdate = async () => {
+    handleUpdate = async (e) => {
+        e.preventDefault();
         const { nickname, aFewWords} = this.state;
 
-        const formData = new FormData();
-        formData.append("nickname", nickname);
-        formData.append("aFewWords", aFewWords);
+        const data = {
+        nickname,
+        aFewWords
+    };
 
         try {
-            const res = await axios.post("/mypage/update/profile", formData, {
+            const res = await axios.post("/mypage/update/profile", data, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "application/json",
                 },
             });
             alert("プロフィールを更新しました");
@@ -126,9 +129,9 @@ export default class MyPage extends React.Component{
                         ) : (
                             <div id="icon"/>
                         )}
-                        {isOwner && <input type="file" accept="image/*" onChange={this.handleImageChange} />}
+                        <input type="file" accept="image/*" onChange={this.handleImageChange} />
                         {/* ↓画像アップロードボタンの追加*/}
-                        {isOwner && <button onClick={this.handleImageUpload}>アイコン更新</button>}
+                        <button onClick={this.handleImageUpload}>アイコン更新</button>
                     </div>
 
 
@@ -141,7 +144,7 @@ export default class MyPage extends React.Component{
                                 type="text"
                                 name="nickname"
                                 value={nickname}
-                                disabled={!isOwner}
+                                // disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="ニックネーム"
                             />
@@ -153,14 +156,14 @@ export default class MyPage extends React.Component{
                                 id="introduction"
                                 value={aFewWords}
                                 name="aFewWords"
-                                disabled={!isOwner}
+                                // disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="自己紹介を入力"
                             />
 
                         {/* ④ 更新ボタン */}
                         <div style={{ textAlign: 'center' }}>
-                            {isOwner && <button type="submit">更新する</button>}
+                            <button type="submit">更新する</button>
                         </div>
                     </form>
                 </div>
