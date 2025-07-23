@@ -40,21 +40,23 @@ public class LoginController {
         // ログインIDとパスワードの検証処理
         User user = usersRepository.findByLoginId(loginId);
 
-        if (user != null) {
-            if (user.getPassword().equals(password)) {
-                session.setAttribute("loginId", loginId);
-                result.put("success", true);
-                //result.put("message", "ログイン成功");
-            } else {
-                result.put("success", false);
-                result.put("message", "ログインIDが違います");
-            }
-        } else {
+        if (user == null) {
+            // ユーザーが存在しない = ログインIDが違う
+            result.put("success", false);
+            result.put("message", "ログインIDが違います");
+        } else if (!user.getPassword().equals(password)) {
+            // パスワードが違う
             result.put("success", false);
             result.put("message", "パスワードが違います");
+        } else {
+            // ログイン成功
+            session.setAttribute("loginId", loginId);
+            result.put("success", true);
+            result.put("message", "ログイン成功");
         }
         return result;
+        
     }
-
-   
+    
 }
+   
