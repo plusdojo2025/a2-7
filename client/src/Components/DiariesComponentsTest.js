@@ -3,23 +3,26 @@ import axios from 'axios';
 import './DiaryComponentTest.css'; // ✅ Import CSS
 
 export default class DiariesComponentTest extends Component {
-  constructor(props) {
-    super(props);
+ constructor(props) {
+  super(props);
 
-    //split time and date as a array ISOstandard
-    const today = new Date().toISOString().split('T')[0];
-    //const now = new Date().toISOString();split('T')[1];
+  const today = props.selectedDate || new Date().toISOString().split('T')[0];
 
-    this.state = {
-      login_id: '',
-      sentence: '',
-      stamp: 0,
-      //resist_time: now,
-      diary_time: today,
-      image: null,
-      imageName: ''
-    };
+  this.state = {
+    login_id: '',
+    sentence: '',
+    stamp: 0,
+    diary_time: today,
+    image: null,
+    imageName: ''
+  };
+}
+componentDidUpdate(prevProps) {
+  if (prevProps.selectedDate !== this.props.selectedDate) {
+    this.setState({ diary_time: this.props.selectedDate });
   }
+}
+
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -105,7 +108,9 @@ export default class DiariesComponentTest extends Component {
 
     return (
       <div className="container">
-        <h2>📅 Today: {diary_time}</h2>
+        {/* <h2>📅 Today: {diary_time}</h2> */}
+        <h2>📅 Today: {this.state.diary_time}</h2>
+
 
         <textarea
           name="sentence"
