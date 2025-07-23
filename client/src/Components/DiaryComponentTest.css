@@ -92,3 +92,12 @@ body {
 .button:hover {
   background-color: #218838;
 }
+.highlighted-date {
+  background-color: #f2e99c;
+  color: #787878;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10px;
+}

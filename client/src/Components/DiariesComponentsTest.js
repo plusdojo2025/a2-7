@@ -96,6 +96,8 @@ componentDidUpdate(prevProps) {
   };
 
   render() {
+    console.log('📅 DiaryComponent selectedDate:', this.props.selectedDate);
+
     const { diary_time, sentence, stamp } = this.state;
 
     const emojis = [
@@ -109,7 +111,8 @@ componentDidUpdate(prevProps) {
     return (
       <div className="container">
         {/* <h2>📅 Today: {diary_time}</h2> */}
-        <h2>📅 Today: {this.state.diary_time}</h2>
+        <h2>📅選択した日付 : <span className="highlighted-date">{this.state.diary_time}</span></h2>
+
 
 
         <textarea
