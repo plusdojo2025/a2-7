@@ -22,6 +22,6 @@ public class CalendarController {
 
 	    @GetMapping
 	    public List<Diary> getDiariesWithEmotion() {
-	        return diaryRepository.findAllWithEmotion();
+	        return diaryRepository.findAll();
 	    }
 }

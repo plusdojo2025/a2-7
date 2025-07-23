@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UsersRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
@@ -23,7 +25,8 @@ public class LoginController {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestParam String loginId,
-                                     @RequestParam String password) {
+                                     @RequestParam String password,
+                                     HttpSession session) {
         Map<String, Object> result = new HashMap<>();
 
         // Optional を使わずに null チェック
@@ -31,6 +34,7 @@ public class LoginController {
 
         if (user != null) {
             if (user.getPassword().equals(password)) {
+            	session.setAttribute("loginId", loginId);
                 result.put("success", true);
                 result.put("message", "ログイン成功");
             } else {
