@@ -29,6 +29,7 @@ export default class Timeline extends React.Component{
         }
 
         this.state = {
+            user:[],
             hashtag:"",
             imagePreview:"",
             hashlist:[],
@@ -44,14 +45,12 @@ export default class Timeline extends React.Component{
     //マウント後に自動で動作する。
     componentDidMount(){
         //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch("/timeline/hash")
+        fetch(`/timeline/hash/${this.props.diary.diaryId}`)
         .then(res => res.json())
         .then(json => {
             console.log(json);
-            //stateのbooksに受け取ったデータを保持する。
-            //stateが変わると自動的に画面が再描画される。
             this.setState({
-                diary:json
+                user:json
             })
         })
           .catch(error => {
@@ -102,8 +101,8 @@ export default class Timeline extends React.Component{
      
 
     render(){
-        const { diary ,comment, user } = this.props;
-        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,hashlist} = this.state;
+        const { diary ,comment } = this.props;
+        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,hashlist,user} = this.state;
         
 
         let comsize = comment.length;
@@ -121,8 +120,8 @@ export default class Timeline extends React.Component{
                         ) : (
                             <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                             )}</Link></td>
-                            <td><Link to="/mypage">{diary.nickname}</Link></td>
-                            <td>{diary.resist_time}</td>
+                            <td><Link to="/mypage">{user.nickname}</Link></td>
+                            <td>{diary.resistTime}</td>
                             </tr>
 
                             </tbody>
@@ -141,7 +140,7 @@ export default class Timeline extends React.Component{
                                 <td onClick={() => this.addReaction(3)}><button className="reactionButton">😌 </button>{reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
-                                <td><Link to="/diarypage/${diary.diary_id}">💬{comsize}</Link></td>
+                                <td><Link to="/diarypage/${diary.diary_id}"><button className="reactionButton">💬</button>{comsize}</Link></td>
                             ) : (
                             <td>🚫</td>
                         )} 

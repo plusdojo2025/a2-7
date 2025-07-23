@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
+import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class TimelineController {
@@ -41,11 +45,21 @@ public class TimelineController {
 	private UsersRepository usersrepository;
 	
 	
+	
+	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public List<Diary> timeline(@ModelAttribute Tag tag,Model model){
+	public List<Diary> timeline(@ModelAttribute Tag tag,Model model,HttpSession session){
 		
-
+		if(session.getAttribute("loginId")!= null) {
+		String loginId=(String)session.getAttribute("loginId");
+		}
+		//else {
+			//ログイン画面に戻る
+			//専用のGET作る？
+			//return null;
+		//}
+		
 		//現在全件取得になっている。まだできていない
 		List<Diary>diaryList= diariesrepository.findAll();
 		System.out.println(diaryList.size()+"個のデータがあるよ");	
@@ -59,6 +73,18 @@ public class TimelineController {
 	
 		return diaryList;
 	}
+	
+	//日記詳細初期表示
+			//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
+			@GetMapping("/timeline/hash/{diaryId}")
+			public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
+				
+				//日記データを取得
+				Diary diarydata=diariesrepository.findByDiaryId(diaryId);
+				User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
+				//User userdata = usersrepository.findByLoginId("1");
+				return userdata;
+			}
 	
 	//タグ検索（未解決）
 	@PostMapping("/timeline/tag")
