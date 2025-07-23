@@ -55,10 +55,11 @@ public class UserDiaryController {
 	@GetMapping("/diarypage/user/{diaryId}")
 	public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
 			
-			//日記データを取得
+		
 		Diary diarydata=diariesrepository.findByDiaryId(diaryId);
+		System.out.println(diarydata.getUser().getLoginId());
 		User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
-			
+		System.out.println(userdata.getNickname());	
 		//User userdata=usersrepository.findByLoginId("1");
 			return userdata;
 		}

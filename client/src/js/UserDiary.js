@@ -39,7 +39,7 @@ export default class Timeline extends React.Component{
         //const {diary_id} = this.props.match.params;
         //const diary_id=1;
         //v7だとできないとか何とかで解決できない
-        const { diary_id } = 1;
+        const diary_id = 1;
 
         // diary_idを使ってテンプレートリテラルでURLを作成
 fetch(`/diarypage/${diary_id}`)
