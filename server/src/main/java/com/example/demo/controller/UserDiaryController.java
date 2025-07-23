@@ -1,21 +1,22 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Diary;
+import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
 
-@Controller
+@RestController
 public class UserDiaryController {
 	
 	@Autowired
@@ -41,15 +42,26 @@ public class UserDiaryController {
 	
 	
 	//日記詳細初期表示
-	//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
-	@GetMapping("/diarypage/{diary_id}")
-	public Diary diarypage(@PathVariable("diary_id") Integer diary_id){
+	@GetMapping("/diarypage/{diaryId}")
+	public Diary diarypage(@PathVariable("diaryId") Integer diaryId){
 		
 		//日記データを取得
-		Diary diarydata=diariesrepository.findByDiaryId(diary_id);
+		Diary diarydata=diariesrepository.findByDiaryId(diaryId);
 		
 		return diarydata;
 	}
+	
+	//日記詳細初期表示
+		//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
+		@GetMapping("/diarypage/user/{diaryId}")
+		public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
+			
+			//日記データを取得
+//			Diary diarydata=diariesrepository.findByDiaryId(1);
+//			User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
+			User userdata = usersrepository.findById("1").get();
+			return userdata;
+		}
 	
 	
 	//コメント送信(コメント登録)
