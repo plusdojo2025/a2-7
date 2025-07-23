@@ -27,6 +27,11 @@ public class User {
 	@Id
 	@Column(unique = true)
 	private String loginId;
+
+	
+
+	
+	
 	@JsonIgnore
 	private String password;
 	private String nickname;
@@ -44,5 +49,7 @@ public class User {
 			, fetch = FetchType.LAZY)
 	@JsonManagedReference("user-diaries")
 	private List<Diary> diaries;
+
+	
 	
 }
