@@ -16,3 +16,9 @@
 .fc-day-sat a {
   color: #1e90ff !important; /* 水色（DodgerBlue） */
 }
+
+
+/* カレンダーセル内のフォントを大きくしたいとき */
+.fc .fc-daygrid-day-number {
+  font-size: 1.3rem;
+}
