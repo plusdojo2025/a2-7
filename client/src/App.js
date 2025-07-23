@@ -12,6 +12,7 @@ import Mypage from './js/MyPage';
 import Search from './js/Search';
 import UserInfo from './js/UserInfo';
 import DairyComponent from './Components/DiariesComponentsTest';
+import DiaryWrapper from './Components/DiaryWrapper';
 import Burger from './js/Burger';
 
 
@@ -87,6 +88,9 @@ function AppContent() {
 
             {/* 日記登録*/}
             <Route path="/register" element={<DairyComponent/>}/>
+
+            <Route path="/diarypage/:date" element={<DiaryWrapper />} />
+
 
           </Routes>
         </main>

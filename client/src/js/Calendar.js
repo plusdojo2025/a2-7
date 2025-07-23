@@ -48,6 +48,7 @@ const Calendar = () => {
       navigate(`/register`);
     }
   };
+  
 
   return (
     <div className="calendar_container">
