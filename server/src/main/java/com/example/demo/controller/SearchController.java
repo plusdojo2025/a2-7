@@ -27,9 +27,6 @@ public class SearchController {
 	private TagsRepository tagsrepository;
 	
 	@Autowired
-	private DiariesRepository diariesrepository;
-	
-	@Autowired
 	private UsersRepository usersrepository;
 	
 	@Autowired
@@ -85,7 +82,7 @@ public class SearchController {
 		@PostMapping("/update")
 		public String update(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "更新しました");
-			diariesrepository.save(diary);
+			diaryRepository.save(diary);
 			return "redirect:/search";
 		}
 
@@ -93,7 +90,7 @@ public class SearchController {
 		@PostMapping("/delete")
 		public String del(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "削除しました");
-			diariesrepository.delete(diary);
+			diaryRepository.delete(diary);
 			return "redirect:/search";
 		}
 }
