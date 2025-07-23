@@ -81,7 +81,7 @@ public class TimelineController {
 			@RequestParam("reaction3") Boolean reaction3,
 			@RequestParam("reaction4") Boolean reaction4){
 		
-		Reaction data=new Reaction(diary.getDiary_id(), diary,loginId
+		Reaction data=new Reaction(diary.getDiaryId(), diary,loginId
 				,reaction1,reaction2,reaction3,reaction4);
 		//リアクションの反応を登録（既存データがある場合は更新）
 		reactionsrepository.save(data);
