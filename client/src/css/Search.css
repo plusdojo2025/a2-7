@@ -18,12 +18,13 @@
     border: solid 0.1vw black;
     margin-right: -1vw;
 }
-.reactionButton{
+.reactionAicon{
     font-size: 1.5vw;
     background-color: transparent;
     border-style: none;
 }
 .commentArea{
+    margin: auto;
     font-size: 1.2vw;
     height: 10vw;
     width: 25vw;
@@ -34,6 +35,10 @@
 .commentCount{
     margin-left: -0.5vw;
     font-size: 0.8vw;
+}
+a{
+    border: none;
+    text-decoration: none;
 }
 .searchTag{
     height: 1vw;
