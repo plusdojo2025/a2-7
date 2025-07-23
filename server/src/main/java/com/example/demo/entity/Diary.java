@@ -67,6 +67,11 @@ public class Diary {
 			, cascade = CascadeType.ALL
 			, fetch = FetchType.LAZY)
 	private List<Post> posts;
+
+	public void setLogin_id(int loginId) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
 	
 
 }
