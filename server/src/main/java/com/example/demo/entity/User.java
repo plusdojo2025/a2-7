@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,11 +36,13 @@ public class User {
 	@OneToMany(mappedBy = "user"
 			, cascade = CascadeType.ALL
 			, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Comment> comments;
 	
 	@OneToMany(mappedBy = "user"
 			, cascade = CascadeType.ALL
 			, fetch = FetchType.LAZY)
+	@JsonManagedReference("user-diaries")
 	private List<Diary> diaries;
 	
 }

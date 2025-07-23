@@ -59,7 +59,7 @@ public class UserDiaryController {
 			//日記データを取得
 //			Diary diarydata=diariesrepository.findByDiaryId(1);
 //			User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
-			User userdata = usersrepository.findById("1").get();
+			User userdata = usersrepository.findByLoginId("1");
 			return userdata;
 		}
 	

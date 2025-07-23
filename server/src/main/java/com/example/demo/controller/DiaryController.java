@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Images;
+import com.example.demo.entity.User;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ImagesRepository;
 
@@ -84,11 +85,13 @@ public class DiaryController {
 
 	            // Save diary
 	            Diary diary = new Diary();
-	            diary.setLogin_id(loginId);
+	            User user = null;//loginIdを利用して取得
+	            diary.setUser(user);
+
 	            diary.setSentence(sentence);
 	            diary.setStamp(stamp);
-	            diary.setResist_time(Timestamp.valueOf(resistTime));
-	            diary.setDiary_time(Date.valueOf(diaryDate));
+	            diary.setResistTime(Timestamp.valueOf(resistTime));
+	            diary.setDiaryTime(Date.valueOf(diaryDate));
 
 	            if (savedImage != null) {
 	                diary.setImage(savedImage);

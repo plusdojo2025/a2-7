@@ -41,10 +41,10 @@ public class Diary {
 
 	private String sentence;
 	private int stamp;
-	private Timestamp resist_time;
+	private Timestamp resistTime;
 	
 	
-	private Date diary_time;
+	private Date diaryTime;
 
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -70,10 +70,7 @@ public class Diary {
 			, fetch = FetchType.LAZY)
 	private List<Post> posts;
 
-	public void setLogin_id(int loginId) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
+
 	
 
 }

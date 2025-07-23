@@ -30,7 +30,7 @@ public class HomeController {
     public Diary getDiaryByDate(@RequestParam String date,HttpSession session) {
     	String loginId = (String)session.getAttribute("loginId");
         LocalDate localDate = LocalDate.parse(date);
-        Optional<Diary> diaryOpt = diaryRepository.findFirstByDateAndLoginId(localDate,loginId);
+        Optional<Diary> diaryOpt = diaryRepository.findFirstByDiaryTimeAndUser_LoginId(localDate,loginId);
         return diaryOpt.orElse(null);
     }
 

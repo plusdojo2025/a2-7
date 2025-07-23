@@ -31,13 +31,33 @@ export default class Timeline extends React.Component{
         this.state = {
             hashtag:"",
             imagePreview:"",
-            
+            hashlist:[],
             reaction1: rea4[0],
             reaction2: rea4[1],
             reaction3: rea4[2],
             reaction4: rea4[3],
             
             }
+    }
+
+
+    //マウント後に自動で動作する。
+    componentDidMount(){
+        //学習用にaxiosでなく、標準のfetchを利用している。
+        fetch("/timeline/hash")
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            //stateのbooksに受け取ったデータを保持する。
+            //stateが変わると自動的に画面が再描画される。
+            this.setState({
+                diary:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+        
     }
 
     addReaction = (reactionIndex) => {
@@ -83,7 +103,7 @@ export default class Timeline extends React.Component{
 
     render(){
         const { diary ,comment, user } = this.props;
-        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 } = this.state;
+        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,hashlist} = this.state;
         
 
         let comsize = comment.length;
