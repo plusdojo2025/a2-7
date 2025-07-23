@@ -52,13 +52,8 @@ public class UserDiaryController {
 	}
 	
 	//日記詳細初期表示
-		//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
-		@GetMapping("/diarypage/user/{diaryId}")
-		public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
-			
-			//日記データを取得
-//			Diary diarydata=diariesrepository.findByDiaryId(1);
-//			User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
+	@GetMapping("/diarypage/user/{diaryId}")
+	public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
 			User userdata = usersrepository.findByLoginId("1");
 			return userdata;
 		}

@@ -146,7 +146,7 @@ fetch(`/diarypage/user/${diary_id}`)
                     ) : (
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
-                        <td><Link to="/mypage"></Link></td>
+                        <td><Link to="/mypage">{user.nickname}</Link></td>
                         <td>{diary.resist_time}</td>
                     </tr>
                     </tbody>  

@@ -3,7 +3,6 @@ package com.example.demo.entity;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +25,7 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int hashtagId;
 	
-	 @Column(name = "hashtag")
+	 //@Column(name = "hashtag")
 	 private String tags;
 	 
 	 @OneToMany(mappedBy = "tag"
