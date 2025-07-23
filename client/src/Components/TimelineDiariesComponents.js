@@ -11,6 +11,7 @@ export default class Timeline extends React.Component{
         super(props);
         //stateの設定。
         let rea4 = [0, 0, 0, 0];
+        
 
         for (let i = 0; i < this.props.reaction4.length; i++) {
             if (this.props.reaction4[i].reaction1) {
