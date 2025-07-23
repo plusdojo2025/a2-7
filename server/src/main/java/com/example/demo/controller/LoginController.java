@@ -28,24 +28,31 @@ public class LoginController {
                                      @RequestParam String password,
                                      HttpSession session) {
         Map<String, Object> result = new HashMap<>();
+        
+        // バリデーション部分（最初にチェック）
+        if (loginId == null || loginId.trim().isEmpty() ||
+            password == null || password.trim().isEmpty()) {
+            result.put("success", false);
+            result.put("message", "ログインIDとパスワードを入力してください");
+            return result;  // ← バリデーションエラーならすぐ終了
+        }
 
-        // Optional を使わずに null チェック
+        // ログインIDとパスワードの検証処理
         User user = usersRepository.findByLoginId(loginId);
 
         if (user != null) {
             if (user.getPassword().equals(password)) {
-            	session.setAttribute("loginId", loginId);
+                session.setAttribute("loginId", loginId);
                 result.put("success", true);
-                result.put("message", "ログイン成功");
+                //result.put("message", "ログイン成功");
             } else {
                 result.put("success", false);
                 result.put("message", "パスワードが違います");
             }
         } else {
             result.put("success", false);
-            result.put("message", "ユーザーが見つかりません");
+            result.put("message", "ログインIDが違います");
         }
-
         return result;
     }
 

@@ -25,10 +25,10 @@ import lombok.NoArgsConstructor;
 public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer comment_id;
+	private Integer commentId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "loginId")
+	@JoinColumn(name = "login_id")
 	@JsonIgnore
 	private User user;
 	

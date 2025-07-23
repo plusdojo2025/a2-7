@@ -5,14 +5,16 @@
 
 .tab-comments {
   padding: 10px;
-  margin-bottom: 30px;
   margin: auto;
+  margin-bottom: 30px;
+  margin-top: 20px;
   font-size: 40px;
   border: 1px solid #333333;
   border-radius: 10px;
-  background-color: #9fdfec;
+  background-color: #a7d3ff;
   max-width: 900px;
   text-align: center;
+  color: rgb(85, 85, 85);
 }
 .check_results {
 	max-width: 700px;
@@ -26,9 +28,8 @@
 }
 .tab-container {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: auto;
     margin-top: 30px;
-	
 }
 
 /* ラジオボタンを非表示にする */
@@ -40,6 +41,7 @@
 .tab-labels {
     display: flex;
     border-bottom: 2px solid black;
+    
 }
 
 .tab-group_left{
@@ -74,16 +76,19 @@
 /* コンテンツエリアのスタイル */
 .tab-content {
     display: none;
-    padding: 20px;
     border: 2px solid black;
-    border-top: none;
+    border-top: 30px;
     background: white;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 /* チェックされたタブのスタイル */
 #tab1:checked ~ .tab-labels .label1,
 #tab2:checked ~ .tab-labels .label2 {
-    background: #9fdfec;
+    background: #a7d3ff;
 }
 
 .tab-label {
@@ -94,4 +99,18 @@
 #tab1:checked ~ .content1,
 #tab2:checked ~ .content2 {
     display: block;
+}
+
+.active {
+    background-color: #a7d3ff;
+    border-bottom: white;
+}
+
+.calender_input {
+    margin-left: 20px;
+}
+.calender_button {
+    background-color: #dfdfdf;
+    border: 1px solid black;
+    margin-left: 20px;
 }
