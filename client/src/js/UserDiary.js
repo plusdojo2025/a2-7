@@ -37,7 +37,9 @@ export default class Timeline extends React.Component{
 
 
         //const {diary_id} = this.props.match.params;
-        const diary_id=1;
+        //const diary_id=1;
+        //v7だとできないとか何とかで解決できない
+        const { diary_id } = 1;
 
         // diary_idを使ってテンプレートリテラルでURLを作成
 fetch(`/diarypage/${diary_id}`)
@@ -147,7 +149,7 @@ fetch(`/diarypage/user/${diary_id}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
                         <td><Link to="/mypage">{user.nickname}</Link></td>
-                        <td>{diary.resist_time}</td>
+                        <td>{diary.resistTime}</td>
                     </tr>
                     </tbody>  
                 </table>
