@@ -16,4 +16,7 @@ public interface CommentsRepository extends JpaRepository<Comment, Integer> {
 	//日記を削除したときにコメントも削除
 	void deleteByDiaryId(int diary_id);
 	
+	//コメントIDでコメントデータ取得
+	Comment findByCommentId(Integer commentId);
+	
 }
