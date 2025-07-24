@@ -2,16 +2,19 @@ import React from "react";
 import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
-import TimelineDiaries from '../Components/TimelineDiariesComponents'
 
-export default class Timeline extends React.Component{
+//import UserDiaries from '../Components/UseDiaryComponents'
+
+export default class UserDiary extends React.Component{
 
 
     //親コンポーネントから受け取るデータなどがpropsに入っている。
     constructor(props) {
         super(props);
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+        console.log("取得したdiaryId:" + diaryId);
 
-        
         //stateの設定。
         this.state = {
                 diary:[],
@@ -37,9 +40,17 @@ export default class Timeline extends React.Component{
 
 
         //const {diary_id} = this.props.match.params;
+<<<<<<< Updated upstream
         //const diary_id=1;
         //v7だとできないとか何とかで解決できない
         const { diary_id } = 1;
+=======
+        const diary_id=1;
+        //v7・クラスコンポーネントだとできないとか何とかで解決できない
+          //const location = useLocation();
+          //const { diary } = location.state || {};
+
+>>>>>>> Stashed changes
 
         // diary_idを使ってテンプレートリテラルでURLを作成
 fetch(`/diarypage/${diary_id}`)
@@ -129,7 +140,7 @@ fetch(`/diarypage/user/${diary_id}`)
         <main>
         <h1>日記ページ</h1>
              
-
+            {/* <UserDiaries/> */}
 
             
                 {/* <TimelineDiaries diary={diary} reaction4={diary.reactions} comment={diary.comments} user={diary.user}/> */}
