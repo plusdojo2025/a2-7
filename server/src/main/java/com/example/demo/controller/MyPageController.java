@@ -3,32 +3,39 @@ package com.example.demo.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UsersRepository;
 
-@Controller
+import jakarta.servlet.http.HttpSession;
+
+@RestController
 public class MyPageController {
 	
 	@Autowired
 	private UsersRepository repository;
 	
-	//初期表示
+	//表示
+	//他のユーザーのmypageにアクセスしたときはどうなるのか
 	//imageIdとnicknameとaFewWordsを取得して表示
-	@GetMapping("/mypage")
-	public String showMyPage(@RequestParam("loginId") String loginId, Model model) {
+	@GetMapping("/api/mypage/")
+	public User showMyPage(HttpSession session) {
+		//どうやってloginIdを取得するか？
+		//ログイン画面の作成者に確認→ログイン時にsessionに保持している
+		//sessionからloginIdを取り出す
+		String loginId = (String) session.getAttribute("loginId");
+		if (loginId == null) {
+		    throw new RuntimeException("ログインしていません");
+		}
 		User user = repository.findByLoginId(loginId);
-		model.addAttribute("nickname", user.getNickname());
-		model.addAttribute("aFewWords", user.getAFewWords());
-		model.addAttribute("imageId", user.getImageId());
-		return "mypage";
+		return user;
 	}
+
 
 	//マイページのアイコン画像を更新する
 	@PostMapping("/mypage/update/image")

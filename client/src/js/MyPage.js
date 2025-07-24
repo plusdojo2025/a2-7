@@ -20,11 +20,13 @@ export default class MyPage extends React.Component{
         //マウント後に自動で動作する
     componentDidMount(){
         //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch("/mypage")
+        //{credentials: 'include'}の追加
+        
+        fetch("/api/mypage/",{credentials: 'include'})
         .then(res => res.json())
         .then(json => {
             console.log(json);
-            //stateのbooksに受け取ったデータを保持する。
+            
             //stateが変わると自動的に画面が再描画される。
             this.setState({
                 nickname: json.nickname,
@@ -34,6 +36,7 @@ export default class MyPage extends React.Component{
             })
         });
     }
+
 
     //画像ファイルを選択したときに、ファイル情報をstateに保存し、画像のプレビューを表示できるようにする処理
     //ファイル選択フォームから最初に選ばれたファイルを取得
@@ -48,7 +51,7 @@ export default class MyPage extends React.Component{
         }
     };
 
-    //
+    //this.componentDidMountで更新後に再取得
     // 画像のみアップロード
     handleImageUpload = async () => {
         const { imageFile } = this.state;
@@ -67,7 +70,7 @@ export default class MyPage extends React.Component{
                 },
             });
             alert("画像をアップロードしました");
-            this.componentDidMount(); // ←追加: 更新後に再取得
+            this.componentDidMount(); 
         } catch (error) {
             console.error(error);
             alert("画像アップロードに失敗しました");
@@ -75,7 +78,7 @@ export default class MyPage extends React.Component{
     };
 
 
-    //プロフィール情報（ニックネーム・ひとこと・画像など）をサーバーに送信して更新する処理
+    //プロフィール情報（ニックネーム・自己紹介）をサーバーに送信して更新する処理
     handleUpdate = async (e) => {
         e.preventDefault();
         const { nickname, aFewWords} = this.state;
@@ -92,6 +95,7 @@ export default class MyPage extends React.Component{
                 },
             });
             alert("プロフィールを更新しました");
+            this.componentDidMount(); 
         } catch (error) {
             console.error(error);
             alert("更新に失敗しました");
