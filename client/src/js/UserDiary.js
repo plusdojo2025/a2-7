@@ -13,6 +13,7 @@ export default class UserDiary extends React.Component{
     constructor(props) {
         super(props);
 
+        
 
         //stateの設定。
         this.state = {
@@ -22,6 +23,8 @@ export default class UserDiary extends React.Component{
                 imagePreview:"",
                 user:{},
                 tag:[],
+                reaction:[],
+                comsize:0,
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -40,7 +43,7 @@ export default class UserDiary extends React.Component{
 
         let urlList = window.location.pathname.split('/');
         let diaryId = urlList[urlList.length -1];
-        console.log("取得したdiaryId:" + diaryId);
+        //console.log("取得したdiaryId:" + diaryId);
 
 
         // diary_idを使ってテンプレートリテラルでURLを作成
@@ -66,6 +69,7 @@ fetch(`/diarypage/user/${diaryId}`)
         this.setState({
             user: json
         });
+        
     })
     .catch(error => {
         console.error("Error fetching user:", error);
@@ -82,6 +86,31 @@ fetch(`/timeline/tag/${diaryId}`)
             console.error("データ取得中にエラーが発生しました:", error);
         });
 
+fetch(`/timeline/reaction/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                reaction:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        fetch(`/timeline/comsize/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                comsize:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        
     }
 
     componentWillUnmount() {
@@ -125,7 +154,7 @@ fetch(`/timeline/tag/${diaryId}`)
     console.log(this.state.user.loginId);  // userの値を確認
 
     const data = {
-        user:this.state.user,//本人のID取得
+        user:this.state.user,
         time:new Date(),
         sentence: this.state.addcomment, // 入力されたコメント
         diary:this.state.diary,
@@ -152,7 +181,7 @@ fetch(`/timeline/tag/${diaryId}`)
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user,tag} = this.state;
+        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user,tag,reaction,comsize} = this.state;
 
         
        
@@ -195,8 +224,8 @@ fetch(`/timeline/tag/${diaryId}`)
                 <table>
                     <tbody>
                     <tr>
-                        <td onClick={this.addReaction}>😊1　😡2　😢3　😌4</td>
-                        <td>💬4</td>
+                        <td onClick={this.addReaction}>😊{reaction[0]}　😡{reaction[1]}　😢{reaction[2]}　😌{reaction[3]}</td>
+                        <td>💬{comsize}</td>
                     </tr>
                     </tbody>
                 </table>

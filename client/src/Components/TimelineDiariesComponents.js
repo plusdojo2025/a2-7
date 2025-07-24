@@ -51,6 +51,8 @@ export default class Timeline extends React.Component{
         this.setState({
                 user:json
             })
+
+        
         })
           .catch(error => {
             console.error("データ取得中にエラーが発生しました:", error);
