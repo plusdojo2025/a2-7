@@ -22,17 +22,17 @@ function Signup() {
 
         // Spring BootのAPIにPOST送信
         const response = await axios.post(
-  'http://localhost:8080/api/signup',
+  '/api/signup',
   {
-    loginId,
-    password,
-    nickname
+    loginId:loginId,
+    password:password,
+    nickname:nickname
   },
   {
     withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // }
   }
 );
 
