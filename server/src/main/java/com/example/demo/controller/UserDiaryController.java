@@ -57,18 +57,7 @@ public class UserDiaryController {
 			
 			//日記データを取得
 		Diary diarydata=diariesrepository.findByDiaryId(diaryId);
-<<<<<<< Updated upstream
-		User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
-			
-=======
-		//String loginId = diarydata.getUser().getLoginId();
-		//System.out.println(diarydata.getUser().getLoginId());
-		//User userdata=usersrepository.findByLoginId(loginId);
-		//System.out.println(userdata.getNickname());	
->>>>>>> Stashed changes
-		//User userdata=usersrepository.findByLoginId("1");
 		User user = diarydata.getUser();
-		String loginId = user.getLoginId();
 			return user;
 	}
 	

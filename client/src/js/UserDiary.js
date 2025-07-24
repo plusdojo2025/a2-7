@@ -39,21 +39,13 @@ export default class UserDiary extends React.Component{
     }, 1000);
 
 
-        //const {diary_id} = this.props.match.params;
-<<<<<<< Updated upstream
-        //const diary_id=1;
-        //v7だとできないとか何とかで解決できない
-        const { diary_id } = 1;
-=======
-        const diary_id=1;
-        //v7・クラスコンポーネントだとできないとか何とかで解決できない
-          //const location = useLocation();
-          //const { diary } = location.state || {};
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+        console.log("取得したdiaryId:" + diaryId);
 
->>>>>>> Stashed changes
 
         // diary_idを使ってテンプレートリテラルでURLを作成
-fetch(`/diarypage/${diary_id}`)
+fetch(`/diarypage/${diaryId}`)
     .then(res => res.json())
     .then(json => {
         console.log(json);
@@ -67,7 +59,7 @@ fetch(`/diarypage/${diary_id}`)
     });
 
 // 同様に、ユーザー情報を取得するリクエストも修正
-fetch(`/diarypage/user/${diary_id}`)
+fetch(`/diarypage/user/${diaryId}`)
     .then(res => res.json())
     .then(json => {
         console.log(json);
