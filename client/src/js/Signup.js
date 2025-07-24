@@ -21,13 +21,20 @@ function Signup() {
         }
 
         // Spring BootのAPIにPOST送信
-        const response = await axios.post('http://localhost:8080/api/signup', {
-           loginId,
-           password,
-           nickname,
-         }, {
-           withCredentials: true 
-        });
+        const response = await axios.post(
+  'http://localhost:8080/api/signup',
+  {
+    loginId,
+    password,
+    nickname
+  },
+  {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+);
 
         console.log("登録成功:", response.data);
         alert("登録が完了しました！");

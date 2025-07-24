@@ -29,19 +29,19 @@ public class LoginController {
                                      HttpSession session) {
         Map<String, Object> result = new HashMap<>();
         
-        // バリデーション部分（最初にチェック）
+     // バリデーション
         if (loginId == null || loginId.trim().isEmpty() ||
             password == null || password.trim().isEmpty()) {
             result.put("success", false);
             result.put("message", "ログインIDとパスワードを入力してください");
-            return result;  // ← バリデーションエラーならすぐ終了
+            return result;
         }
 
-        // ログインIDとパスワードの検証処理
+        // ユーザーの取得
         User user = usersRepository.findByLoginId(loginId);
 
         if (user == null) {
-            // ユーザーが存在しない = ログインIDが違う
+            // ログインIDが存在しない
             result.put("success", false);
             result.put("message", "ログインIDが違います");
         } else if (!user.getPassword().equals(password)) {
@@ -54,9 +54,9 @@ public class LoginController {
             result.put("success", true);
             result.put("message", "ログイン成功");
         }
+
         return result;
-        
     }
-    
+
 }
    
