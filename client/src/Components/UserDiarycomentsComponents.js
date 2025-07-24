@@ -35,6 +35,21 @@ export default class Timeline extends React.Component{
         
     }
 
+    
+    formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+
+    // 「年/月/日 時:分」の形式で表示
+    return date.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
  
     render(){
         const { comment } = this.props;
@@ -56,7 +71,7 @@ export default class Timeline extends React.Component{
                                     <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                                 )}</Link></td>
                                 <td><Link to="/mypage">{user.nickname}</Link></td>
-                                <td>{comment.time}</td>
+                                <td>{this.formatTimestamp(comment.time)}</td>
                             </tr>
                         </tbody>
                     </table>
