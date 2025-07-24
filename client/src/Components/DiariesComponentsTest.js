@@ -3,27 +3,26 @@ import axios from 'axios';
 import './DiaryComponentTest.css'; // ✅ Import CSS
 
 export default class DiariesComponentTest extends Component {
-  constructor(props) {
-    super(props);
+ constructor(props) {
+  super(props);
 
-    const today = props.selectedDate || new Date().toISOString().split('T')[0];
+  const today = props.selectedDate || new Date().toISOString().split('T')[0];
 
-    this.state = {
-      login_id: '',
-      sentence: '',
-      stamp: 0,
-      diary_time: today,
-      resist_time: new Date().toISOString().split('.')[0], // ✅ initialized here
-      image: null,
-      imageName: ''
-    };
+  this.state = {
+    login_id: '',
+    sentence: '',
+    stamp: 0,
+    diary_time: today,
+    image: null,
+    imageName: ''
+  };
+}
+componentDidUpdate(prevProps) {
+  if (prevProps.selectedDate !== this.props.selectedDate) {
+    this.setState({ diary_time: this.props.selectedDate });
   }
+}
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedDate !== this.props.selectedDate) {
-      this.setState({ diary_time: this.props.selectedDate });
-    }
-  }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -45,12 +44,7 @@ export default class DiariesComponentTest extends Component {
     e.preventDefault();
 
     const {
-      login_id,
-      sentence,
-      stamp,
-      diary_time,
-      image,
-      imageName
+      login_id, sentence, stamp, resist_time, diary_time, image, imageName
     } = this.state;
 
     if (!login_id || isNaN(parseInt(login_id))) {
@@ -67,10 +61,7 @@ export default class DiariesComponentTest extends Component {
     formData.append('login_id', login_id);
     formData.append('sentence', sentence);
     formData.append('stamp', stamp);
-
-    // ✅ Generate fresh resist_time on submit
-    const resistTimeNow = new Date().toISOString().split('.')[0]; // e.g., 2025-07-23T13:00:00
-    formData.append('resist_time', resistTimeNow);
+    formData.append('resist_time', resist_time);
     formData.append('diary_time', diary_time);
 
     if (image) {
@@ -105,6 +96,8 @@ export default class DiariesComponentTest extends Component {
   };
 
   render() {
+    console.log('📅 DiaryComponent selectedDate:', this.props.selectedDate);
+
     const { diary_time, sentence, stamp } = this.state;
 
     const emojis = [
@@ -117,7 +110,10 @@ export default class DiariesComponentTest extends Component {
 
     return (
       <div className="container">
-        <h2>📅選択した日付 : <span className="highlighted-date">{diary_time}</span></h2>
+        {/* <h2>📅 Today: {diary_time}</h2> */}
+        <h2>📅選択した日付 : <span className="highlighted-date">{this.state.diary_time}</span></h2>
+
+
 
         <textarea
           name="sentence"

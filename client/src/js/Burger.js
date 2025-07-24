@@ -22,6 +22,7 @@ const Burger = () => {
         <a className="menu-item" href="/graph">グラフ分析</a>
         <a className="menu-item" href="/timeline">タイムライン</a>
         <a className="menu-item" href="/mypage">マイページ</a>
+        <a className="menu-item" href="/userinfo">パスワード変更</a>
         <a className="menu-item" href="/login">ログアウト</a>
       </Menu>
     </>
