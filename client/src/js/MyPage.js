@@ -64,7 +64,7 @@ export default class MyPage extends React.Component{
         formData.append("image", imageFile);
 
         try {
-            await axios.post("/mypage/update/image", formData, {
+            await axios.post("/api/mypage/update/image", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -89,7 +89,7 @@ export default class MyPage extends React.Component{
     };
 
         try {
-            const res = await axios.post("/mypage/update/profile", data, {
+            const res = await axios.post("/api/mypage/update/profile", data, {
                 headers: {
                     "Content-Type": "application/json",
                 },
