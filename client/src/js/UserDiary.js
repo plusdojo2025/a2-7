@@ -3,7 +3,7 @@ import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-//import UserDiaries from '../Components/UseDiaryComponents'
+import UserDiarycoments from '../Components/UserDiarycomentsComponents'
 
 export default class UserDiary extends React.Component{
 
@@ -234,27 +234,10 @@ fetch(`/diarypage/user/${diaryId}`)
 
          {diary.comments && Array.isArray(diary.comments) && diary.comments.map((commentdata, index) => (
     <div className="comment" key={index}>
-        <table>
-            <tbody> 
-                <tr>
-                    <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                    <td><Link to="/mypage">{commentdata.user}</Link></td>
-                    <td>{commentdata.time}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div className="comment_sub">
-            <p>{commentdata.sentence}</p>
-        </div>
-    </div>
+
+        <UserDiarycoments key={index} comment={commentdata}/>
+                    
+            </div>
     ))}                   
             
         </main>
