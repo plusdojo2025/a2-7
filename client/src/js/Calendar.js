@@ -12,25 +12,22 @@ const Calendar = ({ diaries, onDateClick }) => {
   // diaries → FullCalendarのイベント形式に変換
   const events = useMemo(() => {
     return diaries.map(diary => ({
-      title: diary.stamp,  // 😡 😕 😐 🙂 😍 など
-      start: diary.diaryTime,       // "YYYY-MM-DD"
-      end: "",
-      id: diary.diaryId,
+      title: diary.stamp,  // 数値（1〜5）が格納されている想定
+      start: diary.diaryTime, // "YYYY-MM-DD"
+      id: diary.diaryId,      // ← クリック時に参照される
     }));
   }, [diaries]);
-  console.log("イベント：");
-  console.log(diaries);
 
-  // 日付クリック時の処理（Homeから関数渡す方式）
+  // 日付クリック時の処理（親から関数を呼び出す）
   const handleDateClick = (info) => {
     const clickedDate = info.dateStr;
-    onDateClick(clickedDate); // ← 親(Home)から渡された関数を呼び出す
+    onDateClick(clickedDate); // ← Homeから渡された関数を呼び出す
   };
 
+  // 感情スタンプの表示を絵文字に変換
   const handleEventContent = (arg) => {
-    
     let stamp = '';
-    switch(arg.event.title){
+    switch (arg.event.title) {
       case '1':
         stamp = "😡";
         break;
@@ -46,13 +43,20 @@ const Calendar = ({ diaries, onDateClick }) => {
       case '5':
         stamp = "😍";
         break;
-
+      default:
+        stamp = "";
     }
-    console.log("stamp:"+stamp);
+
     return {
-      html: '<span>'+stamp+'</span>'
+      html: `<span>${stamp}</span>`
     };
-  }
+  };
+
+  // 感情スタンプ（イベント）クリック時に詳細ページへ遷移
+  const handleEventClick = (info) => {
+    const diaryId = info.event.id;
+    navigate(`/diarypage/${diaryId}`);
+  };
 
   return (
     <div className="calendar_container">
@@ -62,6 +66,7 @@ const Calendar = ({ diaries, onDateClick }) => {
         dateClick={handleDateClick}
         events={events}
         eventContent={handleEventContent}
+        eventClick={handleEventClick} // ← イベントクリックで詳細へ
         locale={jaLocale}
         height="auto"
       />
