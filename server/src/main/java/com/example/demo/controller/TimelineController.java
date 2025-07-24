@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Diary;
+import com.example.demo.entity.Post;
 import com.example.demo.entity.Reaction;
 import com.example.demo.entity.Tag;
 import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
+import com.example.demo.repository.PostsRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
@@ -33,6 +35,8 @@ public class TimelineController {
 	@Autowired
 	private ReactionsRepository reactionsrepository;
 	
+	@Autowired
+	private PostsRepository postsrepository;
 
 	@Autowired
 	private TagsRepository tagsrepository;
@@ -74,10 +78,9 @@ public class TimelineController {
 		return diaryList;
 	}
 	
-	//日記詳細初期表示
-			//ここにログインID書くと、タイムライン画面から移動した人にIDがばれてしまう
-			@GetMapping("/timeline/hash/{diaryId}")
-			public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
+	//日記詳細初期表示	
+	@GetMapping("/timeline/hash/{diaryId}")
+	public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
 				
 				//日記データを取得
 				Diary diarydata=diariesrepository.findByDiaryId(diaryId);
@@ -85,6 +88,17 @@ public class TimelineController {
 				//User userdata = usersrepository.findByLoginId("1");
 				return userdata;
 			}
+	
+	//日記詳細初期表示	
+	@GetMapping("/timeline/tag/{diaryId}")
+		public List<Tag> diarypageTag(@PathVariable("diaryId") Integer diaryId){
+					
+					//日記データを取得
+					Post postdata=postsrepository.findByDiaryId(diaryId);
+					
+					
+					return null;
+				}
 	
 	//タグ検索（未解決）
 	@PostMapping("/timeline/tag")
