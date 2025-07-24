@@ -43,9 +43,10 @@ const Calendar = () => {
     );
 
     if (hasDiary) {
-      navigate(`/diarypage/${diaries.diary_id}`);
+      navigate(`/diarypage/${clickedDate}`);
     } else {
       navigate(`/register`, { state: { selectedDate: clickedDate } });
+      
 console.log("Clicked date:", clickedDate);
 
     }
