@@ -2,16 +2,19 @@ import React from "react";
 import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
-import TimelineDiaries from '../Components/TimelineDiariesComponents'
 
-export default class Timeline extends React.Component{
+import UserDiarycoments from '../Components/UserDiarycomentsComponents'
+
+export default class UserDiary extends React.Component{
 
 
     //親コンポーネントから受け取るデータなどがpropsに入っている。
     constructor(props) {
         super(props);
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+        console.log("取得したdiaryId:" + diaryId);
 
-        
         //stateの設定。
         this.state = {
                 diary:[],
@@ -36,13 +39,13 @@ export default class Timeline extends React.Component{
     }, 1000);
 
 
-        //const {diary_id} = this.props.match.params;
-        //const diary_id=1;
-        //v7だとできないとか何とかで解決できない
-        const { diary_id } = 1;
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+        console.log("取得したdiaryId:" + diaryId);
+
 
         // diary_idを使ってテンプレートリテラルでURLを作成
-fetch(`/diarypage/${diary_id}`)
+fetch(`/diarypage/${diaryId}`)
     .then(res => res.json())
     .then(json => {
         console.log(json);
@@ -56,7 +59,7 @@ fetch(`/diarypage/${diary_id}`)
     });
 
 // 同様に、ユーザー情報を取得するリクエストも修正
-fetch(`/diarypage/user/${diary_id}`)
+fetch(`/diarypage/user/${diaryId}`)
     .then(res => res.json())
     .then(json => {
         console.log(json);
@@ -129,7 +132,7 @@ fetch(`/diarypage/user/${diary_id}`)
         <main>
         <h1>日記ページ</h1>
              
-
+            {/* <UserDiaries/> */}
 
             
                 {/* <TimelineDiaries diary={diary} reaction4={diary.reactions} comment={diary.comments} user={diary.user}/> */}
@@ -205,53 +208,14 @@ fetch(`/diarypage/user/${diary_id}`)
                 
             </div>
 
-            <div className="comment">
-                <table>
-                    <tbody> 
-                    <tr>
-                        <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                        <td><Link to="/mypage">メガネ</Link></td>
-                        <td>2025/7/11(金)20:58</td>
-                    </tr>
-                    </tbody>  
-                </table>
-                <div className="comment_sub">
-                    <p>お疲れ様！</p>
-                </div>
-                
-            </div>
+            
 
          {diary.comments && Array.isArray(diary.comments) && diary.comments.map((commentdata, index) => (
     <div className="comment" key={index}>
-        <table>
-            <tbody> 
-                <tr>
-                    <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                    <td><Link to="/mypage">{commentdata.user}</Link></td>
-                    <td>{commentdata.time}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div className="comment_sub">
-            <p>{commentdata.sentence}</p>
-        </div>
-    </div>
+
+        <UserDiarycoments key={index} comment={commentdata}/>
+                    
+            </div>
     ))}                   
             
         </main>

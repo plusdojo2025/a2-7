@@ -20,15 +20,18 @@ function Home() {
   // タグ検索 or 全件取得
   const fetchDiaries = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/search', {
+      const response = await axios.get('/api/search', {
         params: tag ? { tag } : {},
       });
 
       // reactionを感情スタンプに変換して追加
-      const transformed = response.data.map((diary) => ({
-        ...diary,
-        Reaction: emojis[Number(diary.reaction)] || '', // 絵文字付加
-      }));
+      const transformed = response.data.map((diary) => {
+        const emoji = emojis.find(e => e.id === Number(diary.reaction));
+        return {
+          ...diary,
+          Reaction: emoji ? emoji.icon : ''
+        };
+      });
 
       setDiaries(transformed);
     } catch (error) {
@@ -41,18 +44,16 @@ function Home() {
   }, [fetchDiaries]);
 
   // 日付クリックで詳細 or 登録へ
-  const handleDiaryClick = async (date) => {
-    try {
-      const res = await fetch(`http://localhost:8080/api/diarypage?date=${date}`);
-      const data = await res.json();
+  const handleDiaryClick = (date) => {
+    // diariesから該当日の日記を探す
+    const diary = diaries.find(d => d.date === date);
 
-      if (data) {
-        navigate(`/diarypage/${diaries.diary_id}`);
-      } else {
-        navigate(`/register`, { state: { selectedDate: date } });
-      }
-    } catch (error) {
-      console.error('日記確認に失敗しました', error);
+    if (diary) {
+      // 感情スタンプ付き → 詳細画面へ
+      navigate(`/diarypage/${diary.diary_id}`);
+    } else {
+      // なし → 登録画面へ
+      navigate('/register', { state: { selectedDate: date } });
     }
   };
 

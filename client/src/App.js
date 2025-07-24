@@ -78,7 +78,7 @@ function AppContent() {
             <Route path="/timeline" element={<Timeline/>}/>
 
             {/* 日記詳細画面*/}
-            <Route path="/diarypage/${diary.diary_id}" element={<UserDiary/>}/>
+            <Route path="/diarypage/:id" element={<UserDiary/>}/>
 
             {/* ユーザー情報*/}
             <Route path="/userinfo" element={<UserInfo/>}/>

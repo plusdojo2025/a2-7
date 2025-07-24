@@ -103,7 +103,7 @@ export default class Timeline extends React.Component{
     render(){
         const { diary ,comment } = this.props;
         const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,hashlist,user} = this.state;
-        
+        console.log(diary);
 
         let comsize = comment.length;
         return (
@@ -140,7 +140,7 @@ export default class Timeline extends React.Component{
                                 <td onClick={() => this.addReaction(3)}><button className="reactionButton">😌 </button>{reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
-                                <td><Link to="/diarypage/${diary.diary_id}"><button className="reactionButton">💬</button>{comsize}</Link></td>
+                                <td><Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}><button className="reactionButton">💬</button>{comsize}</Link></td>
                             ) : (
                             <td>🚫</td>
                         )} 

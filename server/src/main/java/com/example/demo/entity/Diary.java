@@ -47,7 +47,7 @@ public class Diary {
 	private Date diaryTime;
 
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "login_id")
 	@JsonIgnore
 	private User user;

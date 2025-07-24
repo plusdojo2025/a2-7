@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -6,35 +6,19 @@ import jaLocale from '@fullcalendar/core/locales/ja';
 import '../css/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 
-const Calendar = () => {
-  const [diaries, setDiaries] = useState([]);
-  const [events, setEvents] = useState([]);
+const Calendar = ({ diaries, onDateClick }) => {
   const navigate = useNavigate();
 
-  // APIから感情付き日記を取得
-  // useEffect(() => {
-  //   const fetchDiaries = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8080/api/diaries');
-  //       const data = await response.json();
-  //       setDiaries(data);
+  // diaries → FullCalendarのイベント形式に変換
+  const events = useMemo(() => {
+    return diaries.map(diary => ({
+      title: diary.Reaction,  // 😡 😕 😐 🙂 😍 など
+      date: diary.date,       // "YYYY-MM-DD"
+      id: diary.diary_id,
+    }));
+  }, [diaries]);
 
-  //       // 感情スタンプ付き日記を FullCalendar イベント形式に変換
-  //       const newEvents = data.map(diary => ({
-  //         title: diary.emotion,    // 😊など
-  //         date: diary.date,        // YYYY-MM-DD形式
-  //         id: diary.id,
-  //       }));
-  //       setEvents(newEvents);
-  //     } catch (error) {
-  //       console.error('日記の取得に失敗しました:', error);
-  //     }
-  //   };
-
-  //   fetchDiaries();
-  // }, []);
-
-  // 日付クリック時の画面遷移ロジック
+  // 日付クリック時の処理（Homeから関数渡す方式）
   const handleDateClick = (info) => {
     const clickedDate = info.dateStr;
 
@@ -50,6 +34,7 @@ const Calendar = () => {
 console.log("Clicked date:", clickedDate);
 
     }
+    onDateClick(clickedDate); // ← 親(Home)から渡された関数を呼び出す
   };
 
   return (

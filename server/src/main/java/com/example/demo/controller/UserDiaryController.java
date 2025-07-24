@@ -57,11 +57,20 @@ public class UserDiaryController {
 			
 			//日記データを取得
 		Diary diarydata=diariesrepository.findByDiaryId(diaryId);
-		User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
+		User user = diarydata.getUser();
+			return user;
+	}
+	
+	//日記詳細初期表示
+	@GetMapping("/diarypage/comment/user/{commentId}")
+	public User diarypageComUser(@PathVariable("commentId") Integer commentId){
 			
-		//User userdata=usersrepository.findByLoginId("1");
-			return userdata;
-		}
+			//日記データを取得
+		Comment comment = commentsrepository.findByCommentId(commentId);
+		User user = comment.getUser();
+		System.out.println(user.getNickname());
+		return user;
+	}
 	
 	
 	//コメント送信(コメント登録)
