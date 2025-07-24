@@ -14,12 +14,12 @@ export default class Search extends React.Component {
             tag: '',
             diaries: [],
             inputText: '',
-            username: "",
-            login_id: "",
-            diary_id: "",
-            sentence: "",
-            Tags: [],
-            comment_id: "",
+            usernames: [],
+            login_id: '',
+            diary_id: '',
+            sentence: '',
+            tags: [],
+            comment_id: '',
             }
         }
 
@@ -61,7 +61,6 @@ export default class Search extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.tag !== this.state.tag) {
-      this.fetchDiaries();
     }
   }
 
@@ -75,6 +74,8 @@ export default class Search extends React.Component {
       console.error('日記の取得に失敗しました', error);
     }
   };
+
+
 
 //コメント表示のイベントハンドラー
         handleCommentClick = () => {
@@ -93,13 +94,10 @@ export default class Search extends React.Component {
             //画面で何か入力された時に、その値をstateとして保持する。
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
     onInput = (e) => {
-        this.setState({ inputText: e.target.value });
-    }   
-
+        this.setState({ tag: e.target.value });
+    }
         viewStamp = (e) => {
-
-    }   
-
+    }
     toggleModal = () => {
         const{ showModal } = this.state;
         this.setState({
@@ -122,17 +120,17 @@ export default class Search extends React.Component {
 
     render(){
 
-        const {tag, showModal, key, username, index, id} = this.state;
+        const {tag, showModal, key, username, index, id, diaries} = this.state;
 
         return(
 
         <div>
             <div>
                 {/*検索フォームに入力した文字の取り出し(未完)*/}
-  <input type="text" name="inputText" className="searchTag" onChange={this.onInput}
-   placeholder="タグ検索" value={this.state.inputText}/>
+  <input type="text" name="inputText" className="searchTag"
+   placeholder="タグ検索" value={this.state.tag} onChange={this.onInput}/>
 
-  <button onClick={this.handleClick} className="searchButton">検索</button>
+  <button onClick={this.fetchDiaries} className="searchButton">検索</button>
             </div>
 
 
@@ -145,7 +143,18 @@ export default class Search extends React.Component {
                 <span className="userNameSearch"><Link to="/mypage">
                     {this.state.username}カラス</Link>
                 </span>
-                <div className="commentArea">今日もいい天気#現実逃避</div>
+                {/*コメントエリアのみ（付帯するアイコン、ユーザーネーム、リアクション、コメントを記述。#の内容も記述）*/}
+                <div className="commentAreaContainer">
+                  {this.state.diaries.map((diary) => (
+                    <div key={diary.id}>
+                      <span className="diaryTime">{diary.diaryTime}</span>
+                      <div className="diaryCard">
+                      <p>{diary.sentence}#{diary.tags}</p>
+                      <p className="reaction">{diary.Reaction}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 {/*私は押す処理が必要がなく、どのリアクションを押したか
                 アイコンを格納しておいて、入力されたアイコンIDを取得して表示*/}
                 <span classname="reactionAiconConteiner">{this.state.viewStamp}
@@ -159,15 +168,6 @@ export default class Search extends React.Component {
                 <button className="commentAll" onClick={this.handleCommentClick}>💬</button>
                 <span className="commentCount">1</span>
             </div>
-
-            <span className="userImgSearch">{this.state.userimage}<Link to="/mypage">
-                ■</Link>
-            </span>
-            <span className="userNameSearch"><Link to="/mypage">
-                {this.state.username}カラス</Link>
-            </span>
-            
-            <div className="commentArea">みんな今日は華金だで！！酒飲むぞー！！！ #今日も一日お疲れ様✨ </div>
 
             {/*モーダルやら*/}
             {/*<input type="submit" onClick={this.toggleModal} value="削除"></input>*/}

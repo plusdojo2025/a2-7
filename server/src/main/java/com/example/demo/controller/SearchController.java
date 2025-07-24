@@ -67,6 +67,17 @@ public class SearchController {
 //
 //	    return diaries;
 //	}
+    
+    //画像
+//    @GetMapping("/user/image/{id}")
+//    public ResponseEntity<String> getUserImage(@PathVariable Long id) {
+//      String base64Image = UsersRepository.findById(id)
+//        .map(User::getImageBase64)
+//        .orElse("");
+//
+//      return ResponseEntity.ok(base64Image);
+//    }
+
     		//タグ検索
     @GetMapping("/search")
     public List<Diary> searchByTag(@RequestParam(required = false) String tag) {
