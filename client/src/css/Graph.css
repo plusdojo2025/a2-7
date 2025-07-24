@@ -95,6 +95,10 @@
 	background: white;
 }
 
+.tab-legend {
+    margin-top: '20px';
+    text-align: 'center' ;
+}
 /* チェックされたコンテンツを表示 */
 #tab1:checked ~ .content1,
 #tab2:checked ~ .content2 {
@@ -113,4 +117,20 @@
     background-color: #dfdfdf;
     border: 1px solid black;
     margin-left: 20px;
+}
+.keyword-table {
+    border: 2px solid black;
+    text-align: center;
+    margin: auto;
+}
+.keyword-category {
+    font-size: 30px;
+    border: 2px solid black;
+    
+}
+.keyword-category-detail {
+    border: 2px solid black;
+}
+.keyword-item {
+    font-size: 25px;
 }

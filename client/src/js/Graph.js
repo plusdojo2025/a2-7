@@ -9,7 +9,8 @@ export default class Graph extends React.Component{
         super(props);
         //stateの設定。
         this.state = {
-            diaries:[            ] ,
+            keywordcounts:[] ,
+            stamptallies: {},
             activeTab: 'tab1',
             }
         
@@ -19,7 +20,11 @@ export default class Graph extends React.Component{
             params: { day: null }  // ← 明示的に送ることで「nullを意図して送ってる」と分かる
             })
             .then(res => {
-            this.setState({ diaries: res.data });
+                console.log(res.data);
+                console.log("ssss");
+                this.setState({ stamptallies: res.data.stamptallies || {},
+                    keywordcounts: res.data.keywordcounts || []
+                 });
             });
         };
 
@@ -33,16 +38,26 @@ export default class Graph extends React.Component{
                     day:data
                 }
             }).then(res => {
-                this.setState({ diaries: res.data });
+                this.setState({ stamptallies: res.data.stamptallies || {},
+                    keywordcounts: res.data.keywordcounts || []});
                 console.log(res.data);
             });
         }
     render(){
-        const data = this.state.diaries.map((diary, index) => ({
-        title: diary.stamp, // ラベル（スタンプ名）
-        value: diary.count, // 件数（円グラフの大きさの元）
-        color: ['#4DC4FF', '#FF4B00', '	#03AF7A', '#FFF100', '#005AFF'][index % 5], // 色
+        const emojiMap = new Map([
+        ['1', '😡'], // '1'という文字列に対応する絵文字
+        ['2', '😕'],
+        ['3', '😐'],
+        ['4', '🙂'],
+        ['5', '😍'],
+        // 必要に応じて他の数字と絵文字を追加
+        ]);
+        const stampdata = Object.entries(this.state.stamptallies).map(([stampid, count],index ) => ({
+        title: emojiMap.has(stampid) ? emojiMap.get(stampid) : stampid, // ラベル（スタンプ名）
+        value: count, // 件数（円グラフの大きさの元）
+        color: ['#4DC4FF', '#ff3e3eff', '	#03AF7A', '#FFF100', '#005AFF'][index % 5], // 色
         }));
+        const nostampdata = stampdata.length === 0;
         return (
         <div className="super_graph">
           <div className="tab-container">
@@ -62,30 +77,55 @@ export default class Graph extends React.Component{
           <div className="tab-content content1" style={{ display: this.state.activeTab === 'tab1' ? 'block' : 'none' }}>
         	
         	<h2 className="tab-comments">スタンプごとの数と割合</h2>
+            {nostampdata ? (<p>表示するスタンプデータがありません。</p>) : (
                 <PieChart
-                data={data} // ここにデータ渡すだけで勝手に割合計算してくれる
+                data={stampdata} // ここにデータ渡すだけで勝手に割合計算してくれる
                 label={({ dataEntry }) => `${dataEntry.title} ${dataEntry.value}`} // 円グラフ上のラベル
                 labelStyle={{ fontSize: '5px',color: 'white'}}
                 style={{ height: '500px', width: '500px'}}
                 />
+            )
+                }
+                <div className="tab-legend">
+                <h4>スタンプ集計</h4>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {stampdata.map((entry, index) => (
+                    <li key={index} style={{ marginBottom: '5px' }}>
+                        <span
+                        style={{
+                            display: 'inline-block',
+                            width: '10px',
+                            height: '10px',
+                            backgroundColor: entry.color,
+                            marginRight: '8px',
+                        }}
+                        ></span>
+                        {entry.title}: {entry.value}件
+                    </li>
+                    ))}
+                </ul>
+                </div>
           </div>
           <div className="tab-content content2" style={{ display: this.state.activeTab === 'tab2' ? 'block' : 'none' }}>
 
             {/* その他の用途でdiaryを使う */}
-            
-            <table>
-                <tr>
-                    <th>キーワード</th>
-                    <th>カウント</th>
+            <h2 className="tab-comments">キーワード分析</h2>
+            {this.state.keywordcounts.length === 0 ? (
+                <p>表示するキーワードデータがありません。</p> ) : (
+            <table className="keyword-table">
+                <tr className="keyword-category">
+                    <th className="keyword-category-detail">キーワード</th>
+                    <th className="keyword-category-detail">カウント</th>
                 </tr>
-            {this.state.diaries.map((diary) => (
-                <tr>
-                    <td>{diary.word}</td>
-                    <td>{diary.wordcount}</td>
+            {this.state.keywordcounts.map((item, index) => (
+                <tr className="keyword-item" key={index}>
+                    <td>{item.word}</td>
+                    <td>{item.count}</td>
                 </tr>
             ))}
                 {/* 他のデータも表示したいならここに書ける！ */}
             </table>
+                )}
           </div>
 
             
