@@ -208,29 +208,7 @@ fetch(`/diarypage/user/${diaryId}`)
                 
             </div>
 
-            <div className="comment">
-                <table>
-                    <tbody> 
-                    <tr>
-                        <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                        <td><Link to="/mypage">メガネ</Link></td>
-                        <td>2025/7/11(金)20:58</td>
-                    </tr>
-                    </tbody>  
-                </table>
-                <div className="comment_sub">
-                    <p>お疲れ様！</p>
-                </div>
-                
-            </div>
+            
 
          {diary.comments && Array.isArray(diary.comments) && diary.comments.map((commentdata, index) => (
     <div className="comment" key={index}>
