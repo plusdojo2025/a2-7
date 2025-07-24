@@ -2,9 +2,9 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Comment;
@@ -76,10 +76,11 @@ public class UserDiaryController {
 	//コメント送信(コメント登録)
 	//タイムライン画面の方にいた方が分かりやすかったら移動します。
 	@PostMapping("/timeline/comment")
-	public String diarypage(@ModelAttribute Comment comment){
+	public Comment diarypage(@RequestBody Comment comment){
 		//リアクションの反応を登録（既存データがある場合は更新）
+		System.out.println("diary_id: " + comment.getSentence());
 		commentsrepository.save(comment);
-		return "redirect:/diarypage";
+		return comment;
 	}
 	
 	//日記更新

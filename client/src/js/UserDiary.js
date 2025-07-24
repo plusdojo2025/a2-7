@@ -3,6 +3,7 @@ import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
+import TimelineDiaries from '../Components/TimelineDiariesComponents'
 import UserDiarycoments from '../Components/UserDiarycomentsComponents'
 
 export default class UserDiary extends React.Component{
@@ -11,9 +12,7 @@ export default class UserDiary extends React.Component{
     //親コンポーネントから受け取るデータなどがpropsに入っている。
     constructor(props) {
         super(props);
-        let urlList = window.location.pathname.split('/');
-        let diaryId = urlList[urlList.length -1];
-        console.log("取得したdiaryId:" + diaryId);
+
 
         //stateの設定。
         this.state = {
@@ -22,7 +21,7 @@ export default class UserDiary extends React.Component{
                 addcomment:"",
                 imagePreview:"",
                 user:[],
-
+                tag:[],
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -71,6 +70,18 @@ fetch(`/diarypage/user/${diaryId}`)
     .catch(error => {
         console.error("Error fetching user:", error);
     });
+fetch(`/timeline/tag/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                tag:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
     }
 
     componentWillUnmount() {
@@ -97,16 +108,18 @@ fetch(`/diarypage/user/${diaryId}`)
     // フォーム送信時の処理
   onSubmit = (e) => {
     e.preventDefault(); // ページがリロードされないようにする
-
+    
     const commentData = {
-        loginId:1,//本人のID取得
-        time:new Date().toISOString().slice(0, 16),// YYYY-MM-DDTHH:MM
+        user:this.state.user,//本人のID取得
+        time:new Date(),
         sentence: this.state.addcomment, // 入力されたコメント
-        //diary:diary,
+        diary:this.state.diary,
+        diaryId:this.state.diary.diaryId,
     };
 
+    console.log(commentData.sentence);
     // Spring BootのバックエンドにPOSTリクエストを送信
-    axios.post('http://localhost:8080/timeline/comment', commentData)
+    axios.post('/timeline/comment', commentData)
       .then((response) => {
         console.log('コメントが送信されました:', response.data);
         this.setState({ addcomment: "" }); // コメント送信後に入力欄をリセット
@@ -115,12 +128,12 @@ fetch(`/diarypage/user/${diaryId}`)
         console.error('コメント送信エラー:', error);
       });
 
-      this.componentDidMount();
+      //this.componentDidMount();
   };
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user} = this.state;
+        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user,tag} = this.state;
 
         
        
@@ -132,11 +145,7 @@ fetch(`/diarypage/user/${diaryId}`)
         <main>
         <h1>日記ページ</h1>
              
-            {/* <UserDiaries/> */}
 
-            
-                {/* <TimelineDiaries diary={diary} reaction4={diary.reactions} comment={diary.comments} user={diary.user}/> */}
-                        
 
             <div className="diary">
                 <table>
@@ -158,7 +167,9 @@ fetch(`/diarypage/user/${diaryId}`)
                 </table>
                 <div className="diary_sub">
                     <p>{diary.sentence}</p>
-                    <p>#頑張った</p>
+                    {Array.isArray(tag) && tag.map((tagdata, index)  => (
+                    <block key={index}>{tagdata.tags}</block>
+                    ))}
                 </div>
                             
                 <table>
@@ -198,8 +209,8 @@ fetch(`/diarypage/user/${diaryId}`)
                 </table>
                 <form onSubmit={this.onSubmit}>
                    <textarea 
-                    value={addcomment}        // テキストエリアの値としてstateを設定
-                    onChange={this.onInput}  // 入力が変更されるたびにstateを更新
+                    value={addcomment}// テキストエリアの値としてstateを設定
+                    onChange={this.onInput}// 入力が変更されるたびにstateを更新
                     placeholder="コメントを入力" 
                     rows="5" 
                     cols="100"/><br/>

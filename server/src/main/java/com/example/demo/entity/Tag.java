@@ -30,6 +30,6 @@ public class Tag {
 	 
 	 @OneToMany(mappedBy = "tag"
 				, cascade = CascadeType.ALL
-				, fetch = FetchType.EAGER)
+				, fetch = FetchType.LAZY)
 		private List<Post> posts;
 }
