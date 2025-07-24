@@ -12,6 +12,7 @@ export default class DiariesComponentTest extends Component {
     login_id: '',
     sentence: '',
     stamp: 0,
+    resist_time: new Date().toISOString().split('.')[0],
     diary_time: today,
     image: null,
     imageName: ''
