@@ -26,7 +26,7 @@ function Home() {
 
       // reactionを感情スタンプに変換して追加
       const transformed = response.data.map((diary) => {
-        const emoji = emojis.find(e => e.id === Number(diary.reaction));
+        const emoji = emojis.find(e => e.id === Number(diary.stamp));
         return {
           ...diary,
           Reaction: emoji ? emoji.icon : ''
@@ -62,7 +62,7 @@ function Home() {
       <div className="home_box">
         <input
           type="text"
-          placeholder="タグで検索（例: #頑張った）"
+          placeholder="タグで検索（例: 頑張った）"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
