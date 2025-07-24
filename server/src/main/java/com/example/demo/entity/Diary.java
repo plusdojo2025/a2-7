@@ -37,15 +37,10 @@ public class Diary {
 	@ManyToOne
 	@JoinColumn(name = "image_id")
 	private Images image;
-
-
 	private String sentence;
 	private int stamp;
-	private Timestamp resistTime;
-	
-	
+	private Timestamp resistTime;	
 	private Date diaryTime;
-
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "login_id")

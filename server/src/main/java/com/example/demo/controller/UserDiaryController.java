@@ -77,8 +77,6 @@ public class UserDiaryController {
 	//タイムライン画面の方にいた方が分かりやすかったら移動します。
 	@PostMapping("/timeline/comment")
 	public Comment diarypage(@RequestBody Comment comment){
-		//リアクションの反応を登録（既存データがある場合は更新）
-		System.out.println("diary_id: " + comment.getSentence());
 		commentsrepository.save(comment);
 		return comment;
 	}

@@ -16,11 +16,11 @@ export default class UserDiary extends React.Component{
 
         //stateの設定。
         this.state = {
-                diary:[],
+                diary:{},
                 honnninn:"",
                 addcomment:"",
                 imagePreview:"",
-                user:[],
+                user:{},
                 tag:[],
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -96,6 +96,20 @@ fetch(`/timeline/tag/${diaryId}`)
       currentDate: new Date().toLocaleDateString(), // 今日の日付も更新
     });
   }
+  formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+
+    // 「年/月/日 時:分」の形式で表示
+    return date.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
 
   
 
@@ -106,10 +120,11 @@ fetch(`/timeline/tag/${diaryId}`)
     };    
 
     // フォーム送信時の処理
-  onSubmit = (e) => {
+  onSubmit = async(e) => {
     e.preventDefault(); // ページがリロードされないようにする
-    
-    const commentData = {
+    console.log(this.state.user.loginId);  // userの値を確認
+
+    const data = {
         user:this.state.user,//本人のID取得
         time:new Date(),
         sentence: this.state.addcomment, // 入力されたコメント
@@ -117,18 +132,22 @@ fetch(`/timeline/tag/${diaryId}`)
         diaryId:this.state.diary.diaryId,
     };
 
-    console.log(commentData.sentence);
+    
     // Spring BootのバックエンドにPOSTリクエストを送信
-    axios.post('/timeline/comment', commentData)
-      .then((response) => {
-        console.log('コメントが送信されました:', response.data);
-        this.setState({ addcomment: "" }); // コメント送信後に入力欄をリセット
-      })
-      .catch((error) => {
-        console.error('コメント送信エラー:', error);
-      });
+    try {
+            const res = await axios.post("/timeline/comment", data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("コメントを送信しました");
+            this.componentDidMount(); 
+        } catch (error) {
+            console.error(error);
+            alert("送信に失敗しました");
+        }
+    
 
-      //this.componentDidMount();
   };
 
 
@@ -161,7 +180,8 @@ fetch(`/timeline/tag/${diaryId}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
                         <td><Link to="/mypage">{user.nickname}</Link></td>
-                        <td>{diary.resistTime}</td>
+                        <td>{diary.diaryTime}</td>
+                            <td>投稿時間{this.formatTimestamp(diary.resistTime)}</td>
                     </tr>
                     </tbody>  
                 </table>
@@ -203,7 +223,7 @@ fetch(`/timeline/tag/${diaryId}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</td>
                         <td>あなた</td>
-                        <td>{currentDate}　{currentTime}</td>
+                        <td>{currentDate} {currentTime}</td>
                     </tr>
                     </tbody>   
                 </table>
