@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,9 +27,6 @@ public class SearchController {
 	private TagsRepository tagsrepository;
 	
 	@Autowired
-	private DiariesRepository diariesrepository;
-	
-	@Autowired
 	private UsersRepository usersrepository;
 	
 	@Autowired
@@ -38,6 +34,9 @@ public class SearchController {
 	
 	@Autowired
 	private CommentsRepository commentsrepository;
+	
+    @Autowired
+    private DiariesRepository diaryRepository;
 	
 	//もし、null、空白、空文字であれば全件表示。そうでなければtagに入った文字を取得
 //		@PostMapping("/tag/{tag}")
@@ -52,23 +51,30 @@ public class SearchController {
 //			model.addAttribute("searchedTag", tag);
 //			return "/search";
 //		}
-	@GetMapping("/search")
-	@ResponseBody
-	public List<Diary> searchByKeywordAndLoginId(
-	        @RequestParam("keyword") String keyword,
-	        @RequestParam("loginId") String loginId) {
-
-	    List<Diary> diaries;
-
-	    if (keyword == null || keyword.trim().isEmpty()) {
-	        diaries = diariesrepository.findByLoginId(loginId);
-	    } else {
-	        diaries = diariesrepository.findByLoginIdAndTagContaining(loginId, keyword);
-	    }
-
-	    return diaries;
-	}
-
+//	@GetMapping("/search")
+//	@ResponseBody
+//	public List<Diary> searchByKeywordAndLoginId(
+//	        @RequestParam("keyword") String keyword,
+//	        @RequestParam("loginId") String loginId) {
+//
+//	    List<Diary> diaries;
+//
+//	    if (keyword == null || keyword.trim().isEmpty()) {
+//	        diaries = diariesrepository.findByLoginId(loginId);
+//	    } else {
+//	        diaries = diariesrepository.findByLoginIdAndTagContaining(loginId, keyword);
+//	    }
+//
+//	    return diaries;
+//	}
+    		//タグ検索
+    @GetMapping("/search")
+    public List<Diary> searchByTag(@RequestParam(required = false) String tag) {
+        if (tag == null || tag.isBlank()) {
+            return diaryRepository.findAll();
+        }
+        return diaryRepository.findBySentenceLike("%" + "#" + tag + "%");
+    }
 	//リアクション取得
 
 
@@ -76,7 +82,7 @@ public class SearchController {
 		@PostMapping("/update")
 		public String update(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "更新しました");
-			diariesrepository.save(diary);
+			diaryRepository.save(diary);
 			return "redirect:/search";
 		}
 
@@ -84,7 +90,7 @@ public class SearchController {
 		@PostMapping("/delete")
 		public String del(@RequestBody Diary diary, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("message", "削除しました");
-			diariesrepository.delete(diary);
+			diaryRepository.delete(diary);
 			return "redirect:/search";
 		}
 }

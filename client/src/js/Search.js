@@ -5,12 +5,14 @@ import '../css/Search.css';
 import '../App.css'
 
 
-export default class Search extends Component {
+export default class Search extends React.Component {
 
   constructor(props) {
     super(props);
     
         this.state = {
+            tag: '',
+            diaries: [],
             inputText: '',
             username: "",
             login_id: "",
@@ -20,6 +22,11 @@ export default class Search extends Component {
             comment_id: "",
             }
         }
+
+          componentDidMount() {
+    this.fetchDiaries();
+  }
+
 
         // handleClick = () => {
         //     const { inputText } = this.state;
@@ -35,22 +42,39 @@ export default class Search extends Component {
 
         // };
 //検索フォームのイベントハンドラー
-        handleClick = () => {
-const { inputText, login_id } = this.state;
+//         handleClick = () => {
+// const { inputText, login_id } = this.state;
 
-  axios.get(`http://localhost:8080/search`, {
-    params: {
-      keyword: inputText,
-      loginId: login_id
+//   axios.get(`http://localhost:8080/search`, {
+//     params: {
+//       keyword: inputText,
+//       loginId: login_id
+//     }
+//   })
+//   .then((res) => {
+//     this.setState({ results: res.data });
+//   })
+//   .catch((err) => {
+//     console.error("検索失敗:", err);
+//   });
+// };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tag !== this.state.tag) {
+      this.fetchDiaries();
     }
-  })
-  .then((res) => {
-    this.setState({ results: res.data });
-  })
-  .catch((err) => {
-    console.error("検索失敗:", err);
-  });
-};
+  }
+
+  fetchDiaries = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/search', {
+        params: this.state.tag ? { tag: this.state.tag } : {}
+      });
+      this.setState({ diaries: response.data });
+    } catch (error) {
+      console.error('日記の取得に失敗しました', error);
+    }
+  };
 
 //コメント表示のイベントハンドラー
         handleCommentClick = () => {

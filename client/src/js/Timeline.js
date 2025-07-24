@@ -90,44 +90,8 @@ export default class Timeline extends React.Component{
             <input type="submit"/>
             </form>
 
-            <div className="diary">    
-                <table> 
-                    <tbody>
-                <tr>
-                    <td><Link to="/mypage">{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</Link></td>
-                    <td><Link to="/mypage">さかな</Link></td>
-                    <td>2025/7/11(金)20:58</td>
-                </tr>
-                </tbody>  
-                </table>
-                <div className="diary_sub">
-                    <p>仕事頑張った！</p>
-                    <p>#頑張った</p>
-                </div>
-                
-               
-                <table>
-                    <tbody>  
-                <tr>
-                    <td>😊1 </td>
-                    <td>😡2 </td>
-                    <td>😢3 </td>
-                    <td>😌4 </td>
-                    
-                    
-                    <td><Link to="/diarypage">💬4</Link></td>
-                </tr>
-                </tbody>
-                </table>
-            </div>
+            
+            
 
          {Array.isArray(diary) && diary.map((diarydata, index)  => (
     <TimelineDiaries key={index} diary={diarydata} reaction4={diarydata.reactions} comment={diarydata.comments} user={diarydata.user}/>
