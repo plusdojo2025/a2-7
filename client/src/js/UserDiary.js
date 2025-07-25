@@ -226,7 +226,7 @@ fetch(`/myId`)
         <div>
 
 
-        <main>
+        <main className="mmain">
         <h1>日記ページ</h1>
              
 
@@ -267,12 +267,12 @@ fetch(`/myId`)
                 </table>
             </div>
 
-            {myId === user.loginId && (
+            {myId == user.loginId ? (
         <div>
           <button>編集</button>
           <button>削除</button>
         </div>
-      )}
+      ):<div></div>}
 
       <div className="addComment">
                 <table className="mtable">

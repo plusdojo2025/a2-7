@@ -189,4 +189,23 @@ public class TimelineController {
 				return diary.getReactions();
 			}
 			
+			
+			
+			
+			//リアクションスタンプ処理
+			@GetMapping("/timeline/delrea/{diaryId}")
+			public Reaction delrea(@PathVariable("diaryId") Integer diaryId,
+					HttpSession session){
+				
+				String loginId = (String) session.getAttribute("loginId");
+				Reaction reaction=reactionsrepository.findByDiaryIdAndLoginId(diaryId, loginId);
+				reaction.setReaction1(false);
+				reaction.setReaction2(false);
+				reaction.setReaction3(false);
+				reaction.setReaction4(false);
+				
+				reactionsrepository.save(reaction);
+				return reaction;
+			}
+			
 }
