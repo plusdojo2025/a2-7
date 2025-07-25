@@ -9,23 +9,46 @@ export default class Search extends React.Component {
 
   constructor(props) {
     super(props);
-    
+      //URLのパラメータなどでtag（入力文字）を取得してtagにセット
         this.state = {
+          comment: '',
             tag: '',
             diaries: [],
+            tagList: {1:"#現実逃避",2:"#憂鬱"},
             inputText: '',
             usernames: [],
-            login_id: '',
-            diary_id: '',
+            users: [],
+            diaryId: "",
+            diary: [],
             sentence: '',
             tags: [],
+            hashtag:"",
             comment_id: '',
             }
         }
 
           componentDidMount() {
-    this.fetchDiaries();
+            
+this.fetchDiaries();
+
+  const diaryId = this.props?.diary?.diaryId;
+  if (diaryId) {
+    fetch(`/search/tag/${diaryId}`)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.setState({ tag: json });
+      })
+      .catch(error => {
+        console.error("データ取得中にエラーが発生しました:", error);
+      });
+  } else {
+    console.warn("diaryId が取得できませんでした。props.diary が undefined の可能性があります。");
   }
+  
+}
+
+
 
 
         // handleClick = () => {
@@ -66,7 +89,7 @@ export default class Search extends React.Component {
 
   fetchDiaries = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/search', {
+      const response = await axios.get(`/api/search`, {
         params: this.state.tag ? { tag: this.state.tag } : {}
       });
       this.setState({ diaries: response.data });
@@ -81,14 +104,13 @@ export default class Search extends React.Component {
         handleCommentClick = () => {
             const {diary_id, comments_id} = this.state;
             const data = {};
-            axios.get(`/search/${this.state.username}/${this.state.date}`)
+            axios.get(`/search/${this.state.diary_id}/${this.state.date}`)
             .then(json => {
                 console.log(json);
                 this.setState({
                     diaryId: diary_id,
                     commentsId: comments_id
                 });
-                this.componentDidMount();
             });
         };
             //画面で何か入力された時に、その値をstateとして保持する。
@@ -119,54 +141,71 @@ export default class Search extends React.Component {
 };
 
     render(){
-
-        const {tag, showModal, key, username, index, id, diaries} = this.state;
+        
+        const {tag, showModal, key, index, user, comment} = this.state;
+        
+        let comsize = comment.length;
+        
+const stampIcons = {
+  1: "😡",
+  2: "😕",
+  3: "😐",
+  4: "🙂",
+  5: "😍",
+};
 
         return(
 
         <div>
             <div>
-                {/*検索フォームに入力した文字の取り出し(未完)*/}
+                {/*検索フォームに入力した文字の取り出し(動作未確認)*/}
   <input type="text" name="inputText" className="searchTag"
    placeholder="タグ検索" value={this.state.tag} onChange={this.onInput}/>
 
   <button onClick={this.fetchDiaries} className="searchButton">検索</button>
             </div>
 
-
-
-{/*user関連のあれこれ*/}
+{/* user関連のあれこれ */}
             <div className="searchDiary">
                 <span className="userImgSearch"><Link to="/mypage">{this.state.userimage}  
                 ●</Link>
                 </span>
                 <span className="userNameSearch"><Link to="/mypage">
-                    {this.state.username}カラス</Link>
-                </span>
-                {/*コメントエリアのみ（付帯するアイコン、ユーザーネーム、リアクション、コメントを記述。#の内容も記述）*/}
-                <div className="commentAreaContainer">
-                  {this.state.diaries.map((diary) => (
-                    <div key={diary.id}>
-                      <span className="diaryTime">{diary.diaryTime}</span>
-                      <div className="diaryCard">
-                      <p>{diary.sentence}#{diary.tags}</p>
-                      <p className="reaction">{diary.Reaction}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/*私は押す処理が必要がなく、どのリアクションを押したか
-                アイコンを格納しておいて、入力されたアイコンIDを取得して表示*/}
-                <span classname="reactionAiconConteiner">{this.state.viewStamp}
-                <span className="reactionAicon">😡</span>
-                <span className="reactionAicon">😕</span>
-                <span className="reactionAicon">😐</span>
-                <span className="reactionAicon">🙂</span>
-                <span className="reactionAicon">😍</span>
+                    カラス</Link>
                 </span>
 
-                <button className="commentAll" onClick={this.handleCommentClick}>💬</button>
-                <span className="commentCount">1</span>
+                <div className="commentAreaContainer">
+                  {this.state.diaries.map((diary, user) => (
+                    <div key={diary.id}>
+
+                      <span>{user.nickname}</span>
+                      <span className="diaryTime">{diary.diaryTime}</span>
+                      <div className="diaryCard">
+                        <p>{diary.sentence}
+
+
+                          {Array.isArray(tag) && tag.map((tagdata, index)  => (
+                                    <block keyWord={index}>{tagdata.tags}</block>
+                          ))}
+
+                        </p>
+                      </div>
+                      <div>ハッシュエリア
+                        {diary.posts.length}
+                        <p>{diary.posts.map( (post,index) => {
+                          return <span>ハッシュタグ:{this.state.tagList[post.id]}</span>
+                        })}
+                        </p>
+                      </div>
+                      <div classname="reactionAiconConteiner">
+                        <span className="reactionAicon">{stampIcons[diary.stamp]}</span>
+                <Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}>
+                <button className="commentAll">💬</button>{comsize}</Link>
+                      </div>                      
+                    </div>
+
+                  ))}
+                </div>
             </div>
 
             {/*モーダルやら*/}
