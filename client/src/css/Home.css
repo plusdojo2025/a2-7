@@ -29,6 +29,11 @@
     border-radius: 10px;/*角の丸み*/
 }
 
+/* border: #f08080; だけだと 太さが指定されていないため無効になる */
+.home_box input:focus{
+  border: 2px solid #f08080;
+  outline: none;
+}
 
 
 
