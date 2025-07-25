@@ -79,7 +79,7 @@ export default class Timeline extends React.Component{
 
 
 
-        <div>
+        <main  className="mmain">
         <h1>タイムライン</h1>
             
             <form>
@@ -101,7 +101,7 @@ export default class Timeline extends React.Component{
    
             
 
-        </div>
+        </main>
         );
     }
 }

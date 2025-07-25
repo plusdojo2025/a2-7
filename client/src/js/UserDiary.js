@@ -226,7 +226,7 @@ fetch(`/myId`)
         <div>
 
 
-        <main>
+        <main className="mmain">
         <h1>日記ページ</h1>
              
 
