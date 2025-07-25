@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,7 @@ public class GraphController {
 //		1. 感情スタンプのカウントデータ
 		Map<Integer, Integer> stamptallies = new HashMap<>();
 //		2. キーワード分析のデータ
-		Map<String, Integer> keywordcounts = new HashMap<>();
-		
+		Map<String, Integer> keywordcountsmap = new HashMap<>();
 //		選択された日付のnullチェックをする。
 		if (day == null) {
 			day = LocalDate.now();
@@ -50,7 +50,7 @@ public class GraphController {
 		
 //		そのユーザーに合わせた感情スタンプの数(月範囲)を取得する。
 // 		Diaryのrepositoryで操作する。
-        String loginId = "user001";
+        String loginId = "1";
 		List<Diary> diarylist = darepository.findByUserLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
 		// ★ここからstampのカウントロジックを追加★
 		for (Diary diaries : diarylist) {
@@ -77,15 +77,23 @@ public class GraphController {
                 if (word == null) continue; // nullチェック
 
                 if (sentence.contains(word)) {
-                    keywordcounts.put(word, keywordcounts.getOrDefault(word, 0) + 1);
+                    keywordcountsmap.put(word, keywordcountsmap.getOrDefault(word, 0) + 1);
                 }
             }
         }
 
+		List<Map<String, Object>> keywordcountslist = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : keywordcountsmap.entrySet()) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("word", entry.getKey());
+            item.put("count", entry.getValue()); // "count" というキー名にする
+            keywordcountslist.add(item);
+        }
+        
         // 取得した情報を、responseDataに追加する
-        responseData.put("keywordcounts", keywordcounts); // キー名 "keywordCounts" で追加
+        responseData.put("keywordcounts", keywordcountslist); // キー名 "keywordCounts" で追加
 //		カウントされたキーワードに応じた文章を取得する。
-		System.out.println(keywordcounts);
+		System.out.println(keywordcountslist);
 		System.out.println(stamptallies);
 		System.out.println(responseData);
 
