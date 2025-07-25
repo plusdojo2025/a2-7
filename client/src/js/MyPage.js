@@ -25,14 +25,15 @@ export default class MyPage extends React.Component{
         fetch("/api/mypage/",{credentials: 'include'})
         .then(res => res.json())
         .then(json => {
-            console.log(json);
+             console.log("APIレスポンス:", json); // ← ここ
             
             //stateが変わると自動的に画面が再描画される。
             this.setState({
                 nickname: json.nickname,
-                aFewWords: json.aFewWords,
+                aFewWords: json.afewWords,
                 isOwner: json.isOwner,
-                imagePreview: `/images/${json.imageId}`,
+                //imagePreview: `/images/${json.imageId}`,
+                imagePreview: 'http://localhost:8080/api/images/' + json.imageId
             })
         });
     }
@@ -53,6 +54,7 @@ export default class MyPage extends React.Component{
 
     //this.componentDidMountで更新後に再取得
     // 画像のみアップロード
+    //FormDataを使ってmultipart/form-data形式で送信
     handleImageUpload = async () => {
         const { imageFile } = this.state;
         if (!imageFile) {
@@ -68,9 +70,10 @@ export default class MyPage extends React.Component{
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
+            }).then(() => {
+                this.componentDidMount(); 
             });
             alert("画像をアップロードしました");
-            this.componentDidMount(); 
         } catch (error) {
             console.error(error);
             alert("画像アップロードに失敗しました");
@@ -117,6 +120,8 @@ export default class MyPage extends React.Component{
     //isOwnerで本人のみにボタンが表示されるように
     render(){
         const { nickname, aFewWords, imagePreview, isOwner } = this.state;
+        // ここに追加
+    console.log("描画時の aFewWords:", aFewWords);
         return(
             <div>
                 <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
@@ -158,7 +163,7 @@ export default class MyPage extends React.Component{
                             <h3>③ 自己紹介</h3>
                             <textarea
                                 id="introduction"
-                                value={aFewWords}
+                                value={aFewWords || ''}  // ← null の時でも空文字にして確実に表示
                                 name="aFewWords"
                                 // disabled={!isOwner}
                                 onChange={this.onInput}
