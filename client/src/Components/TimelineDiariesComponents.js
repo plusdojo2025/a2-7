@@ -10,16 +10,34 @@ export default class Timeline extends React.Component{
     constructor(props) {
         super(props);
         //stateの設定。
+        let rea4 = [0, 0, 0, 0];
         
+
+        for (let i = 0; i < this.props.reaction4.length; i++) {
+            if (this.props.reaction4[i].reaction1) {
+                rea4[0]++;
+            }
+            if (this.props.reaction4[i].reaction2) {
+                rea4[1]++;
+            }
+            if (this.props.reaction4[i].reaction3) {
+                rea4[2]++;
+            }
+            if (this.props.reaction4[i].reaction4) {
+                rea4[3]++;
+            }
+        }
+
         this.state = {
             user:[],
             tag:[],
             hashtag:"",
             imagePreview:"",
-            reaction1: 0,
-            reaction2: 0,
-            reaction3: 0,
-            reaction4: 0,
+            reaction1: rea4[0],
+            reaction2: rea4[1],
+            reaction3: rea4[2],
+            reaction4: rea4[3],
+            reaList:[],
             
             }
     }
@@ -52,31 +70,6 @@ export default class Timeline extends React.Component{
           .catch(error => {
             console.error("データ取得中にエラーが発生しました:", error);
         });
-
-        let rea4 = [0, 0, 0, 0];
-        
-
-        for (let i = 0; i < this.props.reaction4.length; i++) {
-            if (this.props.reaction4[i].reaction1) {
-                rea4[0]++;
-            }
-            if (this.props.reaction4[i].reaction2) {
-                rea4[1]++;
-            }
-            if (this.props.reaction4[i].reaction3) {
-                rea4[2]++;
-            }
-            if (this.props.reaction4[i].reaction4) {
-                rea4[3]++;
-            }
-        }
-        this.setState({
-            reaction1: rea4[0],
-            reaction2: rea4[1],
-            reaction3: rea4[2],
-            reaction4: rea4[3],
-            })
-
         
     }
 
@@ -121,9 +114,48 @@ export default class Timeline extends React.Component{
                 headers: {
                     "Content-Type": "application/json",
                 },
+            });    
+            fetch(`/timeline/realist/${this.props.diary.diaryId}`)
+            .then(res => res.json())
+            .then(json => {
+            console.log(json);
+            this.setState({
+                reaList:json
+                })
+            
+            //stateの設定。
+        let rea4 = [0, 0, 0, 0];
+        
+
+        for (let i = 0; i < json.length; i++) {
+            if (json[i].reaction1) {
+                rea4[0]++;
+            }
+            if (json[i].reaction2) {
+                rea4[1]++;
+            }
+            if (json[i].reaction3) {
+                rea4[2]++;
+            }
+            if (json[i].reaction4) {
+                rea4[3]++;
+            }
+        }
+        this.setState({
+            reaction1: rea4[0],
+            reaction2: rea4[1],
+            reaction3: rea4[2],
+            reaction4: rea4[3],
+        })
+                this.componentDidMount(); 
+
+            })
+            .catch(error => {
+                console.error("データ取得中にエラーが発生しました:", error);
             });
-            alert("リアクションありがとう");
-            this.componentDidMount(); 
+
+
+            
         } catch (error) {
             console.error(error);
             alert("送信に失敗しました");

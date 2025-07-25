@@ -153,4 +153,16 @@ public class TimelineController {
 		reactionsrepository.save(rea);
 		return rea;
 	}
+	
+	
+	//日記詳細初期表示
+			@GetMapping("/timeline/realist/{diaryId}")
+			public List<Reaction> timelinereaction(@PathVariable("diaryId") Integer diaryId){
+					
+					//日記データを取得
+				Diary diary = diariesrepository.findByDiaryId(diaryId);
+
+				return diary.getReactions();
+			}
+			
 }
