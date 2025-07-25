@@ -22,8 +22,11 @@ function Home() {
     try {
       const response = await axios.get('/api/search', {
         
-        params: tag ? { tag } : {},
+        params: tag ? { tag } : {},//タグが空なら全件取得
       });
+      
+
+      
 
         console.log('取得した日記:', response.data);
       // reactionを感情スタンプに変換して追加
@@ -41,7 +44,7 @@ function Home() {
     }
   }, [tag]);
 
-  useEffect(() => {
+  useEffect(() => { //useEffectで初回に全件取得
     fetchDiaries();
   }, [fetchDiaries]);
 
@@ -52,7 +55,7 @@ function Home() {
 
     if (diary) {
       // 感情スタンプ付き → 詳細画面へ
-      navigate(`/diarypage/${diary.diary_id}`);
+      navigate(`/diarypage/${diary.diaryid}`);
     } else {
       // なし → 登録画面へ
       navigate('/register', { state: { selectedDate: date } });
@@ -67,6 +70,7 @@ function Home() {
           placeholder="タグで検索（例: 頑張った）"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
+          
         />
         <button onClick={fetchDiaries}>検索</button>
       </div>
