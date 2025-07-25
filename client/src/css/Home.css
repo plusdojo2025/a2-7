@@ -5,6 +5,8 @@
    
 }
 
+
+
 .home_box {
   display: flex;
   justify-content: center; /* ← 中身を中央寄せ */
@@ -22,18 +24,25 @@
    
     font-weight: bold;
     color: #000;/*文字色*/
-    background: #fff;
-    border: solid 3px #000;/*線*/
+    border: 2px solid #f08080;
+    background: #ffffe5;
     border-radius: 10px;/*角の丸み*/
 }
 
+
+
+
+
 .home_box button{
 
-    font-weight: bold;
-    color: #000;/*文字色*/
-    background: #fff;
-    border: solid 3px #000;/*線*/
-    border-radius: 10px;/*角の丸み*/
+     font-weight: bold;
+     border: 2px solid #f08080;
+     background: #ffffe5;
+     border-radius: 10px;/*角の丸み*/
     
+}
+
+.home_box button:hover{
+  color:#f08080
 }
 
