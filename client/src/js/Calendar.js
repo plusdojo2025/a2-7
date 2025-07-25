@@ -54,19 +54,12 @@ const Calendar = ({ diaries, onDateClick }) => {
     };
   }
 
-   // 日付クリックで詳細 or 登録へ
-  const handleDiaryClick = (date) => {
-    // diariesから該当日の日記を探す
-    const diary = diaries.find(d => d.date === date);
-
-    if (diary) {
-      // 感情スタンプ付き → 詳細画面へ
-      navigate("/diarypage/:id");
-    } else {
-      // なし → 登録画面へ
-      navigate('/register', { state: { selectedDate: date } });
-    }
+   // 感情スタンプ（イベント）クリック時に詳細ページへ遷移
+  const handleEventClick = (info) => {
+    const diaryId = info.event.id;
+    navigate(`/diarypage/:id`);
   };
+
 
   return (
     <div className="calendar_container">
@@ -76,6 +69,7 @@ const Calendar = ({ diaries, onDateClick }) => {
         dateClick={handleDateClick}
         events={events}
         eventContent={handleEventContent}
+         eventClick={handleEventClick} // ← イベントクリックで詳細へ
         locale={jaLocale}
         height="auto"
       />

@@ -36,9 +36,10 @@ public class HomeController {
 
     // タグで日記検索（タグなしなら全件返す）
     @GetMapping("/search")
-    public List<Diary> searchByTag(@RequestParam(required = false) String tag) {
+    public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session) {
+    	String loginId = (String)session.getAttribute("loginId");
         if (tag == null || tag.isBlank()) {
-            return diaryRepository.findAll();
+            return diaryRepository.findByUser_LoginId(loginId);
         }
         return diaryRepository.findBySentenceLike("%" + "#" + tag + "%");
     }
