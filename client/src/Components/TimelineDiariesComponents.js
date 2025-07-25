@@ -10,33 +10,16 @@ export default class Timeline extends React.Component{
     constructor(props) {
         super(props);
         //stateの設定。
-        let rea4 = [0, 0, 0, 0];
         
-
-        for (let i = 0; i < this.props.reaction4.length; i++) {
-            if (this.props.reaction4[i].reaction1) {
-                rea4[0]++;
-            }
-            if (this.props.reaction4[i].reaction2) {
-                rea4[1]++;
-            }
-            if (this.props.reaction4[i].reaction3) {
-                rea4[2]++;
-            }
-            if (this.props.reaction4[i].reaction4) {
-                rea4[3]++;
-            }
-        }
-
         this.state = {
             user:[],
             tag:[],
             hashtag:"",
             imagePreview:"",
-            reaction1: rea4[0],
-            reaction2: rea4[1],
-            reaction3: rea4[2],
-            reaction4: rea4[3],
+            reaction1: 0,
+            reaction2: 0,
+            reaction3: 0,
+            reaction4: 0,
             
             }
     }
@@ -69,44 +52,34 @@ export default class Timeline extends React.Component{
           .catch(error => {
             console.error("データ取得中にエラーが発生しました:", error);
         });
+
+        let rea4 = [0, 0, 0, 0];
+        
+
+        for (let i = 0; i < this.props.reaction4.length; i++) {
+            if (this.props.reaction4[i].reaction1) {
+                rea4[0]++;
+            }
+            if (this.props.reaction4[i].reaction2) {
+                rea4[1]++;
+            }
+            if (this.props.reaction4[i].reaction3) {
+                rea4[2]++;
+            }
+            if (this.props.reaction4[i].reaction4) {
+                rea4[3]++;
+            }
+        }
+        this.setState({
+            reaction1: rea4[0],
+            reaction2: rea4[1],
+            reaction3: rea4[2],
+            reaction4: rea4[3],
+            })
+
         
     }
 
-    addReaction = (reactionIndex) => {
-        let {reaction1,reaction2,reaction3,reaction4}=this.state;
-        if(reactionIndex===1){
-            reaction1=!reaction1;
-        }else if(reactionIndex===2){
-            reaction2=!reaction2;
-        }else if(reactionIndex===3){
-            reaction3=!reaction3;
-        }else if(reactionIndex===4){
-            reaction4=!reaction4;
-        }
-
-        // stateを更新
-  this.setState({
-    reaction1,
-    reaction2,
-    reaction3,
-    reaction4
-  });
-
-        axios.post('http://localhost:8080/timeline/stamp', {
-      diary: this.props.user.diary,      
-      login_id: this.props.user.login_id,
-      reaction1: reaction1,
-      reaction2: reaction2,
-      reaction3: reaction3,
-      reaction4: reaction4,
-    })
-      .then((response) => {
-        console.log('データ送信成功:', response.data);
-      })
-      .catch((error) => {
-        console.error('データ送信失敗:', error);
-      });
-    }
 
     formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -122,7 +95,42 @@ export default class Timeline extends React.Component{
     });
   };
 
+     addReaction = async(reactionIndex) => {
+        
+        let reaction=-1;
+        if(reactionIndex===1){
+            reaction=1;
+        }else if(reactionIndex===2){
+            reaction=2;
+        }else if(reactionIndex===3){
+            reaction=3;
+        }else if(reactionIndex===4){
+            reaction=4;
+        }
+
+        const data = {
+            reaction:reaction
+        };
+
+
+        let diaryId = this.props.diary.diaryId;
+
+        // Spring BootのバックエンドにPOSTリクエストを送信
+    try {
+            const res = await axios.post(`/timeline/stamp/${diaryId}`, data,{
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("リアクションありがとう");
+            this.componentDidMount(); 
+        } catch (error) {
+            console.error(error);
+            alert("送信に失敗しました");
+        }
     
+
+  };
     
 
      
@@ -148,8 +156,8 @@ export default class Timeline extends React.Component{
                             <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                             )}</Link></td>
                             <td><Link to="/mypage">{user.nickname}</Link></td>
-                            <td>{diary.diaryTime}</td>
-                            <td>投稿時間{this.formatTimestamp(diary.resistTime)}</td>
+                            
+                            <td>{this.formatTimestamp(diary.resistTime)}</td>
                             </tr>
 
                             </tbody>
@@ -165,10 +173,10 @@ export default class Timeline extends React.Component{
                              <table>
                                 <tbody>
                             <tr>
-                                <td onClick={() => this.addReaction(0)}><button className="reactionButton">😊</button> {reaction1}</td>
-                                <td onClick={() => this.addReaction(1)}><button className="reactionButton">😡 </button>{reaction2}</td>
-                                <td onClick={() => this.addReaction(2)}><button className="reactionButton">😢</button> {reaction3}</td>
-                                <td onClick={() => this.addReaction(3)}><button className="reactionButton">😌 </button>{reaction4}</td>
+                                <td onClick={() => this.addReaction(1)}><button className="reactionButton">😊</button> {reaction1}</td>
+                                <td onClick={() => this.addReaction(2)}><button className="reactionButton">😡 </button>{reaction2}</td>
+                                <td onClick={() => this.addReaction(3)}><button className="reactionButton">😢</button> {reaction3}</td>
+                                <td onClick={() => this.addReaction(4)}><button className="reactionButton">😌 </button>{reaction4}</td>
             
                                 {diary ? (//もしコメント公開設定なら
                                 <td><Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}><button className="reactionButton">💬</button>{comsize}</Link></td>

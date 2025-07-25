@@ -19,6 +19,8 @@ import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 public class UserDiaryController {
 	
@@ -111,7 +113,15 @@ public class UserDiaryController {
 	//コメント送信(コメント登録)
 	//タイムライン画面の方にいた方が分かりやすかったら移動します。
 	@PostMapping("/timeline/comment")
-	public Comment diarypage(@RequestBody Comment comment){
+	public Comment diarypage(@RequestBody Comment comment,HttpSession session){
+		
+		String loginId = (String) session.getAttribute("loginId");
+		if (loginId == null) {
+		    throw new RuntimeException("ログインしていません");
+		}
+		
+		User user=usersrepository.findByLoginId(loginId);
+		comment.setUser(user);
 		commentsrepository.save(comment);
 		return comment;
 	}

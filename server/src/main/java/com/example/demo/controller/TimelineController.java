@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Diary;
@@ -26,7 +27,6 @@ import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
 
 import jakarta.servlet.http.HttpSession;
-
 @RestController
 public class TimelineController {
 
@@ -56,14 +56,10 @@ public class TimelineController {
 	@GetMapping("/timeline")
 	public List<Diary> timeline(@ModelAttribute Tag tag,Model model,HttpSession session){
 		
-		if(session.getAttribute("loginId")!= null) {
-		String loginId=(String)session.getAttribute("loginId");
+		String loginId = (String) session.getAttribute("loginId");
+		if (loginId == null) {
+		    throw new RuntimeException("ログインしていません");
 		}
-		//else {
-			//ログイン画面に戻る
-			//専用のGET作る？
-			//return null;
-		//}
 		
 		//現在全件取得になっている。まだできていない
 		List<Diary>diaryList= diariesrepository.findAll();
@@ -119,19 +115,42 @@ public class TimelineController {
 	}
 	
 	//リアクションスタンプ処理
-	@PostMapping("/timeline/stamp")
-	public String stamp(
-			@RequestParam("diary") Diary diary,
-			@RequestParam("login_id") String loginId,
-			@RequestParam("reaction1") Boolean reaction1,
-			@RequestParam("reaction2") Boolean reaction2,
-			@RequestParam("reaction3") Boolean reaction3,
-			@RequestParam("reaction4") Boolean reaction4){
+	@PostMapping("/timeline/stamp/{diaryId}")
+	public Reaction stamp(
+			@RequestBody Map<String, Integer> data,
+			@PathVariable("diaryId") Integer diaryId,
+			HttpSession session){
 		
-		Reaction data=new Reaction(diary.getDiaryId(), diary,loginId
+		String loginId = (String) session.getAttribute("loginId");
+		Diary diary=diariesrepository.findByDiaryId(diaryId);
+		
+		Integer reaction = data.get("reaction");
+		System.out.println(reaction);		
+		Boolean reaction1=false;
+		Boolean reaction2=false;
+		Boolean reaction3=false;
+		Boolean reaction4=false;
+		
+		if(reaction==-1) {
+			return null;
+		}
+		
+		if(reaction==1) {
+			reaction1=true;
+		}else if(reaction==2) {
+			reaction2=true;
+		}else if(reaction==3) {
+			reaction3=true;
+		}else if(reaction==4) {
+			reaction4=true;
+		}
+		
+		Reaction rea=new Reaction(diaryId, diary,loginId
 				,reaction1,reaction2,reaction3,reaction4);
+		
+		
 		//リアクションの反応を登録（既存データがある場合は更新）
-		reactionsrepository.save(data);
-		return "redirect:/timeline";
+		reactionsrepository.save(rea);
+		return rea;
 	}
 }

@@ -17,7 +17,18 @@ export default class UserDiary extends React.Component{
 
         //stateの設定。
         this.state = {
-                diary:{},
+                diary:{
+                    diaryId:0,
+                    image:{},
+                    sentence:"",
+                    stamp:0,
+                    resistTime:"",
+                    diaryTime:"",
+                    reactions:[],
+                    comments:[],
+                    posts:[]
+
+            },
                 honnninn:"",
                 addcomment:"",
                 imagePreview:"",
@@ -159,6 +170,7 @@ fetch(`/timeline/reaction/${diaryId}`)
         sentence: this.state.addcomment, // 入力されたコメント
         diary:this.state.diary,
         diaryId:this.state.diary.diaryId,
+        loginId:this.state.user.loginId,
     };
 
     
@@ -209,8 +221,8 @@ fetch(`/timeline/reaction/${diaryId}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
                         <td><Link to="/mypage">{user.nickname}</Link></td>
-                        <td>{diary.diaryTime}</td>
-                            <td>投稿時間{this.formatTimestamp(diary.resistTime)}</td>
+                        
+                            <td>{this.formatTimestamp(diary.resistTime)}</td>
                     </tr>
                     </tbody>  
                 </table>
