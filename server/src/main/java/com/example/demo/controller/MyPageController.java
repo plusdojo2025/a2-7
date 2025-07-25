@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class MyPageController {
 
 
 	//マイページのアイコン画像を更新する
-	@PostMapping("/mypage/update/image")
+	@PostMapping("api/mypage/update/image")
 	public String updateMyPageImage(User formUser, Principal principal, Model model) {
 			String loginId = principal.getName();
 		//loginIdを使ってデータ取得
@@ -60,16 +61,30 @@ public class MyPageController {
 	}
     
 	//マイページのニックネームとひとことを更新する
-	@PostMapping("/mypage/update/profile")
-	public String updateMyPage(@RequestBody User formUser, Principal principal, Model model) {
-		String loginId = principal.getName();
-		//loginIdを使ってデータ取得
-		User user = repository.findByLoginId(loginId);
+	@PostMapping("/api/mypage/update/profile")
+	public String updateMyPage(@RequestBody Map<String, String> request, HttpSession session) {
+	    String loginId = (String) session.getAttribute("loginId");
 
-		model.addAttribute("user", user);
-		model.addAttribute("message", "プロフィールを更新しました");
+	    if (loginId == null) {
+	        throw new RuntimeException("ログインしていません");
+	    }
 
-		
-		return "redirect:/mypage";
+	    User user = repository.findByLoginId(loginId);
+
+	    String nickname = request.get("nickname");
+	    String aFewWords = request.get("aFewWords");
+
+	    user.setNickname(nickname);
+	    user.setAFewWords(aFewWords);
+
+	    repository.save(user);
+
+	    // セッションに保存
+	    session.setAttribute("nickname", nickname);
+	    session.setAttribute("aFewWords", aFewWords);
+
+	    return "redirect:/api/mypage";
 	}
+
+
 }

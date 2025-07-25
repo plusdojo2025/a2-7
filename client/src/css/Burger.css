@@ -19,6 +19,11 @@
 }
 
 .menu-item {
+  
+  width: 200px;               /* メニュー項目の幅を固定 */
+  margin-left:50px;
+  text-align:left;         /* テキスト中央寄せ（保険） */
+  margin-bottom: 10px;        /* 各項目の間に余白 */
   font-size:25px;
 }
 

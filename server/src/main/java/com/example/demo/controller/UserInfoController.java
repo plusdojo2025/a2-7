@@ -5,7 +5,6 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,24 +17,9 @@ public class UserInfoController {
 	@Autowired
 	private UsersRepository repository;
 	
-	//初期表示
-	@GetMapping("/userinfo")
-	public String PasswordUpdatePage(Model model, Principal principal) {
-	    // ログインユーザーのloginId取得
-	    String loginId = principal.getName();
-
-	    // ユーザー情報取得
-	    User user = repository.findByLoginId(loginId);
-	    
-	    // ユーザー情報をモデルに追加
-	    model.addAttribute("user", user);
-
-	    return "userinfo";
-	}
-
 
 	// パスワード更新処理
-	@PostMapping("/userinfo/update")
+	@PostMapping("/api/userinfo/update")
     public String updatePassword(
             @RequestParam String loginId,                  // どのユーザーか識別するために loginId も受け取る想定
             @RequestParam String currentPassword,

@@ -3,6 +3,7 @@ import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
+import TimelineDiaries from '../Components/TimelineDiariesComponents'
 import UserDiarycoments from '../Components/UserDiarycomentsComponents'
 
 export default class UserDiary extends React.Component{
@@ -11,18 +12,19 @@ export default class UserDiary extends React.Component{
     //親コンポーネントから受け取るデータなどがpropsに入っている。
     constructor(props) {
         super(props);
-        let urlList = window.location.pathname.split('/');
-        let diaryId = urlList[urlList.length -1];
-        console.log("取得したdiaryId:" + diaryId);
+
+        
 
         //stateの設定。
         this.state = {
-                diary:[],
+                diary:{},
                 honnninn:"",
                 addcomment:"",
                 imagePreview:"",
-                user:[],
-
+                user:{},
+                tag:[],
+                reaction:[],
+                comsize:0,
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -41,7 +43,7 @@ export default class UserDiary extends React.Component{
 
         let urlList = window.location.pathname.split('/');
         let diaryId = urlList[urlList.length -1];
-        console.log("取得したdiaryId:" + diaryId);
+        //console.log("取得したdiaryId:" + diaryId);
 
 
         // diary_idを使ってテンプレートリテラルでURLを作成
@@ -67,10 +69,48 @@ fetch(`/diarypage/user/${diaryId}`)
         this.setState({
             user: json
         });
+        
     })
     .catch(error => {
         console.error("Error fetching user:", error);
     });
+fetch(`/timeline/tag/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                tag:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+fetch(`/timeline/reaction/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                reaction:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        fetch(`/timeline/comsize/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                comsize:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        
     }
 
     componentWillUnmount() {
@@ -85,6 +125,20 @@ fetch(`/diarypage/user/${diaryId}`)
       currentDate: new Date().toLocaleDateString(), // 今日の日付も更新
     });
   }
+  formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+
+    // 「年/月/日 時:分」の形式で表示
+    return date.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
 
   
 
@@ -95,32 +149,39 @@ fetch(`/diarypage/user/${diaryId}`)
     };    
 
     // フォーム送信時の処理
-  onSubmit = (e) => {
+  onSubmit = async(e) => {
     e.preventDefault(); // ページがリロードされないようにする
+    console.log(this.state.user.loginId);  // userの値を確認
 
-    const commentData = {
-        loginId:1,//本人のID取得
-        time:new Date().toISOString().slice(0, 16),// YYYY-MM-DDTHH:MM
+    const data = {
+        user:this.state.user,
+        time:new Date(),
         sentence: this.state.addcomment, // 入力されたコメント
-        //diary:diary,
+        diary:this.state.diary,
+        diaryId:this.state.diary.diaryId,
     };
 
+    
     // Spring BootのバックエンドにPOSTリクエストを送信
-    axios.post('http://localhost:8080/timeline/comment', commentData)
-      .then((response) => {
-        console.log('コメントが送信されました:', response.data);
-        this.setState({ addcomment: "" }); // コメント送信後に入力欄をリセット
-      })
-      .catch((error) => {
-        console.error('コメント送信エラー:', error);
-      });
+    try {
+            const res = await axios.post("/timeline/comment", data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("コメントを送信しました");
+            this.componentDidMount(); 
+        } catch (error) {
+            console.error(error);
+            alert("送信に失敗しました");
+        }
+    
 
-      this.componentDidMount();
   };
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user} = this.state;
+        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user,tag,reaction,comsize} = this.state;
 
         
        
@@ -132,11 +193,7 @@ fetch(`/diarypage/user/${diaryId}`)
         <main>
         <h1>日記ページ</h1>
              
-            {/* <UserDiaries/> */}
 
-            
-                {/* <TimelineDiaries diary={diary} reaction4={diary.reactions} comment={diary.comments} user={diary.user}/> */}
-                        
 
             <div className="diary">
                 <table>
@@ -152,20 +209,23 @@ fetch(`/diarypage/user/${diaryId}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
                         <td><Link to="/mypage">{user.nickname}</Link></td>
-                        <td>{diary.resistTime}</td>
+                        <td>{diary.diaryTime}</td>
+                            <td>投稿時間{this.formatTimestamp(diary.resistTime)}</td>
                     </tr>
                     </tbody>  
                 </table>
                 <div className="diary_sub">
                     <p>{diary.sentence}</p>
-                    <p>#頑張った</p>
+                    {Array.isArray(tag) && tag.map((tagdata, index)  => (
+                    <block key={index}>{tagdata.tags}</block>
+                    ))}
                 </div>
                             
                 <table>
                     <tbody>
                     <tr>
-                        <td onClick={this.addReaction}>😊1　😡2　😢3　😌4</td>
-                        <td>💬4</td>
+                        <td onClick={this.addReaction}>😊{reaction[0]}　😡{reaction[1]}　😢{reaction[2]}　😌{reaction[3]}</td>
+                        <td>💬{comsize}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -192,14 +252,14 @@ fetch(`/diarypage/user/${diaryId}`)
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</td>
                         <td>あなた</td>
-                        <td>{currentDate}　{currentTime}</td>
+                        <td>{currentDate} {currentTime}</td>
                     </tr>
                     </tbody>   
                 </table>
                 <form onSubmit={this.onSubmit}>
                    <textarea 
-                    value={addcomment}        // テキストエリアの値としてstateを設定
-                    onChange={this.onInput}  // 入力が変更されるたびにstateを更新
+                    value={addcomment}// テキストエリアの値としてstateを設定
+                    onChange={this.onInput}// 入力が変更されるたびにstateを更新
                     placeholder="コメントを入力" 
                     rows="5" 
                     cols="100"/><br/>

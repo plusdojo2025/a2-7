@@ -31,7 +31,7 @@ public class Post {
 	private Diary diary;
 	
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "hashtag_id")
 	@JsonIgnore
 	private Tag tag;

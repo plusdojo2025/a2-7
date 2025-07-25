@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class TimelineController {
 	}
 	
 	//日記詳細初期表示	
-	@GetMapping("/timeline/hash/{diaryId}")
+	@GetMapping("/timeline/user/{diaryId}")
 	public User diarypageUser(@PathVariable("diaryId") Integer diaryId){
 				
 				//日記データを取得
@@ -94,10 +95,16 @@ public class TimelineController {
 		public List<Tag> diarypageTag(@PathVariable("diaryId") Integer diaryId){
 					
 					//日記データを取得
-					Post postdata=postsrepository.findByDiaryId(diaryId);
+					List<Post> postdata=postsrepository.findByDiary_DiaryId(diaryId);
 					
+					List<Tag> tagList=new ArrayList<>();
 					
-					return null;
+					for(Post p:postdata) {
+						tagList.add(p.getTag());
+						System.out.println(p.getTag().getTags());
+						}
+					
+					return tagList;
 				}
 	
 	//タグ検索（未解決）

@@ -54,7 +54,7 @@ export default class UserInfo extends React.Component {
 
         //サーバーにパスワード更新リクエストを送る
         try {
-            const response = await axios.post("/userinfo/update", {
+            const response = await axios.post("/api/userinfo/update", {
                 currentPassword,
                 newPassword,
             });

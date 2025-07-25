@@ -30,9 +30,9 @@ export default class Timeline extends React.Component{
 
         this.state = {
             user:[],
+            tag:[],
             hashtag:"",
             imagePreview:"",
-            hashlist:[],
             reaction1: rea4[0],
             reaction2: rea4[1],
             reaction3: rea4[2],
@@ -44,13 +44,26 @@ export default class Timeline extends React.Component{
 
     //マウント後に自動で動作する。
     componentDidMount(){
-        //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch(`/timeline/hash/${this.props.diary.diaryId}`)
+        fetch(`/timeline/user/${this.props.diary.diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            
+        this.setState({
+                user:json
+            })
+
+        
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        fetch(`/timeline/tag/${this.props.diary.diaryId}`)
         .then(res => res.json())
         .then(json => {
             console.log(json);
             this.setState({
-                user:json
+                tag:json
             })
         })
           .catch(error => {
@@ -95,6 +108,20 @@ export default class Timeline extends React.Component{
       });
     }
 
+    formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+
+    // 「年/月/日 時:分」の形式で表示
+    return date.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
     
     
 
@@ -102,7 +129,7 @@ export default class Timeline extends React.Component{
 
     render(){
         const { diary ,comment } = this.props;
-        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,hashlist,user} = this.state;
+        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,tag,user} = this.state;
         console.log(diary);
 
         let comsize = comment.length;
@@ -121,14 +148,18 @@ export default class Timeline extends React.Component{
                             <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                             )}</Link></td>
                             <td><Link to="/mypage">{user.nickname}</Link></td>
-                            <td>{diary.resistTime}</td>
+                            <td>{diary.diaryTime}</td>
+                            <td>投稿時間{this.formatTimestamp(diary.resistTime)}</td>
                             </tr>
 
                             </tbody>
                             </table>
                             <div className="diary_sub">
                                 <p>{diary.sentence}</p>
-                                <p>#頑張った</p>
+
+                                {Array.isArray(tag) && tag.map((tagdata, index)  => (
+                                    <block key={index}>{tagdata.tags}</block>
+                                            ))}
                             </div>
 
                              <table>
