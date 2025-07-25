@@ -232,7 +232,7 @@ fetch(`/myId`)
 
 
             <div className="diary">
-                <table>
+                <table className="mtable">
                     <tbody>
                     <tr>
                         <td><Link to="/mypage">{imagePreview ? (
@@ -257,7 +257,7 @@ fetch(`/myId`)
                     ))}
                 </div>
                             
-                <table>
+                <table className="mtable">
                     <tbody>
                     <tr>
                         <td onClick={this.addReaction}>😊{reaction[0]}　😡{reaction[1]}　😢{reaction[2]}　😌{reaction[3]}</td>
@@ -275,7 +275,7 @@ fetch(`/myId`)
       )}
 
       <div className="addComment">
-                <table>
+                <table className="mtable">
                     <tbody>
                     <tr>
                         <td>{imagePreview ? (
