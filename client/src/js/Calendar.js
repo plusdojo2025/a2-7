@@ -64,6 +64,8 @@ const Calendar = ({ diaries, onDateClick }) => {
     navigate(`/diarypage/${diaryId}`);
   };
 
+  
+
 
   return (
     <div className="calendar_container">

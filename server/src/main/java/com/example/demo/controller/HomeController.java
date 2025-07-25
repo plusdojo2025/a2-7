@@ -35,7 +35,7 @@ public class HomeController {
     }
 
     // タグで日記検索（タグなしなら全件返す）
-    @GetMapping("/search")
+    @GetMapping("/diary_search")
     public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session) {
     	String loginId = (String)session.getAttribute("loginId");
         if (tag == null || tag.isBlank()) {

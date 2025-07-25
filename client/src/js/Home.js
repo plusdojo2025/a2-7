@@ -16,20 +16,19 @@ function Home() {
   const [tag, setTag] = useState('');
   const [diaries, setDiaries] = useState([]);
   const navigate = useNavigate();
+  
+  
 
   // タグ検索 or 全件取得
   const fetchDiaries = useCallback(async () => {
     try {
-      const response = await axios.get('/api/search', {
-        
-        params: tag ? { tag } : {},//タグが空なら全件取得
+      const response = await axios.get('/api/diary_search', {
+        params: tag ? { tag } : {}, // タグがある場合は検索、なければ全件取得
       });
-      
 
-      
+      console.log('取得した日記:', response.data);
 
-        console.log('取得した日記:', response.data);
-      // reactionを感情スタンプに変換して追加
+      // stamp（数字）→ Reaction（絵文字）に変換
       const transformed = response.data.map((diary) => {
         const emoji = emojis.find(e => e.id === Number(diary.stamp));
         return {
@@ -44,23 +43,25 @@ function Home() {
     }
   }, [tag]);
 
-  useEffect(() => { //useEffectで初回に全件取得
-    fetchDiaries();
+  useEffect(() => {
+    fetchDiaries(); // 初回マウント時に全件取得
   }, [fetchDiaries]);
 
-  // 日付クリックで詳細 or 登録へ
+  
+  
+
+  // 日付クリック時の処理
   const handleDiaryClick = (date) => {
-    // diariesから該当日の日記を探す
     const diary = diaries.find(d => d.date === date);
 
     if (diary) {
-      // 感情スタンプ付き → 詳細画面へ
-      navigate(`/diarypage/${diary.diaryid}`);
+      navigate(`/diarypage/${diary.diaryid}`); // 詳細画面へ
     } else {
-      // なし → 登録画面へ
-      navigate('/register', { state: { selectedDate: date } });
+      navigate('/register', { state: { selectedDate: date } }); // 新規登録画面へ
     }
   };
+
+  
 
   return (
     <div className="home_container">
@@ -70,7 +71,6 @@ function Home() {
           placeholder="タグで検索（例: 頑張った）"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
-          
         />
         <button onClick={fetchDiaries}>検索</button>
       </div>
