@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Calendar from './Calendar';
-import { useNavigate,userLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/Home.css';
-
 
 const emojis = [
   { id: 1, icon: '😡', label: 'Angry' },
@@ -17,19 +16,13 @@ function Home() {
   const [tag, setTag] = useState('');
   const [diaries, setDiaries] = useState([]);
   const navigate = useNavigate();
-  const location = userLocation();
-
-//location を依存に追加することで、/register から戻ってきたときにも再取得できるようになる。
-  useEffect(() => {
-    fetchDiaries();
-  },[fetchDiaries,location]);//locationを依存に追加
 
   // タグ検索 or 全件取得
   const fetchDiaries = useCallback(async () => {
     try {
       const response = await axios.get('/api/search', {
         
-        params: tag ? { tag } : {},//タグあり→検索、なし→全件
+        params: tag ? { tag } : {},//タグが空なら全件取得
       });
       
 
