@@ -3,7 +3,7 @@ main{
 
 }
 
-table{
+.mtable{
     width: 700px;
     margin: 0 auto; /* 水平中央寄せ */
     display: block; /* ブロック要素として扱う */

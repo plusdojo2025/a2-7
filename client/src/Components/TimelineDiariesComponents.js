@@ -188,7 +188,7 @@ export default class Timeline extends React.Component{
         let comsize = comment.length;
         return (
             <div className="diary">    
-                <table>   
+                <table className="miku">   
                     <tbody>
                 <tr>
                     <td><Link to="/mypage">{imagePreview ? (
@@ -215,7 +215,7 @@ export default class Timeline extends React.Component{
                                             ))}
                             </div>
 
-                             <table>
+                             <table className="miku">
                                 <tbody>
                             <tr>
                                 {myrea===1? (

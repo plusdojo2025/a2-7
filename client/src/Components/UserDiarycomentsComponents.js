@@ -58,7 +58,7 @@ export default class Timeline extends React.Component{
         return (
             <div className="comment">
                         
-                    <table>
+                    <table className="miku">
                         <tbody> 
                             <tr>
                                 <td><Link to="/mypage">{imagePreview ? (
