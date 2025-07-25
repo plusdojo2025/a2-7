@@ -48,8 +48,12 @@ public class UserDiaryController {
 	
 	//日記詳細初期表示
 	@GetMapping("/diarypage/{diaryId}")
-	public Diary diarypage(@PathVariable("diaryId") Integer diaryId){
+	public Diary diarypage(@PathVariable("diaryId") Integer diaryId,HttpSession session){
 		
+		String loginId = (String) session.getAttribute("loginId");
+		if (loginId == null) {
+		    throw new RuntimeException("ログインしていません");
+		}
 		//日記データを取得
 		Diary diarydata=diariesrepository.findByDiaryId(diaryId);
 		
