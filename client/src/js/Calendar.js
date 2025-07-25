@@ -7,6 +7,8 @@ import '../css/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 
 
+
+
 const Calendar = ({ diaries, onDateClick }) => {
   const navigate = useNavigate();
 
@@ -66,14 +68,14 @@ const Calendar = ({ diaries, onDateClick }) => {
   return (
     <div className="calendar_container">
       <FullCalendar
-  plugins={[dayGridPlugin, interactionPlugin]}
-  initialView="dayGridMonth"
-  dateClick={handleDateClick}
-  events={events}
-  eventContent={handleEventContent} 
-  eventClick={handleEventClick}
-  locale={jaLocale}
-  height="auto"
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        dateClick={handleDateClick}
+        events={events}
+        eventContent={handleEventContent} 
+        eventClick={handleEventClick}
+        locale={jaLocale}
+        height="auto"
 />
     </div>
   );
