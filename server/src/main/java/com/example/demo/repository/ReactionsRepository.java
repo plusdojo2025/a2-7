@@ -9,6 +9,7 @@ import com.example.demo.entity.Reaction;
 public interface ReactionsRepository extends JpaRepository<Reaction, Integer> {
 	//日記に対するリアクションリストを取得
 	List<Reaction> findByDiaryId(int diaryId);
+	Reaction findByDiaryIdAndLoginId(int diaryId,String loginId);
 	
 	//日記を削除したときに対応するリアクションを削除
 	void deleteByDiaryId(int diaryId);
