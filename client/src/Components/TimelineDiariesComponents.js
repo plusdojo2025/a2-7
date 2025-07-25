@@ -28,7 +28,9 @@ export default class Timeline extends React.Component {
             user: [],
             tag: [],
             hashtag: "",
-            imagePreview: "",
+            imagePreview: null,
+            imageFile: null,
+            isOwner: false, 
             reaction1: rea4[0],
             reaction2: rea4[1],
             reaction3: rea4[2],
@@ -43,7 +45,10 @@ export default class Timeline extends React.Component {
             .then(res => res.json())
             .then(json => {
                 this.setState({
-                    user: json
+                    user: json,
+                    aFewWords: json.afewWords,
+                isOwner: json.isOwner,
+                    imagePreview: '/api/images/' + json.imageId,
                 });
             })
             .catch(error => {
@@ -188,7 +193,7 @@ export default class Timeline extends React.Component {
 
     render() {
         const { diary, comment } = this.props;
-        const { myrea, imagePreview, reaction1, reaction2, reaction3, reaction4, tag, user } = this.state;
+        const { myrea, aFewWords, imagePreview, isOwner, reaction1, reaction2, reaction3, reaction4, tag, user } = this.state;
         console.log(diary);
 
         let comsize = comment.length;

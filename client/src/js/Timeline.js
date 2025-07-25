@@ -13,7 +13,9 @@ export default class Timeline extends React.Component {
         this.state = {
             diary: [],
             hashtag: "",
-            imagePreview: "",
+            imagePreview: null,
+            imageFile: null,
+            isOwner: false, 
         };
     }
 
@@ -60,7 +62,7 @@ export default class Timeline extends React.Component {
 };
 
     render() {
-        const { diary, hashtag, imagePreview } = this.state;
+        const { diary, hashtag} = this.state;
 
         return (
             <main className="mmain">

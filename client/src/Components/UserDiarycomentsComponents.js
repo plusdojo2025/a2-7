@@ -11,7 +11,9 @@ export default class Timeline extends React.Component{
         super(props);
         
         this.state = {
-           imagePreview:"",
+           imagePreview: null,
+            imageFile: null,
+            isOwner: false, 
            user:[],
             
             }
@@ -26,7 +28,10 @@ export default class Timeline extends React.Component{
         .then(json => {
             console.log(json);
             this.setState({
-                user:json
+                user:json,
+                aFewWords: json.afewWords,
+                isOwner: json.isOwner,
+            imagePreview: '/api/images/' + json.imageId,
             })
         })
           .catch(error => {
@@ -53,7 +58,7 @@ export default class Timeline extends React.Component{
  
     render(){
         const { comment } = this.props;
-        const {imagePreview,user} = this.state;
+        const {aFewWords, imagePreview, isOwner,user} = this.state;
 
         return (
             <div className="comment">
