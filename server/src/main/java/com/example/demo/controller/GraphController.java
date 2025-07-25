@@ -17,6 +17,8 @@ import com.example.demo.entity.Keyword;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.KeywordsRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 public class GraphController {
@@ -30,10 +32,14 @@ public class GraphController {
 	
 	@GetMapping("/graph")
 	public Map<String,Object> graph(
-		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
-		
+		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day,
+		String mode, HttpSession session) {
+
 //		ユーザー情報を取得する。
-		
+		String loginId = (String) session.getAttribute("loginId");
+		if (loginId == null) {
+		    throw new RuntimeException("ログインしていません");
+		}
 //		全体のデータを格納するMap
 		Map<String, Object> responseData = new HashMap<>();
 //		1. 感情スタンプのカウントデータ
@@ -47,10 +53,15 @@ public class GraphController {
 //		選択された日付の月の始まりと終わりを取得する。
         LocalDate startofmonth = day.withDayOfMonth(1);
         LocalDate endofmonth = day.withDayOfMonth(day.lengthOfMonth());
-		
+        
+		if ("1".equals(mode)) {
+
+		} else if ("2".equals(mode)) {
+	        startofmonth = day;
+	        endofmonth = day.plusMonths(1).minusDays(1);
+		} else {}
 //		そのユーザーに合わせた感情スタンプの数(月範囲)を取得する。
 // 		Diaryのrepositoryで操作する。
-        String loginId = "1";
 		List<Diary> diarylist = darepository.findByUserLoginIdAndDiaryTimeBetween(loginId, startofmonth,endofmonth);
 		// ★ここからstampのカウントロジックを追加★
 		for (Diary diaries : diarylist) {
@@ -86,10 +97,11 @@ public class GraphController {
         for (Map.Entry<String, Integer> entry : keywordcountsmap.entrySet()) {
             Map<String, Object> item = new HashMap<>();
             item.put("word", entry.getKey());
-            item.put("count", entry.getValue()); // "count" というキー名にする
+            item.put("count", entry.getValue());// "count" というキー名にする
             keywordcountslist.add(item);
         }
-        
+        responseData.put("start", startofmonth);
+        responseData.put("end", endofmonth);
         // 取得した情報を、responseDataに追加する
         responseData.put("keywordcounts", keywordcountslist); // キー名 "keywordCounts" で追加
 //		カウントされたキーワードに応じた文章を取得する。

@@ -3,6 +3,9 @@
     color: black;
 }
 
+.calender_button {
+
+}
 .tab-comments {
   padding: 10px;
   margin: auto;
@@ -85,6 +88,13 @@
     padding-bottom: 20px;
 }
 
+.content1 {
+
+}
+.tab-flex {
+    display: flex;
+    justify-content: center;
+}
 /* チェックされたタブのスタイル */
 #tab1:checked ~ .tab-labels .label1,
 #tab2:checked ~ .tab-labels .label2 {
@@ -96,8 +106,11 @@
 }
 
 .tab-legend {
-    margin-top: '20px';
-    text-align: 'center' ;
+    margin-top: '10px';
+    
+}
+.graph-pie-chart {
+    color: white;
 }
 /* チェックされたコンテンツを表示 */
 #tab1:checked ~ .content1,
@@ -114,11 +127,12 @@
     margin-left: 20px;
 }
 .calender_button {
-    background-color: #dfdfdf;
-    border: 1px solid black;
+    background-color: #ffffe5;
+    border: 2px solid #f08080;
     margin-left: 20px;
+    color: #f08080;
 }
-.keyword-table {
+table.keyword-table {
     border: 2px solid black;
     text-align: center;
     margin: auto;
