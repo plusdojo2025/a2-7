@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -62,7 +63,7 @@ public class TimelineController {
 		}
 		
 		//現在全件取得になっている。まだできていない
-		List<Diary>diaryList= diariesrepository.findAll();
+		List<Diary>diaryList= diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
 		System.out.println(diaryList.size()+"個のデータがあるよ");	
 		
 		// リストが空でないか確認
@@ -101,6 +102,29 @@ public class TimelineController {
 						}
 					
 					return tagList;
+				}
+	
+	//日記詳細初期表示	
+		@GetMapping("/timeline/myrea/{diaryId}")
+		public int myrea(HttpSession session,@PathVariable("diaryId") Integer diaryId){
+			String loginId = (String) session.getAttribute("loginId");
+			Reaction rea=reactionsrepository.findByDiaryIdAndLoginId(diaryId,loginId);
+
+			if(rea!=null) {
+				if(rea.getReaction1()) {
+					return 1;
+				}
+				else if(rea.getReaction2()) {
+					return 2;
+				}
+				else if(rea.getReaction3()) {
+					return 3;
+				}
+				else if(rea.getReaction4()) {
+					return 4;
+				}
+			}
+			return -1;
 				}
 	
 	//タグ検索（未解決）

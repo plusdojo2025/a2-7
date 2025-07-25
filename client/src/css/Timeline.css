@@ -32,6 +32,15 @@ table{
     border: none;
     outline: none;
 
-    font-size: 35px;      /* フォントサイズを大きく */
+    font-size: 25px;      /* フォントサイズを大きく */
+    cursor: pointer;     /* ポインタの形にする */
+}
+
+.reactionButton2{
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    font-size: 35px;       /* フォントサイズを大きく */
     cursor: pointer;     /* ポインタの形にする */
 }

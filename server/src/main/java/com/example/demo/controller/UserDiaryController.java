@@ -109,6 +109,17 @@ public class UserDiaryController {
 					
 					return com.size();
 				}
+				
+	
+				//日記詳細初期表示
+			@GetMapping("/myId")
+			public String myId(HttpSession session){
+				String loginId = (String) session.getAttribute("loginId");
+				if (loginId == null) {
+					   throw new RuntimeException("ログインしていません");
+				}
+				return loginId;
+			}
 	
 	//コメント送信(コメント登録)
 	//タイムライン画面の方にいた方が分かりやすかったら移動します。

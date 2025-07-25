@@ -38,6 +38,7 @@ export default class Timeline extends React.Component{
             reaction3: rea4[2],
             reaction4: rea4[3],
             reaList:[],
+            myrea:-1,
             
             }
     }
@@ -65,6 +66,18 @@ export default class Timeline extends React.Component{
             console.log(json);
             this.setState({
                 tag:json
+            })
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+        fetch(`/timeline/myrea/${this.props.diary.diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            this.setState({
+                myrea:json
             })
         })
           .catch(error => {
@@ -169,7 +182,7 @@ export default class Timeline extends React.Component{
 
     render(){
         const { diary ,comment } = this.props;
-        const { hashtag,imagePreview,reaction1,reaction2,reaction3,reaction4 ,tag,user} = this.state;
+        const { myrea,imagePreview,reaction1,reaction2,reaction3,reaction4 ,tag,user} = this.state;
         console.log(diary);
 
         let comsize = comment.length;
@@ -205,10 +218,26 @@ export default class Timeline extends React.Component{
                              <table>
                                 <tbody>
                             <tr>
-                                <td onClick={() => this.addReaction(1)}><button className="reactionButton">😊</button> {reaction1}</td>
-                                <td onClick={() => this.addReaction(2)}><button className="reactionButton">😡 </button>{reaction2}</td>
-                                <td onClick={() => this.addReaction(3)}><button className="reactionButton">😢</button> {reaction3}</td>
+                                {myrea===1? (
+                                    <td onClick={() => this.addReaction(1)}><button className="reactionButton2">😊</button> {reaction1}</td>
+                                ) : (
+                                <td onClick={() => this.addReaction(1)}><button className="reactionButton">😊</button> {reaction1}</td>)}
+
+                                {myrea===2? (
+                                    <td onClick={() => this.addReaction(2)}><button className="reactionButton2">😡 </button>{reaction2}</td>
+                                ):(
+                                <td onClick={() => this.addReaction(2)}><button className="reactionButton">😡 </button>{reaction2}</td>)}
+
+                                {myrea===3? (
+                                    <td onClick={() => this.addReaction(3)}><button className="reactionButton2">😢</button> {reaction3}</td>
+                                ):(
+                                <td onClick={() => this.addReaction(3)}><button className="reactionButton">😢</button> {reaction3}</td>)}
+
+                                {myrea===4? (
+                                    <td onClick={() => this.addReaction(4)}><button className="reactionButton2">😌 </button>{reaction4}</td>
+                                ):(
                                 <td onClick={() => this.addReaction(4)}><button className="reactionButton">😌 </button>{reaction4}</td>
+                                )}
             
                                 {diary ? (//もしコメント公開設定なら
                                 <td><Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}><button className="reactionButton">💬</button>{comsize}</Link></td>

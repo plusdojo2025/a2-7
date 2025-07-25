@@ -36,6 +36,7 @@ export default class UserDiary extends React.Component{
                 tag:[],
                 reaction:[],
                 comsize:0,
+                myId:"",
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -120,6 +121,19 @@ fetch(`/timeline/reaction/${diaryId}`)
           .catch(error => {
             console.error("データ取得中にエラーが発生しました:", error);
         });
+fetch(`/myId`)
+    .then(res => res.json())
+    .then(json => {
+        console.log(json);
+        // stateのdiaryに受け取ったデータを保持
+        this.setState({
+            myId: json
+        });
+    })
+    .catch(error => {
+        console.error("Error fetching diary:", error);
+    });
+
 
         
     }
@@ -162,8 +176,14 @@ fetch(`/timeline/reaction/${diaryId}`)
     // フォーム送信時の処理
   onSubmit = async(e) => {
     e.preventDefault(); // ページがリロードされないようにする
-    console.log(this.state.user.loginId);  // userの値を確認
+    if (this.state.addcomment === '') {
+      alert("コメントを入力してください。");
+      return; // 空コメントの場合は処理を中断
+    }
+    // 確認ダイアログを表示
+    const isConfirmed = window.confirm("コメントを送信してもよろしいですか？");
 
+     if (isConfirmed) {
     const data = {
         user:this.state.user,
         time:new Date(),
@@ -181,19 +201,23 @@ fetch(`/timeline/reaction/${diaryId}`)
                     "Content-Type": "application/json",
                 },
             });
-            alert("コメントを送信しました");
+            this.setState({ addcomment:"" });
             this.componentDidMount(); 
         } catch (error) {
             console.error(error);
             alert("送信に失敗しました");
         }
+    } else {
+      // ユーザーがキャンセルした場合
+      alert("コメント送信がキャンセルされました");
+    }
     
 
   };
 
 
     render(){
-        const { honnninn,addcomment,currentTime,currentDate,imagePreview,diary,user,tag,reaction,comsize} = this.state;
+        const { myId,addcomment,currentTime,currentDate,imagePreview,diary,user,tag,reaction,comsize} = this.state;
 
         
        
@@ -243,7 +267,7 @@ fetch(`/timeline/reaction/${diaryId}`)
                 </table>
             </div>
 
-            {honnninn === '' && (
+            {myId === user.loginId && (
         <div>
           <button>編集</button>
           <button>削除</button>
