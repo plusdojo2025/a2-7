@@ -1,6 +1,21 @@
+/* イベント全体のボーダー・背景を消す */
+.fc-event {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
 
-
-
+/* イベントの内部テキスト（絵文字）の中央寄せ */
+.fc-event-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent !important;
+  font-size: 30px; /* 絵文字サイズ調整 */
+  padding: 0 !important;
+  height: 100%;
+}
 .fc-toolbar-title,.fc .fc-col-header-cell-cushion , .fc .fc-daygrid-day-number {
   color: #000;
 } 

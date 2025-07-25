@@ -21,9 +21,11 @@ function Home() {
   const fetchDiaries = useCallback(async () => {
     try {
       const response = await axios.get('/api/search', {
+        
         params: tag ? { tag } : {},
       });
 
+        console.log('取得した日記:', response.data);
       // reactionを感情スタンプに変換して追加
       const transformed = response.data.map((diary) => {
         const emoji = emojis.find(e => e.id === Number(diary.stamp));
