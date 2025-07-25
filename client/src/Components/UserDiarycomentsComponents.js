@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Timeline.css';
+import '../css/UserDiary.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
