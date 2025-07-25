@@ -7,13 +7,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Post;
@@ -55,7 +54,7 @@ public class TimelineController {
 	
 	//タイムライン初期表示
 	@GetMapping("/timeline")
-	public List<Diary> timeline(@ModelAttribute Tag tag,Model model,HttpSession session){
+	public List<Diary> timeline(HttpSession session){
 		
 		String loginId = (String) session.getAttribute("loginId");
 		if (loginId == null) {
@@ -127,16 +126,7 @@ public class TimelineController {
 			return -1;
 				}
 	
-	//タグ検索（未解決）
-	@PostMapping("/timeline/tag")
-	public List<Diary> tag(@ModelAttribute Tag tag,Model model){
-		
-		//ハッシュタグIDで日記検索
-		int id=tag.getHashtagId();
-		//List<Diary>diaries= diariesrepository.findByHashtagId(id);//hashtag_id
-		
-		return null;
-	}
+	
 	
 	//リアクションスタンプ処理
 	@PostMapping("/timeline/stamp/{diaryId}")
@@ -206,6 +196,38 @@ public class TimelineController {
 				
 				reactionsrepository.save(reaction);
 				return reaction;
+			}
+			
+			
+			
+			//タグ検索（未解決）
+			@GetMapping("/timeline/serchtag/{tags}")
+			public List<Diary> timelineTag(@PathVariable("tags") String tags,HttpSession session,RedirectAttributes redirectAttributes){
+				
+				String loginId = (String) session.getAttribute("loginId");
+				if (loginId == null) {
+				    throw new RuntimeException("ログインしていません");
+				}
+				
+				Tag tag=tagsrepository.findByTags(tags);
+				if(tag==null) {
+					redirectAttributes.addFlashAttribute("message"
+							, "見つかりませんでした。");
+					return diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
+				}
+				
+				List<Post> post=tag.getPosts();
+				List<Diary> diary=new ArrayList<>();
+				
+				for(Post p:post) {
+					diary.add(diariesrepository.findByDiaryId(p.getDiary().getDiaryId()));
+				}
+				
+				// DiaryリストをresistTimeで並べ替え（降順）
+			    diary.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime())); // resistTimeで降順に並べ替え
+				
+			    System.out.println();
+				return diary;
 			}
 			
 }

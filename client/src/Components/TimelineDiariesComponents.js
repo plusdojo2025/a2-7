@@ -219,7 +219,7 @@ export default class Timeline extends React.Component {
                 <div className="diary_sub">
                     <p>{diary.sentence}</p>
                     {Array.isArray(tag) && tag.map((tagdata, index) => (
-                        <span key={index}>#{tagdata.tags} </span>
+                        <span key={index}>{tagdata.tags} </span>
                     ))}
                 </div>
 
