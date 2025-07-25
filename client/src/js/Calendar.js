@@ -6,6 +6,7 @@ import jaLocale from '@fullcalendar/core/locales/ja';
 import '../css/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 
+
 const Calendar = ({ diaries, onDateClick }) => {
   const navigate = useNavigate();
 
@@ -46,7 +47,8 @@ const Calendar = ({ diaries, onDateClick }) => {
       case '5':
         stamp = "😍";
         break;
-
+        
+      default:
     }
     console.log("stamp:"+stamp);
     return {
@@ -57,22 +59,22 @@ const Calendar = ({ diaries, onDateClick }) => {
    // 感情スタンプ（イベント）クリック時に詳細ページへ遷移
   const handleEventClick = (info) => {
     const diaryId = info.event.id;
-    navigate(`/diarypage/:id`);
+    navigate(`/diarypage/${diaryId}`);
   };
 
 
   return (
     <div className="calendar_container">
       <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        dateClick={handleDateClick}
-        events={events}
-        eventContent={handleEventContent}
-         eventClick={handleEventClick} // ← イベントクリックで詳細へ
-        locale={jaLocale}
-        height="auto"
-      />
+  plugins={[dayGridPlugin, interactionPlugin]}
+  initialView="dayGridMonth"
+  dateClick={handleDateClick}
+  events={events}
+  eventContent={handleEventContent} 
+  eventClick={handleEventClick}
+  locale={jaLocale}
+  height="auto"
+/>
     </div>
   );
 };
