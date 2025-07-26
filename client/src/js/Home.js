@@ -55,7 +55,7 @@ function Home() {
     const diary = diaries.find(d => d.date === date);
 
     if (diary) {
-      navigate(`/diarypage/${diary.diaryid}`); // 詳細画面へ
+      navigate(`/diarypage/${diary.diaryId}`); // 詳細画面へ
     } else {
       navigate('/register', { state: { selectedDate: date } }); // 新規登録画面へ
     }

@@ -24,10 +24,15 @@ const Calendar = ({ diaries, onDateClick }) => {
   console.log("イベント：");
   console.log(diaries);
 
+  
+  
+
   // 日付クリック時の処理（Homeから関数渡す方式）
   const handleDateClick = (info) => {
     const clickedDate = info.dateStr;
     onDateClick(clickedDate); // ← 親(Home)から渡された関数を呼び出す
+
+    
   };
 
   const handleEventContent = (arg) => {
@@ -63,6 +68,8 @@ const Calendar = ({ diaries, onDateClick }) => {
     const diaryId = info.event.id;
     navigate(`/diarypage/${diaryId}`);
   };
+
+  
 
   
 
