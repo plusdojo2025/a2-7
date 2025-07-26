@@ -17,21 +17,12 @@ export default class UserDiary extends React.Component{
 
         //stateの設定。
         this.state = {
-                diary:{
-                    diaryId:0,
-                    image:{},
-                    sentence:"",
-                    stamp:0,
-                    resistTime:"",
-                    diaryTime:"",
-                    reactions:[],
-                    comments:[],
-                    posts:[]
-
-            },
+                diary:{},
                 honnninn:"",
                 addcomment:"",
-                imagePreview:"",
+                imagePreview: null,
+            imageFile: null,
+            isOwner: false, 
                 user:{},
                 tag:[],
                 reaction:[],
@@ -79,7 +70,10 @@ fetch(`/diarypage/user/${diaryId}`)
         console.log(json);
         // stateのuserに受け取ったデータを保持
         this.setState({
-            user: json
+            user: json,
+            aFewWords: json.afewWords,
+            isOwner: json.isOwner,
+            imagePreview: '/api/images/' + json.imageId,
         });
         
     })
@@ -217,7 +211,7 @@ fetch(`/myId`)
 
 
     render(){
-        const { myId,addcomment,currentTime,currentDate,imagePreview,diary,user,tag,reaction,comsize} = this.state;
+        const { myId,addcomment,currentTime,currentDate,diary,user,tag,reaction,comsize,aFewWords, imagePreview, isOwner} = this.state;
 
         
        
@@ -278,17 +272,7 @@ fetch(`/myId`)
                 <table className="mtable">
                     <tbody>
                     <tr>
-                        <td>{imagePreview ? (
-                        <img
-                            src={imagePreview}
-                            alt="プロフィール画像"
-                            style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
-                    )}</td>
-                        <td>あなた</td>
-                        <td>{currentDate} {currentTime}</td>
+                    <td>{currentDate} {currentTime}</td>
                     </tr>
                     </tbody>   
                 </table>
