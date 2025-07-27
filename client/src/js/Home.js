@@ -23,10 +23,10 @@ function Home() {
   const fetchDiaries = useCallback(async () => {
     try {
       const response = await axios.get('/api/diary_search', {
-        params: tag ? { tag } : {}, // タグがある場合は検索、なければ全件取得
+        params: tag ? { tag: '#' + tag } : {},
       });
 
-      console.log('取得した日記:', response.data);
+  
 
       // stamp（数字）→ Reaction（絵文字）に変換
       const transformed = response.data.map((diary) => {
@@ -61,7 +61,7 @@ function Home() {
     }
   };
 
-  
+   
 
   return (
     <div className="home_container">

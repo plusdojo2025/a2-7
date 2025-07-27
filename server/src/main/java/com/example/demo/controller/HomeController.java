@@ -39,9 +39,9 @@ public class HomeController {
     public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session) {
     	String loginId = (String)session.getAttribute("loginId");
         if (tag == null || tag.isBlank()) {
-            return diaryRepository.findByUser_LoginId(loginId);
+            return diaryRepository.findByUser_LoginId(loginId);//タグの指定がなければ、ログイン中のユーザーIDで日記を全部取得する
         }
-        return diaryRepository.findBySentenceLike("%" + "#" + tag + "%");
+        return diaryRepository.findByUser_LoginIdOrderByResistTime("%" + "#" + tag + "%");
     }
 }
 
