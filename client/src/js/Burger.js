@@ -3,21 +3,33 @@ import { slide as Menu } from 'react-burger-menu';
 import '../css/Burger.css';
 
 const Burger = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleToggle = () => {
-    setIsOpen(prev => !prev);
+    setMenuOpen(prev => !prev);
+  };
+
+  const handleStateChange = (state) => {
+    setMenuOpen(state.isOpen);
   };
 
   return (
     <>
-      <div className="custom-burger-button" onClick={handleToggle}>
+      <div
+        className={`custom-burger-button ${menuOpen ? 'open' : ''}`}
+        onClick={handleToggle}
+      >
         <div className="bar" />
         <div className="bar" />
         <div className="bar" />
       </div>
 
-      <Menu isOpen={isOpen} onStateChange={({ isOpen }) => setIsOpen(isOpen)} noOverlay right>
+      <Menu
+        isOpen={menuOpen}
+        onStateChange={handleStateChange}
+        noOverlay
+        right
+      >
         <a className="menu-item" href="/home">ホーム</a>
         <a className="menu-item" href="/graph">グラフ分析</a>
         <a className="menu-item" href="/timeline">タイムライン</a>
