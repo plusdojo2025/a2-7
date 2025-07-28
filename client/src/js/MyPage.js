@@ -147,7 +147,7 @@ export default class MyPage extends React.Component{
                         <br></br>
                         <br></br>
                         {/* ↓画像アップロードボタンの追加*/}
-                        {isOwner && <button className="update-button" onClick={this.handleImageUpload}>アイコン更新</button>}
+                        <button className="update-button" onClick={this.handleImageUpload}>アイコン更新</button>
                     </div>
 
 
@@ -160,7 +160,7 @@ export default class MyPage extends React.Component{
                                 type="text"
                                 name="nickname"
                                 value={nickname}
-                                disabled={!isOwner}
+                                //disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="ニックネーム"
                                 class="area-input"
@@ -173,7 +173,7 @@ export default class MyPage extends React.Component{
                                 id="introduction"
                                 value={aFewWords || ''}  // ← null の時でも空文字にして確実に表示
                                 name="aFewWords"
-                                disabled={!isOwner}
+                                //disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="自己紹介を入力"
                                 class="area-input"
@@ -181,7 +181,7 @@ export default class MyPage extends React.Component{
 
                         {/* ④ 更新ボタン */}
                         <div style={{ textAlign: 'center' }}>
-                            {isOwner && <button type="submit" className="update-button">更新する</button>}
+                            <button type="submit" className="update-button">更新する</button>
                         </div>
                     </form>
                 </div>
