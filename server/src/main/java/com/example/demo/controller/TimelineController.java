@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Post;
@@ -201,33 +201,18 @@ public class TimelineController {
 			
 			
 			//タグ検索（未解決）
-			@GetMapping("/timeline/serchtag/{tags}")
-			public List<Diary> timelineTag(@PathVariable("tags") String tags,HttpSession session,RedirectAttributes redirectAttributes){
-				
-				String loginId = (String) session.getAttribute("loginId");
-				if (loginId == null) {
-				    throw new RuntimeException("ログインしていません");
-				}
-				
-				Tag tag=tagsrepository.findByTags(tags);
-				if(tag==null) {
-					redirectAttributes.addFlashAttribute("message"
-							, "見つかりませんでした。");
-					return diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
-				}
-				
-				List<Post> post=tag.getPosts();
-				List<Diary> diary=new ArrayList<>();
-				
-				for(Post p:post) {
-					diary.add(diariesrepository.findByDiaryId(p.getDiary().getDiaryId()));
-				}
-				
-				// DiaryリストをresistTimeで並べ替え（降順）
-			    diary.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime())); // resistTimeで降順に並べ替え
-				
-			    System.out.println();
-				return diary;
-			}
+			@GetMapping("/timeline/serchtag")
+		    public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session){
+		    	
+		    	String loginId = (String) session.getAttribute("loginId");
+		    	if (tag == null || tag.trim().isEmpty()) {
+		        	return diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
+		        	
+		        }
+		    	List<Diary> diary=diariesrepository.findBySentenceLike("%" + "#" + tag + "%");
+		    	diary.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime()));
+		    	return diary;
+		    }
+			
 			
 }

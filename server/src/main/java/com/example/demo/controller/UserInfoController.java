@@ -83,7 +83,7 @@ public class UserInfoController {
 	    user.setPassword(newPassword);
 	    repository.save(user);
 
-	    response.put("message", "パスワードを更新しました");
+	    response.put("message", "更新完了");
 	    return ResponseEntity.ok(response);
 	}
 	

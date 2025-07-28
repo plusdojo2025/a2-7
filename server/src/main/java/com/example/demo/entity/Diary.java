@@ -34,9 +34,8 @@ public class Diary {
 	@Column(name = "diary_id")
 	private int diaryId;
 	
-	@ManyToOne
-	@JoinColumn(name = "image_id")
-	private Images image;
+
+	private Integer imageId;
 	private String sentence;
 	private int stamp;
 	private Timestamp resistTime;	

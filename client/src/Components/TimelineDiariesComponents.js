@@ -37,10 +37,19 @@ export default class Timeline extends React.Component {
             reaction4: rea4[3],
             reaList: [],
             myrea: -1,
+            picture:null,
         };
     }
 
     componentDidMount() {
+
+        if(this.props.diary.imageId!==null){
+            this.setState({
+                    picture: '/api/images/' + this.props.diary.imageId,
+                });
+        }
+
+        
         fetch(`/timeline/user/${this.props.diary.diaryId}`)
             .then(res => res.json())
             .then(json => {
@@ -193,7 +202,7 @@ export default class Timeline extends React.Component {
 
     render() {
         const { diary, comment } = this.props;
-        const { myrea, aFewWords, imagePreview, isOwner, reaction1, reaction2, reaction3, reaction4, tag, user } = this.state;
+        const { myrea, aFewWords, imagePreview, isOwner, reaction1, reaction2, reaction3, reaction4, tag, user,picture } = this.state;
         console.log(diary);
 
         let comsize = comment.length;
@@ -223,9 +232,11 @@ export default class Timeline extends React.Component {
 
                 <div className="diary_sub">
                     <p>{diary.sentence}</p>
-                    {Array.isArray(tag) && tag.map((tagdata, index) => (
-                        <span key={index}>{tagdata.tags} </span>
-                    ))}
+
+                    {picture ?
+                    (<img src={picture} alt="日記画像 " style={{ width: '50%', height: '50%'}} 
+                    />):(<div/>)}
+                    
                 </div>
 
                 <table className="mtable">

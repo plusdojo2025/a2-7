@@ -44,22 +44,19 @@ export default class Timeline extends React.Component {
     };
 
     // 検索ボタン処理
-    searchTag = async (e) => {
-        e.preventDefault();  // フォームの送信時にページがリロードされるのを防ぐ
-        console.log("ハッシュタグ検索はこちら！！！→"+this.state.hashtag);
-        fetch(`/timeline/serchtag/${this.state.hashtag}`)
-    .then(res => res.json())
-    .then(json => {
-        console.log(json);
-        // stateのdiaryに受け取ったデータを保持
-        this.setState({
-            diary: json
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching diary:", error);
-    });
-};
+    searchTag = async (e) =>{
+        e.preventDefault(); // ページがリロードされないようにする
+    try {
+      const response = await axios.get(`/timeline/serchtag`, {
+        params: this.state.hashtag ? { tag: this.state.hashtag } : {}
+      });
+      this.setState({ diary: response.data });
+    } catch (error) {
+      console.error('日記の取得に失敗しました', error);
+
+    }
+  };
+
 
     render() {
         const { diary, hashtag} = this.state;
@@ -78,16 +75,21 @@ export default class Timeline extends React.Component {
                     <input type="submit" value="検索" />
                 </form>
 
-                {/* diaryが配列の場合のみ表示 */}
-                {Array.isArray(diary) && diary.map((diarydata, index) => (
-                    <TimelineDiaries
-                        key={index}
-                        diary={diarydata}
-                        reaction4={diarydata.reactions}
-                        comment={diarydata.comments}
-                        user={diarydata.user}
-                    />
-                ))}
+                {/* diaryが空の配列の場合にメッセージを表示 */}
+                {Array.isArray(diary) && diary.length === 0 ? (
+                    <p>日記が見つかりませんでした。</p>
+                ) : (
+                    // diaryが配列の場合のみ表示
+                    Array.isArray(diary) && diary.map((diarydata, index) => (
+                        <TimelineDiaries
+                            key={index}
+                            diary={diarydata}
+                            reaction4={diarydata.reactions}
+                            comment={diarydata.comments}
+                            user={diarydata.user}
+                        />
+                    ))
+                )}
             </main>
         );
     }

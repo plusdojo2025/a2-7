@@ -23,8 +23,10 @@ function Home() {
   const fetchDiaries = useCallback(async () => {
     try {
       const response = await axios.get('/api/diary_search', {
-        params: tag ? { tag: '#' + tag } : {},
+      params: tag ? { tag } : {},
       });
+
+      console.log("取得した日記:", response.data);
 
   
 
@@ -73,6 +75,7 @@ function Home() {
           onChange={(e) => setTag(e.target.value)}
         />
         <button onClick={fetchDiaries}>検索</button>
+      
       </div>
 
       <Calendar

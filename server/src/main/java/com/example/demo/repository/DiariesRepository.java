@@ -16,11 +16,12 @@ public interface DiariesRepository extends JpaRepository<Diary, Integer>{
 	List<Diary> findByUserLoginIdAndDiaryTimeBetween(String loginId, LocalDate start, LocalDate end);
 
 	Diary findByDiaryId(int diaryId);
-	List<Diary> findBySentenceLike(String tag);
+	//List<Diary> findBySentenceLike(String tag);
+	List<Diary> findByUser_LoginIdAndSentenceLike(String loginId, String keyword);
 	Optional<Diary> findFirstByDiaryTimeAndUser_LoginId(LocalDate localDate,String loginId);
 	List<Diary> findByUser_LoginId(String loginId);
 	List<Diary> findByUser_LoginIdOrderByResistTime(String loginId);
-	
+	List<Diary> findBySentenceLike(String tag);
 
     @Modifying
     @Transactional

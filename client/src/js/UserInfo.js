@@ -12,24 +12,27 @@ export default class UserInfo extends React.Component {
             newPassword: '',
             confirmPassword: '',
             message: '',
-            passwordVisible: false
-        }
+            passwordVisible: {
+                current: false,
+                new: false,
+                confirm: false
+            }
+        };
     }
 
-
-        //マウント後に自動で動作する
-    componentDidMount(){
+    //マウント後に自動で動作する
+    componentDidMount() {
         //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch("/api/userinfo",{credentials: 'include'})
-        .then(res => res.json())
-        .then(json => {
-            console.log(json);
-            //stateのbooksに受け取ったデータを保持する。
-            //stateが変わると自動的に画面が再描画される。
-            this.setState({
-                UserInfo:json
-            })
-        });
+        fetch("/api/userinfo", { credentials: 'include' })
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+                //stateのbooksに受け取ったデータを保持する。
+                //stateが変わると自動的に画面が再描画される。
+                this.setState({
+                    UserInfo: json
+                })
+            });
     }
 
     //画面で何か入力された時に、その値をstateとして保持する。
@@ -39,7 +42,7 @@ export default class UserInfo extends React.Component {
         this.setState({
             [name]: e.target.value
         });
-    }    
+    }
 
 
     //パスワード更新フォームの送信イベント
@@ -65,7 +68,7 @@ export default class UserInfo extends React.Component {
                 withCredentials: true
             });
 
-            this.setState({ message: response.data.message || "パスワードを更新しました。" });
+            this.setState({ message: response.data.message || "更新完了!" });
         } catch (err) {
             const errorMsg = err.response?.data?.error || "パスワードの更新に失敗しました。";
             this.setState({ message: errorMsg });
@@ -73,12 +76,14 @@ export default class UserInfo extends React.Component {
     };
 
     //passwordの表示切替の処理
-    togglePasswordVisibility = () => {
-    this.setState((prevState) => ({
-      passwordVisible: !prevState.passwordVisible
-    }));
-  };
-
+    togglePasswordVisibility = (field) => {
+        this.setState((prevState) => ({
+            passwordVisible: {
+                ...prevState.passwordVisible,
+                [field]: !prevState.passwordVisible[field]
+            }
+        }));
+    };
 
 
 
@@ -88,54 +93,55 @@ export default class UserInfo extends React.Component {
         return (
 
             <div>
-                <h2>パスワード変更</h2>
+                <h2 className="passwordtitle">パスワード変更</h2>
                 <div className="mypage-box">
                     <form onSubmit={this.handleUpdatePassword}>
                         <h4 class="section-title">次回から変更したパスワードでログインできます。</h4>
                         <h4 class="section-title">新しいパスワードについては、必ずお客様ご自身でお控えください</h4>
+                        <br></br>
                         <div>
                             <label>現在のパスワード：</label>
                             <input
-                                type="password"
+                                type={this.state.passwordVisible.current ? "text" : "password"}
                                 name="currentPassword"
                                 value={currentPassword}
                                 onChange={this.onInput}
                                 required
                             />
-                            <button onClick={this.togglePasswordVisibility}>
-                                {passwordVisible ? '非表示' : '👀'}
+                            <button type="button" onClick={() => this.togglePasswordVisibility('current')}>
+                                {this.state.passwordVisible.current ? '非表示' : '👀'}
                             </button>
                         </div>
                         <br />
                         <div>
                             <label>新しいパスワード：</label>
                             <input
-                                type="password"
+                                type={this.state.passwordVisible.new ? "text" : "password"}
                                 name="newPassword"
                                 value={newPassword}
                                 onChange={this.onInput}
                                 required
                             />
-                            <button onClick={this.togglePasswordVisibility}>
-                                {passwordVisible ? '非表示' : '👀'}
+                            <button type="button" onClick={() => this.togglePasswordVisibility('new')}>
+                                {this.state.passwordVisible.new ? '非表示' : '👀'}
                             </button>
                         </div>
                         <br />
                         <div>
                             <label>新しいパスワード（確認）：</label>
                             <input
-                                type="password"
+                                type={this.state.passwordVisible.confirm ? "text" : "password"}
                                 name="confirmPassword"
                                 value={confirmPassword}
                                 onChange={this.onInput}
                                 required
                             />
-                            <button onClick={this.togglePasswordVisibility}>
-                                {passwordVisible ? '非表示' : '👀'}
+                            <button type="button" onClick={() => this.togglePasswordVisibility('confirm')}>
+                                {this.state.passwordVisible.confirm ? '非表示' : '👀'}
                             </button>
                         </div>
                         <br />
-                        <button id="updatebutton" type="submit" >
+                        <button id="updatebutton" type="submit" className="passwordupdate-button" >
                             {message || 'パスワードを更新する'}
                         </button>
 
@@ -146,4 +152,5 @@ export default class UserInfo extends React.Component {
             </div>
         );
     }
+
 }
