@@ -94,7 +94,7 @@ export default class UserInfo extends React.Component {
 
             <div>
                 <h2 className="passwordtitle">パスワード変更</h2>
-                <div className="mypage-box">
+                <div className="mypage-boxuserinfo">
                     <form onSubmit={this.handleUpdatePassword}>
                         <h4 class="section-title">次回から変更したパスワードでログインできます。</h4>
                         <h4 class="section-title">新しいパスワードについては、必ずお客様ご自身でお控えください</h4>

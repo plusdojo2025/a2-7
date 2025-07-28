@@ -26,7 +26,7 @@
     border-radius: 15px;           
     padding: 20px;                   
     margin-bottom: 20px;             
-    background-color: #f9f9f9;      
+    background-color: #f0ffff;      
     box-shadow: 2px 2px 8px rgba(252, 251, 251, 0); 
     /* display: flex; */
     width: 40%;
@@ -73,4 +73,9 @@
   width: 250px;           /* 幅 */
   border: 1px solid #ccc; /* 枠線 */
   border-radius: 4px;     /* 角丸 */
+}
+
+.titlemypage{
+  margin: 12px;
+  padding: 0;
 }

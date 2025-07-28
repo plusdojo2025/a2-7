@@ -324,7 +324,7 @@ fetch(`/myId`)
                 <table className="mtable">
                     <tbody>
                     <tr>
-                        <td><Link to="/mypage">{imagePreview ? (
+                        <td><Link to={`/mypage/data/${user.loginId}`}>{imagePreview ? (
                         <img
                             src={imagePreview}
                             alt="プロフィール画像"
@@ -333,7 +333,7 @@ fetch(`/myId`)
                     ) : (
                         <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
                     )}</Link></td>
-                        <td><Link to="/mypage">{user.nickname}</Link></td>
+                        <td><Link to={`/mypage/data/${user.loginId}`}>{user.nickname}</Link></td>
                         
                             <td>{this.formatTimestamp(diary.resistTime)}</td>
                     </tr>

@@ -212,7 +212,7 @@ export default class Timeline extends React.Component {
                     <tbody>
                         <tr>
                             <td>
-                                <Link to="/mypage">
+                                <Link to={`/mypage/data/${user.loginId}`}>
                                     {imagePreview ? (
                                         <img
                                             src={imagePreview}
@@ -224,7 +224,7 @@ export default class Timeline extends React.Component {
                                     )}
                                 </Link>
                             </td>
-                            <td><Link to="/mypage">{user.nickname}</Link></td>
+                            <td><Link to={`/mypage/data/${user.loginId}`}>{user.nickname}</Link></td>
                             <td>{this.formatTimestamp(diary.resistTime)}</td>
                         </tr>
                     </tbody>
@@ -286,7 +286,7 @@ export default class Timeline extends React.Component {
                             {/* コメントボタン */}
                             {diary ? (
                                 <td>
-                                    <Link to={`/diarypage/${diary.diaryId}`} state={{ diary: { diary } }}>
+                                    <Link to={`/diarypage/${diary.diaryId}`}>
                                         <button className="reactionButton">💬</button> {comsize}
                                     </Link>
                                 </td>

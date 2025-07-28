@@ -155,7 +155,7 @@ export default class MyPage extends React.Component{
                     <form onSubmit={this.handleUpdate}>
                         {/* ② 名前表示エリア */}
                         <div>
-                            <h3>① ニックネーム</h3>
+                            <h3 className="titlemypage">① ニックネーム</h3>
                             <input
                                 type="text"
                                 name="nickname"
@@ -168,7 +168,7 @@ export default class MyPage extends React.Component{
                         </div>
 
                         {/* ③ ひとこと表示エリア */}
-                            <h3>② 自己紹介</h3>
+                            <h3 className="titlemypage">② 自己紹介</h3>
                             <textarea
                                 id="introduction"
                                 value={aFewWords || ''}  // ← null の時でも空文字にして確実に表示

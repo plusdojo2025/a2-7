@@ -180,6 +180,29 @@ public class UserDiaryController {
 		    return response; // JSON: {"message": "削除しました"}
 		}
 		
+		
+		//表示
+		//imageIdとnicknameとaFewWordsとisownerの結果を取得して表示
+		@GetMapping("/mypage/data/{loginId2}")
+		public Map<String, Object> showMyPage(HttpSession session
+				,@PathVariable("loginId2") String loginId2) {
+			//ログイン画面の作成者に確認→ログイン時にsessionに保持している
+			//sessionからloginIdを取り出す
+		    String loginId = (String) session.getAttribute("loginId");
+		    if (loginId == null) {
+		        throw new RuntimeException("ログインしていません");
+		    }
+
+		    User user = usersrepository.findByLoginId(loginId2);
+
+		    return Map.of(
+		        "nickname", user.getNickname(),
+		        "afewWords", user.getAFewWords(),
+		        "imageId", user.getImageId(),
+		        "isOwner", true  // ← フロントに明示的に返す
+		    );
+		}
+		
 }
 		
 			
