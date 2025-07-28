@@ -22,9 +22,6 @@ import com.example.demo.entity.Images;
 import com.example.demo.entity.User;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ImagesRepository;
-import com.example.demo.repository.UsersRepository;
-
-import jakarta.servlet.http.HttpSession;
 
 
 @CrossOrigin(origins = "http://localhost:3000") // React dev server
@@ -32,8 +29,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/diary")
 public class DiaryController {
 
-	@Autowired
-	private UsersRepository usersrepository;
+	
 	@Autowired
 	private DiariesRepository diaryRepository;
 	@Autowired
@@ -73,8 +69,7 @@ public class DiaryController {
 	            @RequestParam("resist_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime resistTime,
 	            @RequestParam("diary_time") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate diaryDate,
 	            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-	            @RequestParam(value = "name", required = false) String imageName,
-	            HttpSession session
+	            @RequestParam(value = "name", required = false) String imageName
 	    ) {
 	        try {
 	            // Save image if present
@@ -90,7 +85,7 @@ public class DiaryController {
 
 	            // Save diary
 	            Diary diary = new Diary();
-	            User user=usersrepository.findByLoginId(loginId);
+	            User user = null;//loginIdを利用して取得
 	            diary.setUser(user);
 
 	            diary.setSentence(sentence);
