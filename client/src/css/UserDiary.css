@@ -26,7 +26,7 @@
     background: #ffffe5; /* 背景色 */
     color: rgb(119, 53, 53); /* 文字色 */
 
-    border: none; /* ボーダー無しにする */
+    border: 2px solid #ffffe5; /* ボーダー無しにする */
     padding: 20px; /* 内側の余白 */
     border-radius: 50px;
     margin: 0 auto; /* 水平中央寄せ */
@@ -34,9 +34,9 @@
 }
 
 .mtextarea2:focus {
-    outline: #ffffe5;
+    border: 2px solid #f08080;
   /* もし必要ならボーダーも消す */
-  border: none;
+
 }
 
 

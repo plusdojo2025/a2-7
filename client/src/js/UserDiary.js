@@ -29,6 +29,7 @@ export default class UserDiary extends React.Component{
                 comsize:0,
                 myId:"",
                 addsentence:"",
+                picture:null,
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -60,6 +61,12 @@ fetch(`/diarypage/${diaryId}`)
             diary: json,
             addsentence:json.sentence,
         });
+
+        if(json.imageId!==null){
+            this.setState({
+            picture: '/api/images/' + json.imageId,
+        });
+        }
     })
     .catch(error => {
         console.error("Error fetching diary:", error);
@@ -77,6 +84,8 @@ fetch(`/diarypage/user/${diaryId}`)
             isOwner: json.isOwner,
             imagePreview: '/api/images/' + json.imageId,
         });
+
+        
         
     })
     .catch(error => {
@@ -297,7 +306,7 @@ fetch(`/myId`)
 
 
     render(){
-        const { myId,addcomment,currentTime,currentDate,diary,user,tag,reaction,comsize,aFewWords, imagePreview, isOwner,addsentence} = this.state;
+        const { myId,addcomment,currentTime,currentDate,diary,user,tag,reaction,comsize,aFewWords, imagePreview, isOwner,addsentence,picture,} = this.state;
 
         
        
@@ -338,12 +347,18 @@ fetch(`/myId`)
                 {myId == user.loginId ? (
                     <form className="diary_update">
                     <textarea className="mtextarea2"  value={addsentence} onChange={this.onInput2}/>
-                    
+                    {picture ?
+                    (<img src={picture} alt="日記画像 " style={{ width: '50%', height: '50%'}} 
+                    />):(<div/>)}
                 </form>
+                
                 ):(<div className="diary_sub">
-                    <p>{diary.sentence}</p>
-                    
+                    <p>{diary.sentence}</p>{picture ?
+                    (<img src={picture} alt="日記画像 " style={{ width: '50%', height: '50%'}} 
+                    />):(<div/>)}                    
                 </div>)}
+
+                
                             
                 <table className="mtable">
                     <tbody>

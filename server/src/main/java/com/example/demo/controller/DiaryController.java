@@ -94,7 +94,7 @@ public class DiaryController {
 	            diary.setDiaryTime(Date.valueOf(diaryDate));
 
 	            if (savedImage != null) {
-	                diary.setImage(savedImage);
+	                diary.setImageId(savedImage.getImageId());
 	            }
 
 	            diaryRepository.save(diary);

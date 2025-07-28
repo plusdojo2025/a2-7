@@ -21,7 +21,7 @@ public interface DiariesRepository extends JpaRepository<Diary, Integer>{
 	Optional<Diary> findFirstByDiaryTimeAndUser_LoginId(LocalDate localDate,String loginId);
 	List<Diary> findByUser_LoginId(String loginId);
 	List<Diary> findByUser_LoginIdOrderByResistTime(String loginId);
-	
+	List<Diary> findBySentenceLike(String tag);
 
     @Modifying
     @Transactional

@@ -53,6 +53,7 @@ export default class Timeline extends React.Component {
       this.setState({ diary: response.data });
     } catch (error) {
       console.error('日記の取得に失敗しました', error);
+
     }
   };
 
@@ -74,16 +75,21 @@ export default class Timeline extends React.Component {
                     <input type="submit" value="検索" />
                 </form>
 
-                {/* diaryが配列の場合のみ表示 */}
-                {Array.isArray(diary) && diary.map((diarydata, index) => (
-                    <TimelineDiaries
-                        key={index}
-                        diary={diarydata}
-                        reaction4={diarydata.reactions}
-                        comment={diarydata.comments}
-                        user={diarydata.user}
-                    />
-                ))}
+                {/* diaryが空の配列の場合にメッセージを表示 */}
+                {Array.isArray(diary) && diary.length === 0 ? (
+                    <p>日記が見つかりませんでした。</p>
+                ) : (
+                    // diaryが配列の場合のみ表示
+                    Array.isArray(diary) && diary.map((diarydata, index) => (
+                        <TimelineDiaries
+                            key={index}
+                            diary={diarydata}
+                            reaction4={diarydata.reactions}
+                            comment={diarydata.comments}
+                            user={diarydata.user}
+                        />
+                    ))
+                )}
             </main>
         );
     }
