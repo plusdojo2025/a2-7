@@ -9,6 +9,7 @@ import Signup from './js/Signup';
 import Login from './js/Login';
 import Graph from './js/Graph';
 import Mypage from './js/MyPage';
+import Mypage2 from './js/MyPage2';
 import Search from './js/Search';
 import UserInfo from './js/UserInfo';
 import DairyComponent from './Components/DiariesComponentsTest';
@@ -61,6 +62,9 @@ function AppContent() {
 
             {/* マイページ */}
             <Route path="/mypage" element={<Mypage />} />
+
+            {/* マイページ2 */}
+            <Route path="/mypage/data/:id" element={<Mypage2 />} />
 
             {/* 検索 */}
             <Route path="/search" element={<Search />} />
