@@ -82,10 +82,12 @@ public class SearchController {
         	return diaryRepository.findByUser_LoginIdOrderByResistTime(loginId);
         	
         }
+    	System.out.println(tag);
         return diaryRepository.findBySentenceLike("%" + "#" + tag + "%");
     }
 
-	@GetMapping("/search/tag/{diaryId}")
+	
+	@GetMapping("/search/{tag}")
 	public List<Tag> diarypageTag(@PathVariable("diaryId") Integer diaryId){
 				
 				//日記データを取得
@@ -104,8 +106,6 @@ public class SearchController {
 //    @GetMapping("/users")
 //    User userdata=usersrepository.findByLoginId(diarydata.getUser().getLoginId());
 //loginIdとニックネームが欲しい
-
-    
 
 
 		//日記IDを用いて更新する
