@@ -33,19 +33,26 @@ public class MyPageController {
 	private ImagesRepository  imageRepository;
 	
 	//表示
-	//imageIdとnicknameとaFewWordsを取得して表示
+	//imageIdとnicknameとaFewWordsとisownerの結果を取得して表示
 	@GetMapping("/api/mypage/")
-	public User showMyPage(HttpSession session) {
-		//どうやってloginIdを取得するか？
+	public Map<String, Object> showMyPage(HttpSession session) {
 		//ログイン画面の作成者に確認→ログイン時にsessionに保持している
 		//sessionからloginIdを取り出す
-		String loginId = (String) session.getAttribute("loginId");
-		if (loginId == null) {
-		    throw new RuntimeException("ログインしていません");
-		}
-		User user = repository.findByLoginId(loginId);
-		return user;
+	    String loginId = (String) session.getAttribute("loginId");
+	    if (loginId == null) {
+	        throw new RuntimeException("ログインしていません");
+	    }
+
+	    User user = repository.findByLoginId(loginId);
+
+	    return Map.of(
+	        "nickname", user.getNickname(),
+	        "afewWords", user.getAFewWords(),
+	        "imageId", user.getImageId(),
+	        "isOwner", true  // ← フロントに明示的に返す
+	    );
 	}
+
 
 	//マイページのアイコン画像を更新する
 	//sessionにimageIdを保存する

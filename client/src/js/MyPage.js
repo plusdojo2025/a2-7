@@ -123,13 +123,14 @@ export default class MyPage extends React.Component{
         const { nickname, aFewWords, imagePreview, isOwner } = this.state;
         // ここに追加
     console.log("描画時の aFewWords:", aFewWords);
+    console.log("isOwner in render:", this.state.isOwner);
         return(
             <div>
                 <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
                 {/* ① アイコン画像エリア */}
                 <div className="mypage-box">
                     <div>
-                        <h3>① アイコン</h3>
+                        
                         {imagePreview ? (
                             <img
                                 src={imagePreview}
@@ -139,9 +140,13 @@ export default class MyPage extends React.Component{
                         ) : (
                             <div id="icon"/>
                         )}
+                        <br></br>
+                        <br></br>
                         <input type="file" accept="image/*" onChange={this.handleImageChange} />
+                        <br></br>
+                        <br></br>
                         {/* ↓画像アップロードボタンの追加*/}
-                        <button onClick={this.handleImageUpload}>アイコン更新</button>
+                        {isOwner && <button className="update-button" onClick={this.handleImageUpload}>アイコン更新</button>}
                     </div>
 
 
@@ -149,31 +154,33 @@ export default class MyPage extends React.Component{
                     <form onSubmit={this.handleUpdate}>
                         {/* ② 名前表示エリア */}
                         <div>
-                            <h3>② ニックネーム</h3>
+                            <h3>① ニックネーム</h3>
                             <input
                                 type="text"
                                 name="nickname"
                                 value={nickname}
-                                // disabled={!isOwner}
+                                disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="ニックネーム"
+                                class="area-input"
                             />
                         </div>
 
                         {/* ③ ひとこと表示エリア */}
-                            <h3>③ 自己紹介</h3>
+                            <h3>② 自己紹介</h3>
                             <textarea
                                 id="introduction"
                                 value={aFewWords || ''}  // ← null の時でも空文字にして確実に表示
                                 name="aFewWords"
-                                // disabled={!isOwner}
+                                disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="自己紹介を入力"
+                                class="area-input"
                             />
 
                         {/* ④ 更新ボタン */}
                         <div style={{ textAlign: 'center' }}>
-                            <button type="submit">更新する</button>
+                            {isOwner && <button type="submit" className="update-button">更新する</button>}
                         </div>
                     </form>
                 </div>
