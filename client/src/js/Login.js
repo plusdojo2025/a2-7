@@ -30,7 +30,7 @@ function Login() {
       const data = await response.json();
 
       if (data.success) {
-        alert(data.message);  // ログイン成功メッセージ
+        //アラートは出さない
         navigate('/home');    // ホーム画面に遷移
       } else {
         alert(data.message);  // エラーメッセージ

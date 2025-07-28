@@ -51,8 +51,8 @@ public class LoginController {
         } else {
             // ログイン成功
             session.setAttribute("loginId", loginId);
-            result.put("success", true);
-            result.put("message", "ログイン成功");
+             result.put("success", true);
+            //result.put("message", "ログイン成功");
         }
 
         return result;

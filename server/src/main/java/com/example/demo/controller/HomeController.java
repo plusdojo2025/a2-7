@@ -39,9 +39,20 @@ public class HomeController {
     public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session) {
     	String loginId = (String)session.getAttribute("loginId");
         if (tag == null || tag.isBlank()) {
-            return diaryRepository.findByUser_LoginId(loginId);//タグの指定がなければ、ログイン中のユーザーIDで日記を全部取得する
+        	List<Diary> all = diaryRepository.findByUser_LoginId(loginId);
+        	System.out.println("全件取得: " + all.size());
+        	return all;
         }
-        return diaryRepository.findByUser_LoginIdOrderByResistTime("%" + "#" + tag + "%");
+        
+       // return diaryRepository.findByUser_LoginIdAndSentenceContaining(loginId, tag);
+
+        String keyword = "%" + "#" + tag + "%";
+        System.out.println("検索キーワード: " + keyword);
+
+        List<Diary> result = diaryRepository.findByUser_LoginIdAndSentenceLike(loginId, keyword);
+        System.out.println("検索結果件数: " + result.size());
+        return result;
+        
     }
 }
 
