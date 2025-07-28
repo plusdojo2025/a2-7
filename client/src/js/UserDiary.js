@@ -338,15 +338,11 @@ fetch(`/myId`)
                 {myId == user.loginId ? (
                     <form className="diary_update">
                     <textarea className="mtextarea2"  value={addsentence} onChange={this.onInput2}/>
-                    {Array.isArray(tag) && tag.map((tagdata, index)  => (
-                    <block key={index}>{tagdata.tags}</block>
-                    ))}
+                    
                 </form>
                 ):(<div className="diary_sub">
                     <p>{diary.sentence}</p>
-                    {Array.isArray(tag) && tag.map((tagdata, index)  => (
-                    <block key={index}>{tagdata.tags}</block>
-                    ))}
+                    
                 </div>)}
                             
                 <table className="mtable">
