@@ -31,6 +31,7 @@ const Burger = () => {
         right
       >
         <a className="menu-item" href="/home">ホーム</a>
+        <a className="menu-item" href="/search">検索</a>
         <a className="menu-item" href="/graph">グラフ分析</a>
         <a className="menu-item" href="/timeline">タイムライン</a>
         <a className="menu-item" href="/mypage">マイページ</a>

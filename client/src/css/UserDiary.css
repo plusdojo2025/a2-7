@@ -10,6 +10,36 @@
     display: block; /* ブロック要素として扱う */
 }
 
+.diary_update{
+    width: 700px;
+    background: #ffffe5; /* 背景色 */
+    border: 2px solid #f08080;  /* 2pxの黒い実線 */
+     padding: 20px;  /* 内側の余白 */
+    border-radius: 50px;
+    margin: 0 auto; /* 水平中央寄せ */
+    display: block; /* ブロック要素として扱う */
+}
+
+.mtextarea2{
+    
+    width: 650px;
+    background: #ffffe5; /* 背景色 */
+    color: rgb(119, 53, 53); /* 文字色 */
+
+    border: none; /* ボーダー無しにする */
+    padding: 20px; /* 内側の余白 */
+    border-radius: 50px;
+    margin: 0 auto; /* 水平中央寄せ */
+    display: block; /* ブロック要素として扱う */
+}
+
+.mtextarea2:focus {
+    outline: #ffffe5;
+  /* もし必要ならボーダーも消す */
+  border: none;
+}
+
+
 .comment{
     margin: 10px;
 }
@@ -64,6 +94,25 @@ button:hover {
 }
 
 
+.mbutton {
+    background: #ffffe5; /* 背景色 */
+    color: #f08080; /* 文字色 */
+    border: 2px solid #f08080; /* ボーダー色（文字色と同じ） */
+    padding: 5px 10px; /* ボタンの内側の余白 */
+    border-radius: 30px; /* 角を丸くする */
+    font-size: 12px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターにする */
+    transition: all 0.3s ease; /* ホバー時のスムーズな遷移 */
+}
+
+.mbutton:hover {
+    background: #ffbf7f; /* ホバー時の背景色 */
+    color: #ffffe5; /* ホバー時の文字色 */
+    border-color: #f08080; /* ホバー時のボーダー色 */
+}
+
+
+
 
 
 
@@ -79,3 +128,21 @@ button:hover {
     display: block; /* ブロック要素として扱う */
 }
 
+.mtextarea {
+  color: rgb(119, 53, 53);         /* 文字色 */
+  background: #ffffe5;            /* 背景色 */
+  border: 2px solid #f08080;      /* 枠線 */
+  border-radius: 10px;            /* 角の丸み */
+  padding: 10px;                  /* 内側の余白 */
+  font-size: 14px;                /* 文字サイズ */
+  resize: vertical;               /* ユーザーが縦方向にリサイズできるように */
+                /* レスポンシブに全幅に対応（cols不要に） */
+  box-sizing: border-box;         /* paddingとborderを含めて幅を計算 */
+}
+
+/* フォーカス時の強調 */
+
+.mtextarea:focus {
+  border: 2px solid #f08080;
+  outline: none; /* 青いフォーカス枠を消す */
+}

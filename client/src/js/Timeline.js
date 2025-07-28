@@ -44,22 +44,18 @@ export default class Timeline extends React.Component {
     };
 
     // 検索ボタン処理
-    searchTag = async (e) => {
-        e.preventDefault();  // フォームの送信時にページがリロードされるのを防ぐ
-        console.log("ハッシュタグ検索はこちら！！！→"+this.state.hashtag);
-        fetch(`/timeline/serchtag/${this.state.hashtag}`)
-    .then(res => res.json())
-    .then(json => {
-        console.log(json);
-        // stateのdiaryに受け取ったデータを保持
-        this.setState({
-            diary: json
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching diary:", error);
-    });
-};
+    searchTag = async (e) =>{
+        e.preventDefault(); // ページがリロードされないようにする
+    try {
+      const response = await axios.get(`/timeline/serchtag`, {
+        params: this.state.hashtag ? { tag: this.state.hashtag } : {}
+      });
+      this.setState({ diary: response.data });
+    } catch (error) {
+      console.error('日記の取得に失敗しました', error);
+    }
+  };
+
 
     render() {
         const { diary, hashtag} = this.state;
@@ -68,7 +64,7 @@ export default class Timeline extends React.Component {
             <main className="mmain">
                 <h1>タイムライン</h1>
 
-                <form onSubmit={this.searchTag}>
+                <form onSubmit={this.searchTag} className="timeline_box">
                     <input
                         type="text"
                         placeholder="タグで検索（例: 頑張った）"

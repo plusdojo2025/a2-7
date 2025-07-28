@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Diary;
 
@@ -19,4 +21,10 @@ public interface DiariesRepository extends JpaRepository<Diary, Integer>{
 	Optional<Diary> findFirstByDiaryTimeAndUser_LoginId(LocalDate localDate,String loginId);
 	List<Diary> findByUser_LoginId(String loginId);
 	List<Diary> findByUser_LoginIdOrderByResistTime(String loginId);
+	
+
+    @Modifying
+    @Transactional
+	void deleteByDiaryId(int diaryId);
+
 }

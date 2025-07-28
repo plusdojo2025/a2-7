@@ -1,7 +1,7 @@
 import React from "react";
 import '../css/UserDiary.css';
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import TimelineDiaries from '../Components/TimelineDiariesComponents'
 import UserDiarycoments from '../Components/UserDiarycomentsComponents'
@@ -28,6 +28,7 @@ export default class UserDiary extends React.Component{
                 reaction:[],
                 comsize:0,
                 myId:"",
+                addsentence:"",
 
                 currentTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 currentDate: new Date().toLocaleDateString(),  // 今日の日付
@@ -56,7 +57,8 @@ fetch(`/diarypage/${diaryId}`)
         console.log(json);
         // stateのdiaryに受け取ったデータを保持
         this.setState({
-            diary: json
+            diary: json,
+            addsentence:json.sentence,
         });
     })
     .catch(error => {
@@ -165,7 +167,12 @@ fetch(`/myId`)
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
      onInput = (e) => {
     this.setState({ addcomment: e.target.value });
-    };    
+    };  
+    
+    onInput2 = (e) => {
+    this.setState({ addsentence: e.target.value });
+    };
+    
 
     // フォーム送信時の処理
   onSubmit = async(e) => {
@@ -196,6 +203,7 @@ fetch(`/myId`)
                 },
             });
             this.setState({ addcomment:"" });
+            
             this.componentDidMount(); 
         } catch (error) {
             console.error(error);
@@ -210,8 +218,86 @@ fetch(`/myId`)
   };
 
 
+
+
+  onDelete = async(e) => {
+
+
+    // 確認ダイアログを表示
+    const isConfirmed = window.confirm("日記を削除してもよろしいですか？");
+
+     if (isConfirmed) {
+
+        
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+        
+
+        fetch(`/diarypage/delete/${diaryId}`)
+        .then(res => res.json())
+        .then(json => {
+            console.log(json);
+            alert("削除しました。");
+            window.location.href = '/timeline';
+
+        })
+          .catch(error => {
+            console.error("データ取得中にエラーが発生しました:", error);
+        });
+
+    
+    }else {
+      // ユーザーがキャンセルした場合
+      alert("日記削除がキャンセルされました");
+    }
+    
+
+  };
+
+
+  onUpdate = async(e) => {
+
+
+    e.preventDefault(); // ページがリロードされないようにする
+    if (this.state.addsentence === '') {
+      alert("日記の内容を入力してください。");
+      return; // 空コメントの場合は処理を中断
+    }
+    // 確認ダイアログを表示
+    const isConfirmed = window.confirm("日記の内容を更新しますか？");
+
+     if (isConfirmed) {
+        let urlList = window.location.pathname.split('/');
+        let diaryId = urlList[urlList.length -1];
+
+    const data = {
+        sentence:this.state.addsentence, // 入力された
+    };
+
+    
+    // Spring BootのバックエンドにPOSTリクエストを送信
+    try {
+            const res = await axios.post(`/diarypage/update/${diaryId}`, data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("更新しました。");
+            this.componentDidMount(); 
+        } catch (error) {
+            console.error(error);
+            alert("送信に失敗しました");
+        }
+    } else {
+      // ユーザーがキャンセルした場合
+      alert("コメント送信がキャンセルされました");
+    }
+
+  };
+
+
     render(){
-        const { myId,addcomment,currentTime,currentDate,diary,user,tag,reaction,comsize,aFewWords, imagePreview, isOwner} = this.state;
+        const { myId,addcomment,currentTime,currentDate,diary,user,tag,reaction,comsize,aFewWords, imagePreview, isOwner,addsentence} = this.state;
 
         
        
@@ -244,12 +330,20 @@ fetch(`/myId`)
                     </tr>
                     </tbody>  
                 </table>
-                <div className="diary_sub">
+
+
+
+
+
+                {myId == user.loginId ? (
+                    <form className="diary_update">
+                    <textarea className="mtextarea2"  value={addsentence} onChange={this.onInput2}/>
+                    
+                </form>
+                ):(<div className="diary_sub">
                     <p>{diary.sentence}</p>
-                    {Array.isArray(tag) && tag.map((tagdata, index)  => (
-                    <block key={index}>{tagdata.tags}</block>
-                    ))}
-                </div>
+                    
+                </div>)}
                             
                 <table className="mtable">
                     <tbody>
@@ -260,11 +354,12 @@ fetch(`/myId`)
                     </tbody>
                 </table>
             </div>
+                
 
             {myId == user.loginId ? (
         <div>
-          <button>編集</button>
-          <button>削除</button>
+          <button className="mbutton" onClick={this.onUpdate}>更新</button>
+          <button className="mbutton"   onClick={this.onDelete}>削除</button>
         </div>
       ):<div></div>}
 
@@ -282,7 +377,8 @@ fetch(`/myId`)
                     onChange={this.onInput}// 入力が変更されるたびにstateを更新
                     placeholder="コメントを入力" 
                     rows="5" 
-                    cols="100"/><br/>
+                    cols="100"
+                    className="mtextarea"/><br/>
                     <input type="submit" value="送信"/>
                 </form>
                 
