@@ -203,6 +203,7 @@ fetch(`/myId`)
                 },
             });
             this.setState({ addcomment:"" });
+            
             this.componentDidMount(); 
         } catch (error) {
             console.error(error);
@@ -236,6 +237,7 @@ fetch(`/myId`)
         .then(res => res.json())
         .then(json => {
             console.log(json);
+            alert("削除しました。");
             window.location.href = '/timeline';
 
         })
@@ -280,6 +282,7 @@ fetch(`/myId`)
                     "Content-Type": "application/json",
                 },
             });
+            alert("更新しました。");
             this.componentDidMount(); 
         } catch (error) {
             console.error(error);
