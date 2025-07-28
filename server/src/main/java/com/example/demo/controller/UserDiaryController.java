@@ -1,12 +1,15 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Comment;
@@ -15,6 +18,7 @@ import com.example.demo.entity.Reaction;
 import com.example.demo.entity.User;
 import com.example.demo.repository.CommentsRepository;
 import com.example.demo.repository.DiariesRepository;
+import com.example.demo.repository.PostsRepository;
 import com.example.demo.repository.ReactionsRepository;
 import com.example.demo.repository.TagsRepository;
 import com.example.demo.repository.UsersRepository;
@@ -40,7 +44,8 @@ public class UserDiaryController {
 	@Autowired
 	private DiariesRepository diariesrepository;
 	
-
+	@Autowired
+	private PostsRepository postsrepository;
 	
 
 	
@@ -144,7 +149,36 @@ public class UserDiaryController {
 	
 	
 	//日記更新
+	@PostMapping("/diarypage/update/{diaryId}")
+	@ResponseBody // ← これが必要
+	public Map<String, String> diarypageUpdate(@PathVariable("diaryId") Integer diaryId,
+			@RequestBody Diary dia){
+		System.out.println(dia.getSentence());
+		
+		Diary diary=diariesrepository.findByDiaryId(diaryId);
+		
+		diary.setSentence(dia.getSentence());
+		diariesrepository.save(diary);
+		
+		
+		Map<String, String> response = new HashMap<>();
+		response.put("message", "更新しました");
+	    return response; // JSON: {"message": "削除しました"}
+	}
+	
 	//日記削除
+		@GetMapping("/diarypage/delete/{diaryId}")
+		@ResponseBody // ← これが必要
+		public Map<String, String> diarypageDelete(@PathVariable("diaryId") Integer diaryId){
+			postsrepository.deleteByDiary_DiaryId(diaryId);
+			commentsrepository.deleteByDiaryId(diaryId);
+			reactionsrepository.deleteByDiary_DiaryId(diaryId);
+			diariesrepository.deleteByDiaryId(diaryId);
+			
+			Map<String, String> response = new HashMap<>();
+			response.put("message", "削除しました");
+		    return response; // JSON: {"message": "削除しました"}
+		}
 		
 }
 		

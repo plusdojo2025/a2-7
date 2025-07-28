@@ -68,7 +68,7 @@ export default class Timeline extends React.Component {
             <main className="mmain">
                 <h1>タイムライン</h1>
 
-                <form onSubmit={this.searchTag}>
+                <form onSubmit={this.searchTag} className="timeline_box">
                     <input
                         type="text"
                         placeholder="タグで検索（例: 頑張った）"

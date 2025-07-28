@@ -44,3 +44,19 @@
     font-size: 35px;       /* フォントサイズを大きく */
     cursor: pointer;     /* ポインタの形にする */
 }
+
+
+.timeline_box input{
+   
+    
+    color: rgb(119, 53, 53);/*文字色*/
+    border: 2px solid #f08080;
+    background: #ffffe5;
+    border-radius: 10px;/*角の丸み*/
+}
+
+/* border: #f08080; だけだと 太さが指定されていないため無効になる */
+.timeline_box input:focus{
+  border: 2px solid #f08080;
+  outline: none;
+}
