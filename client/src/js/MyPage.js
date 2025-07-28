@@ -13,6 +13,7 @@ export default class MyPage extends React.Component{
             imagePreview: null,
             imageFile: null,
             isOwner: false, 
+            
         }
     }
 
@@ -133,7 +134,7 @@ export default class MyPage extends React.Component{
                             <img
                                 src={imagePreview}
                                 alt="プロフィール画像"
-                                style={{ width: '100px', height: '100px', borderRadius: '50%', }}
+                                style={{ width: '250px', height: '200px', borderRadius: '50%', }}
                             />
                         ) : (
                             <div id="icon"/>

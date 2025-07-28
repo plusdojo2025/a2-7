@@ -12,6 +12,7 @@ export default class UserInfo extends React.Component {
             newPassword: '',
             confirmPassword: '',
             message: '',
+            passwordVisible: false
         }
     }
 
@@ -19,7 +20,7 @@ export default class UserInfo extends React.Component {
         //マウント後に自動で動作する
     componentDidMount(){
         //学習用にaxiosでなく、標準のfetchを利用している。
-        fetch("/userinfo")
+        fetch("/api/userinfo",{credentials: 'include'})
         .then(res => res.json())
         .then(json => {
             console.log(json);
@@ -57,58 +58,91 @@ export default class UserInfo extends React.Component {
             const response = await axios.post("/api/userinfo/update", {
                 currentPassword,
                 newPassword,
+            }, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
             });
+
             this.setState({ message: response.data.message || "パスワードを更新しました。" });
         } catch (err) {
-            console.error("Error:", err);
-            this.setState({ message: "パスワードの更新に失敗しました。" });
+            const errorMsg = err.response?.data?.error || "パスワードの更新に失敗しました。";
+            this.setState({ message: errorMsg });
         }
     };
 
+    //passwordの表示切替の処理
+    togglePasswordVisibility = () => {
+    this.setState((prevState) => ({
+      passwordVisible: !prevState.passwordVisible
+    }));
+  };
+
+
+
+
     //requiredでパスワードの入力を必須に
     render() {
-        const{ currentPassword, newPassword, confirmPassword, message } = this.state;
+        const { currentPassword, newPassword, confirmPassword, message, passwordVisible } = this.state;
         return (
-            
+
             <div>
                 <h2>パスワード変更</h2>
-                <form onSubmit={this.handleUpdatePassword}>
-                    <div>
-                        <label>現在のパスワード：</label>
-                        <input
-                            type="password"
-                            name="currentPassword"
-                            value={currentPassword}
-                            onChange={this.onInput}
-                            required
-                        />
-                    </div>
-                    <br></br>
-                    <div>
-                        <label>新しいパスワード：</label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            value={newPassword}
-                            onChange={this.onInput}
-                            required
-                        />
-                    </div>
-                    <br></br>
-                    <div>
-                        <label>新しいパスワード（確認）：</label>
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            value={confirmPassword}
-                            onChange={this.onInput}
-                            required
-                        />
-                    </div>
-                    <br></br>
-                    <button type="submit" style={{ fontSize: '20px', padding: '12px 24px' }}>更新</button>
-                </form>
-                {message && <p style={{ color: 'red' }}>{message}</p>}
+                <div className="mypage-box">
+                    <form onSubmit={this.handleUpdatePassword}>
+                        <h4 class="section-title">次回から変更したパスワードでログインできます。</h4>
+                        <h4 class="section-title">新しいパスワードについては、必ずお客様ご自身でお控えください</h4>
+                        <div>
+                            <label>現在のパスワード：</label>
+                            <input
+                                type="password"
+                                name="currentPassword"
+                                value={currentPassword}
+                                onChange={this.onInput}
+                                required
+                            />
+                            <button onClick={this.togglePasswordVisibility}>
+                                {passwordVisible ? '非表示' : '👀'}
+                            </button>
+                        </div>
+                        <br />
+                        <div>
+                            <label>新しいパスワード：</label>
+                            <input
+                                type="password"
+                                name="newPassword"
+                                value={newPassword}
+                                onChange={this.onInput}
+                                required
+                            />
+                            <button onClick={this.togglePasswordVisibility}>
+                                {passwordVisible ? '非表示' : '👀'}
+                            </button>
+                        </div>
+                        <br />
+                        <div>
+                            <label>新しいパスワード（確認）：</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                value={confirmPassword}
+                                onChange={this.onInput}
+                                required
+                            />
+                            <button onClick={this.togglePasswordVisibility}>
+                                {passwordVisible ? '非表示' : '👀'}
+                            </button>
+                        </div>
+                        <br />
+                        <button id="updatebutton" type="submit" >
+                            {message || 'パスワードを更新する'}
+                        </button>
+
+                    </form>
+                </div>
+                <br></br>
+                <a href="/home">ホームに戻る</a>
             </div>
         );
     }
