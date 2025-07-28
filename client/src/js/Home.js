@@ -74,7 +74,7 @@ function Home() {
           value={tag}
           onChange={(e) => setTag(e.target.value)}
         />
-        <button onClick={fetchDiaries}>スタンプ検索</button>
+        <button onClick={fetchDiaries}>検索</button>
       
       </div>
 
