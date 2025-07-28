@@ -41,12 +41,14 @@ componentDidUpdate(prevProps) {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = async(e) => {
+    e.preventDefault(); // ページがリロードされないようにする
+    
 
-    const {
+      const {
       login_id, sentence, stamp, resist_time, diary_time, image, imageName
     } = this.state;
+
 
     if (!login_id || isNaN(parseInt(login_id))) {
       alert("Please select 公開 or 非公開.");
@@ -58,23 +60,30 @@ componentDidUpdate(prevProps) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('loginId', login_id);
-    formData.append('sentence', sentence);
-    formData.append('stamp', stamp);
-    formData.append('resist_time', resist_time);
-    formData.append('diary_time', diary_time);
-    console.log("ログインしたID="+ login_id)
-    if (image) {
-      formData.append('imageFile', image);
-      formData.append('name', imageName || 'diary-image');
-    }
 
-    axios.post('http://localhost:8080/diary/register', formData)
-      .then(res => {
-        alert('Diary and image submitted!');
-        console.log(res.data);
-        this.setState({
+  
+
+    const data = {
+
+    sentence: sentence,
+    stamp:stamp,
+    resistTime:resist_time,
+    diaryTime:diary_time,
+    imageFile: image,
+    name:imageName ,
+   
+  
+    };
+
+    
+    // Spring BootのバックエンドにPOSTリクエストを送信
+    try {
+            const res = await axios.post("/diary/register", data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            this.setState({
           login_id: '',
           sentence: '',
           stamp: 0,
@@ -83,18 +92,13 @@ componentDidUpdate(prevProps) {
           image: null,
           imageName: ''
         });
-      })
-      .catch(err => {
-        if (err.response) {
-          console.error('Server error:', err.response.data);
-        } else if (err.request) {
-          console.error('No response from server:', err.request);
-        } else {
-          console.error('Request error:', err.message);
+            // this.componentDidMount(); 
+            window.location.href = '/home';
+        } catch (error) {
+            console.error(error);
+            alert("送信に失敗しました");
         }
-        alert('Failed to submit diary/image.');
-      });
-  };
+    }
 
   render() {
     console.log('📅 DiaryComponent selectedDate:', this.props.selectedDate);

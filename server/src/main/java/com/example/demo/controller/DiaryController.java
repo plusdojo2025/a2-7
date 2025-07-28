@@ -1,28 +1,20 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Diary;
-import com.example.demo.entity.Images;
 import com.example.demo.entity.User;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ImagesRepository;
 import com.example.demo.repository.UsersRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @CrossOrigin(origins = "http://localhost:3000") // React dev server
@@ -66,62 +58,48 @@ public class DiaryController {
 //    }
 	
 	 @PostMapping("/register")
-	    public ResponseEntity<?> registerDiaryWithImage(
-	            @RequestParam("loginId") String loginId,
-	            @RequestParam("sentence") String sentence,
-	            @RequestParam("stamp") int stamp,
-	            @RequestParam("resist_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime resistTime,
-	            @RequestParam("diary_time") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate diaryDate,
-	            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-	            @RequestParam(value = "name", required = false) String imageName
-	    ) {
-	        try {
+	    public ResponseEntity<?> registerDiaryWithImage(          
+	    		@RequestBody Diary diary,
+	            HttpSession session
+	    		) {
+	        
 	            // Save image if present
-	            Images savedImage = null;
-	            if (imageFile != null && !imageFile.isEmpty()) {
-	                Images image = new Images();
-	                image.setName(imageName != null ? imageName : "untitled");
-	                image.setMimeType(imageFile.getContentType());
-	                image.setImageData(imageFile.getBytes());
+//	            Images savedImage = null;
+//	            if (imageFile != null && !imageFile.isEmpty()) {
+//	                Images image = new Images();
+//	                image.setName(imageName != null ? imageName : "untitled");
+//	                image.setMimeType(imageFile.getContentType());
+//	                image.setImageData(imageFile.getBytes());
+//
+//	                savedImage = imageRepository.save(image);
+//	            }
 
-	                savedImage = imageRepository.save(image);
-	            }
-
-	            // Save diary
-	            Diary diary = new Diary();
-	           // User user = null;//loginIdを利用して取得
-	            //User user = null;//loginIdを利用して取得
-	           // diary.setUser(user);
+	            
+//	            // Save diary
+//	            Diary diary = new Diary();
+	            String loginId = (String) session.getAttribute("loginId");
+	    		if (loginId == null) {
+	    		    throw new RuntimeException("ログインしていません");
+	    		}
 	            
 	            User user = userRepository.findByLoginId(loginId);
-	            if (user == null) {
-	                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                                     .body("User with loginId " + loginId + " not found.");
-	            }
+	            System.out.println("ゆーざーIDこれ！！！！！！"+user.getLoginId());
 
-
-	            diary.setSentence(sentence);
-	            diary.setStamp(stamp);
-	            diary.setResistTime(Timestamp.valueOf(resistTime));
-	            diary.setDiaryTime(Date.valueOf(diaryDate));
-
-	            if (savedImage != null) {
-	                diary.setImageId(savedImage.getImageId());
-	            }
-
+	            diary.setUser(user);
+//	            diary.setSentence(sentence);
+//	            diary.setStamp(stamp);
+//	            diary.setResistTime(Timestamp.valueOf(resistTime));
+//	            diary.setDiaryTime(Date.valueOf(diaryDate));
+//
+//	            if (savedImage != null) {
+//	                diary.setImageId(savedImage.getImageId());
+//	            }
+	            
 	            diaryRepository.save(diary);
 
 	            return ResponseEntity.ok("Diary registered successfully");
 
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                    .body("Image processing failed: " + e.getMessage());
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                    .body("Failed to save diary: " + e.getMessage());
-	        }
+	        
 	    }
 }
 	
