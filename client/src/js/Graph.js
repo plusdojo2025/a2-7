@@ -14,8 +14,8 @@ export default class Graph extends React.Component{
             activeTab: 'tab1',
             start: "",
             end: "",
-            currectpage: "1",
-            itemspage: "20",
+            currectPage: 1,
+            itemPage: 20,
             mode: "1"
             }
         
@@ -50,11 +50,15 @@ export default class Graph extends React.Component{
                 this.setState({ stamptallies: res.data.stamptallies || {},
                     keywordcounts: res.data.keywordcounts || [],
                     start: res.data.start,
-                    end: res.data.end
+                    end: res.data.end,
+                    currectPage: 1
                 });
                 console.log(res.data);
             });
         }
+        paginate = (pagenumber) => {
+            this.setState({ currectPage: pagenumber});
+        };
     render(){
         const emojiMap = new Map([
         ['1', '😡'], // '1'という文字列に対応する絵文字
@@ -64,16 +68,22 @@ export default class Graph extends React.Component{
         ['5', '😍'],
         // 必要に応じて他の数字と絵文字を追加
         ]);
-        const { keywordcounts, currentpage, itempage } = this.state;
-
+        const { keywordcounts, currectPage, itemPage } = this.state;
+        console.log("currectpage:", currectPage, "itemPage:",itemPage);
         // 表示するデータの開始インデックスと終了インデックスを計算
-        const indexOfLastItem = currentpage * itempage;
-        const indexOfFirstItem = indexOfLastItem - itempage;
+        const indexOfLastItem = currectPage * itemPage;
+        const indexOfFirstItem = indexOfLastItem - itemPage;
         // 現在のページに表示するキーワード
         const currentKeywords = keywordcounts.slice(indexOfFirstItem, indexOfLastItem);
         // 全体のページ数を計算
-        const totalPages = Math.ceil(keywordcounts.length / itempage);
-        
+        const totalPages = Math.ceil(keywordcounts.length / itemPage);
+        console.log("indexOfFirstItem:", indexOfFirstItem, "indexOfLastItem:", indexOfLastItem);
+        console.log("currentKeywords:", currentKeywords);
+        const pagenumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pagenumbers.push(i);
+        }
+
         const stampdata = Object.entries(this.state.stamptallies).map(([stampid, count],index ) => ({
         title: emojiMap.has(stampid) ? emojiMap.get(stampid) : stampid, // ラベル（スタンプ名）
         value: count, // 件数（円グラフの大きさの元）
@@ -109,9 +119,9 @@ export default class Graph extends React.Component{
                 data={stampdata} // ここにデータ渡すだけで勝手に割合計算してくれる
                 label={({ dataEntry }) => `${dataEntry.title} ${dataEntry.value}`} // 円グラフ上のラベル
                 labelStyle={() => ({
-  fontSize: '5px',
-  fill: '#333333', 
-})}
+                fontSize: '5px',
+                fill: '#333333', 
+                })}
                 style={{ height: '500px', width: '500px'}}
                 className="graph-pie-chart"
                 />
@@ -141,29 +151,40 @@ export default class Graph extends React.Component{
           <div className="tab-content content2" style={{ display: this.state.activeTab === 'tab2' ? 'block' : 'none' }}>
 
             {/* その他の用途でdiaryを使う */}
-            <h2 className="tab-comments">キーワード数のカウント</h2>
+            <h2 className="tab-comments">キーワードのカウント数</h2>
             <h3>期間：{this.state.start}~{this.state.end}</h3>
             {this.state.keywordcounts.length === 0 ? (
                 <p>表示するキーワードデータがありません。</p> ) : (
+            <>
             <table className="keyword-table">
                 <tr className="keyword-category">
                     <th className="keyword-category-detail">キーワード</th>
-                    <th className="keyword-category-detail">カウント</th>
+                    <th className="keyword-category-detail">カウント数</th>
                 </tr>
-            {this.state.keywordcounts.map((item, index) => (
+            {currentKeywords.map((item, index) => (
                 <tr className="keyword-item" key={index}>
-                    <td>{item.word}</td>
-                    <td>{item.count}</td>
+                    <td className="keyword-counts-detail">{item.word}</td>
+                    <td className="keyword-counts-detail">{item.count}</td>
                 </tr>
             ))}
+                {/* ここにページネーション */}
                 {/* 他のデータも表示したいならここに書ける！ */}
             </table>
+            <nav>
+                <ul className="pagination">
+                    {pagenumbers.map(number => (
+                        <li key={number} className={`page-item ${currectPage === number ? 'active' : ''}`}>
+                            <a onClick={() => this.paginate(number)} href="#!" className="page-link">
+                                {number}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+            </>
                 )}
           </div>
-
-            
         </div>
-
         );
     };
 }
