@@ -47,7 +47,7 @@ INSERT INTO posts (diary_id,hashtag_id) VALUES (2,1);
 INSERT INTO posts (diary_id,hashtag_id) VALUES (3,1);
 
 --画像
-INSERT INTO images (name,mime_type,image_data) VALUES ('カラス','jpeg',LOAD_FILE('/path/to/test.png'));
+INSERT INTO images (name,mime_type,image_data) VALUES ('カラス','jpeg',LOAD_FILE('\plusdojo2025\a2-7\アイコン画像\女性アイコン.png'));
 
 --タイムライン
 INSERT INTO users (login_id,nickname) VALUES ('4','カラス');
