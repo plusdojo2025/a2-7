@@ -13,13 +13,12 @@ export default class Search extends React.Component {
         this.state = {
           comment: '',
             tag: '',
+            diaryId: '',
             diaries: [],
-            tagList: {1:"#現実逃避",2:"#憂鬱"},
+            tagList: {},
             inputText: '',
             usernames: [],
             users: [],
-            diaryId: "",
-            diary: [],
             sentence: '',
             tags: [],
             hashtag:"",
@@ -27,71 +26,54 @@ export default class Search extends React.Component {
             }
         }
 
-          componentDidMount() {
-            
-this.fetchDiaries();
-
-  const diaryId = this.props?.diary?.diaryId;
-  if (diaryId) {
-    fetch(`/search/tag/${diaryId}`)
-      .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        this.setState({ tag: json });
-      })
-      .catch(error => {
-        console.error("データ取得中にエラーが発生しました:", error);
-      });
-  } else {
-    console.warn("diaryId が取得できませんでした。props.diary が undefined の可能性があります。");
+componentDidMount() {
+  let params = new URLSearchParams(window.location.search);
+  let tag = params.get("tag");
+  if(tag == null) {
+    tag = "";
   }
+  this.setState({tag:tag});
+  console.log(this.state.tag);
+  this.fetchDiaries(tag);
+
+  //タグの一覧を取得してthis.setStateでtagListにセット
+  //tags = [ タグObject , タグObject ]
   
+  // const tagList = {};
+  // this.state.tags.map( (tag) => {
+  //   tagList[tag.hashtagId] = tag.tags;
+  // } );
+  // this.setState({
+  //   tagList: tagList
+  // });
+  // tagList : {1:"#現実逃避",2:"#憂鬱"}
+  //その時、tagListにTag配列をそのまま入れるのではなく、{ id : タグ文字 }となるようにループで作り変える
+
+          fetch(`/api/search/user`)
+          
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    user: json,
+                    aFewWords: json.afewWords,
+                    imagePreview: '/api/images/' + json.imageId,
+                });
+            })
+            .catch(error => {
+                console.error("データ取得中にエラーが発生しました:", error);
+            });
+
 }
-
-
-
-
-        // handleClick = () => {
-        //     const { inputText } = this.state;
-        //     const data = {};
-        //     axios.post("/search/${this.state.username}/${this.state.date}",data)
-        //     .then(json => {
-        //         console.log(json);
-        //         this.setState({
-                    
-        //         });
-        //         this.componentDidMount();
-        //     });
-
-        // };
-//検索フォームのイベントハンドラー
-//         handleClick = () => {
-// const { inputText, login_id } = this.state;
-
-//   axios.get(`http://localhost:8080/search`, {
-//     params: {
-//       keyword: inputText,
-//       loginId: login_id
-//     }
-//   })
-//   .then((res) => {
-//     this.setState({ results: res.data });
-//   })
-//   .catch((err) => {
-//     console.error("検索失敗:", err);
-//   });
-// };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.tag !== this.state.tag) {
     }
   }
 
-  fetchDiaries = async () => {
+  fetchDiaries = async (tag) => {
+    console.log(tag);
     try {
-      const response = await axios.get(`/api/search`, {
-        params: this.state.tag ? { tag: this.state.tag } : {}
-      });
+      const response = await axios.get(`/api/search?tag=` + tag);
       this.setState({ diaries: response.data });
     } catch (error) {
       console.error('日記の取得に失敗しました', error);
@@ -99,24 +81,11 @@ this.fetchDiaries();
   };
 
 
-
-//コメント表示のイベントハンドラー
-        handleCommentClick = () => {
-            const {diary_id, comments_id} = this.state;
-            const data = {};
-            axios.get(`/search/${this.state.diary_id}/${this.state.date}`)
-            .then(json => {
-                console.log(json);
-                this.setState({
-                    diaryId: diary_id,
-                    commentsId: comments_id
-                });
-            });
-        };
             //画面で何か入力された時に、その値をstateとして保持する。
     //これにより、JavaScript動作時に毎回画面を見に行くのではなく、画面と連動したstateだけを見ればよくなる。
     onInput = (e) => {
         this.setState({ tag: e.target.value });
+  console.log(e.target.value);
     }
         viewStamp = (e) => {
     }
@@ -127,18 +96,18 @@ this.fetchDiaries();
         });
     }
 
-    deleteBook = (index) => {
-        const { diary } = this.state;
-        const data = { id: diary[index].id };
-        axios.post("/search/delete", data)
-    .then(() => {
-      this.fetchBooks(); // ← 削除後に再取得
-    })
-    .catch(error => {
-      console.error("削除エラー:", error);
-      alert("削除に失敗しました。");
-    });
-};
+//     deleteBook = (index) => {
+//         const { diary } = this.state;
+//         const data = { id: diary[index].id };
+//         axios.post("/search/delete", data)
+//     .then(() => {
+//       this.fetchBooks(); // ← 削除後に再取得
+//     })
+//     .catch(error => {
+//       console.error("削除エラー:", error);
+//       alert("削除に失敗しました。");
+//     });
+// };
 
     render(){
         
@@ -162,7 +131,7 @@ const stampIcons = {
   <input type="text" name="inputText" className="searchTag"
    placeholder="タグ検索" value={this.state.tag} onChange={this.onInput}/>
 
-  <button onClick={this.fetchDiaries} className="searchButton">検索</button>
+  <button onClick={ () => this.fetchDiaries(this.state.tag)} className="searchButton">検索</button>
             </div>
 
 {/* user関連のあれこれ */}
@@ -178,29 +147,22 @@ const stampIcons = {
                   {this.state.diaries.map((diary, user) => (
                     <div key={diary.id}>
 
-                      <span>{user.nickname}</span>
+                      {/* <span>{user.nickname}</span> */}
                       <span className="diaryTime">{diary.diaryTime}</span>
                       <div className="diaryCard">
                         <p>{diary.sentence}
-
-
-                          {Array.isArray(tag) && tag.map((tagdata, index)  => (
-                                    <block keyWord={index}>{tagdata.tags}</block>
-                          ))}
-
-                        </p>
-                      </div>
-                      <div>ハッシュエリア
-                        {diary.posts.length}
-                        <p>{diary.posts.map( (post,index) => {
+                          {/* <p>{diary.posts.map( (post,index) => {
                           return <span>ハッシュタグ:{this.state.tagList[post.id]}</span>
-                        })}
+                            })}
+                          </p> */}
                         </p>
+
                       </div>
+
                       <div classname="reactionAiconConteiner">
                         <span className="reactionAicon">{stampIcons[diary.stamp]}</span>
                 <Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}>
-                <button className="commentAll">💬</button>{comsize}</Link>
+                <button className="commentAll">💬</button></Link>
                       </div>                      
                     </div>
 
