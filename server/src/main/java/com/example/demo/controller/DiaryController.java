@@ -22,6 +22,7 @@ import com.example.demo.entity.Images;
 import com.example.demo.entity.User;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ImagesRepository;
+import com.example.demo.repository.UsersRepository;
 
 
 @CrossOrigin(origins = "http://localhost:3000") // React dev server
@@ -34,6 +35,9 @@ public class DiaryController {
 	private DiariesRepository diaryRepository;
 	@Autowired
 	private ImagesRepository  imageRepository;
+	@Autowired
+	private UsersRepository userRepository;
+	
 	
 //	
 //    @PostMapping("/regist")
@@ -63,7 +67,7 @@ public class DiaryController {
 	
 	 @PostMapping("/register")
 	    public ResponseEntity<?> registerDiaryWithImage(
-	            @RequestParam("login_id") int loginId,
+	            @RequestParam("loginId") String loginId,
 	            @RequestParam("sentence") String sentence,
 	            @RequestParam("stamp") int stamp,
 	            @RequestParam("resist_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime resistTime,
@@ -85,8 +89,16 @@ public class DiaryController {
 
 	            // Save diary
 	            Diary diary = new Diary();
-	            User user = null;//loginIdを利用して取得
-	            diary.setUser(user);
+	           // User user = null;//loginIdを利用して取得
+	            //User user = null;//loginIdを利用して取得
+	           // diary.setUser(user);
+	            
+	            User user = userRepository.findByLoginId(loginId);
+	            if (user == null) {
+	                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                                     .body("User with loginId " + loginId + " not found.");
+	            }
+
 
 	            diary.setSentence(sentence);
 	            diary.setStamp(stamp);
@@ -112,7 +124,6 @@ public class DiaryController {
 	        }
 	    }
 }
-
 	
 	
 	

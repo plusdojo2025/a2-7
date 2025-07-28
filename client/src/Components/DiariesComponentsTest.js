@@ -59,12 +59,12 @@ componentDidUpdate(prevProps) {
     }
 
     const formData = new FormData();
-    formData.append('login_id', login_id);
+    formData.append('loginId', login_id);
     formData.append('sentence', sentence);
     formData.append('stamp', stamp);
     formData.append('resist_time', resist_time);
     formData.append('diary_time', diary_time);
-
+    console.log("ログインしたID="+ login_id)
     if (image) {
       formData.append('imageFile', image);
       formData.append('name', imageName || 'diary-image');

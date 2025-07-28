@@ -51,6 +51,8 @@ public class User {
 	@JsonIgnore
 	private List<Diary> diaries;
 
+
+
 	
 	
 }
