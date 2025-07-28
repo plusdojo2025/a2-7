@@ -34,7 +34,8 @@ export default class MyPage extends React.Component{
                 aFewWords: json.afewWords,
                 isOwner: json.isOwner,
                 //imagePreview: `/images/${json.imageId}`,
-                imagePreview: 'http://localhost:8080/api/images/' + json.imageId
+                //imagePreview: 'http://localhost:8080/api/images/' + json.imageId
+                imagePreview: json.imageId ? `/api/images/${json.imageId}` : null
             })
         });
     }
