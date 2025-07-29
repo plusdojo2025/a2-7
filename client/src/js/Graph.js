@@ -87,7 +87,7 @@ export default class Graph extends React.Component{
         const stampdata = Object.entries(this.state.stamptallies).map(([stampid, count],index ) => ({
         title: emojiMap.has(stampid) ? emojiMap.get(stampid) : stampid, // ラベル（スタンプ名）
         value: count, // 件数（円グラフの大きさの元）
-        color: ['#4DC4FF', '#ff3e3eff', '	#03AF7A', '#FFF100', '#005AFF'][index % 5], // 色
+        color: ['#ffa34dff', '#ff3e3eff', '	#03AF7A', '#FFF100', '#005AFF'][index % 5], // 色
         }));
         const nostampdata = stampdata.length === 0;
         return (

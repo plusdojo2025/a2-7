@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Diary;
 import com.example.demo.entity.Keyword;
+import com.example.demo.entity.Synonyms;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.KeywordsRepository;
 
@@ -76,30 +77,67 @@ public class GraphController {
 //		キーワード一覧を取得。
         List<Keyword> keywords = kwrepository.findAll();
 //		ユーザーの一か月分の日記を取得。
-		
-//		一か月分の日記の中から、キーワードをカウントする。		
-		for (Diary diaries : diarylist) {
-            String sentence = diaries.getSentence();
-            if (sentence == null) continue; // nullチェックは重要
+        for (Diary diary : diarylist) {
+            String sentence = diary.getSentence();
+            if (sentence == null) continue;
 
             for (Keyword keyword : keywords) {
-                String word = keyword.getKeywords(); // KeywordエンティティのgetterがgetWord()だと仮定
-                // もしKeywordエンティティのフィールド名が"keywords"なら、keyword.getKeywords()
-                if (word == null) continue; // nullチェック
+                String mainWord = keyword.getKeywords();
+                boolean matched = false;
 
-                if (sentence.contains(word)) {
-                    keywordcountsmap.put(word, keywordcountsmap.getOrDefault(word, 0) + 1);
+                // メインワードにマッチするか
+                if (mainWord != null && sentence.contains(mainWord)) {
+                    matched = true;
+                }
+
+                // 類義語にマッチするか
+                List<Synonyms> synonyms = keyword.getSynonyms();
+                if (!matched && synonyms != null) {
+                    for (Synonyms syn : synonyms) {
+                        String synWord = syn.getSynonym();
+                        if (synWord != null && sentence.contains(synWord)) {
+                            matched = true;
+                            break; // 1個マッチしたらそれで十分
+                        }
+                    }
+                }
+
+                // どれか一つでもマッチしたらカウント
+                if (matched) {
+                    keywordcountsmap.put(mainWord, keywordcountsmap.getOrDefault(mainWord, 0) + 1);
                 }
             }
         }
-
 		List<Map<String, Object>> keywordcountslist = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : keywordcountsmap.entrySet()) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("word", entry.getKey());
-            item.put("count", entry.getValue());// "count" というキー名にする
-            keywordcountslist.add(item);
-        }
+      for (Map.Entry<String, Integer> entry : keywordcountsmap.entrySet()) {
+          Map<String, Object> item = new HashMap<>();
+          item.put("word", entry.getKey());
+          item.put("count", entry.getValue());// "count" というキー名にする
+          keywordcountslist.add(item);
+      }
+////		一か月分の日記の中から、キーワードをカウントする。		
+//		for (Diary diaries : diarylist) {
+//            String sentence = diaries.getSentence();
+//            if (sentence == null) continue; // nullチェックは重要
+//
+//            for (Keyword keyword : keywords) {
+//                String word = keyword.getKeywords(); // KeywordエンティティのgetterがgetWord()だと仮定
+//                // もしKeywordエンティティのフィールド名が"keywords"なら、keyword.getKeywords()
+//                if (word == null) continue; // nullチェック
+//
+//                if (sentence.contains(word) ) {
+//                    keywordcountsmap.put(word, keywordcountsmap.getOrDefault(word, 0) + 1);
+//                }
+//            }
+//        }
+//
+//		List<Map<String, Object>> keywordcountslist = new ArrayList<>();
+//        for (Map.Entry<String, Integer> entry : keywordcountsmap.entrySet()) {
+//            Map<String, Object> item = new HashMap<>();
+//            item.put("word", entry.getKey());
+//            item.put("count", entry.getValue());// "count" というキー名にする
+//            keywordcountslist.add(item);
+//        }
         responseData.put("start", startofmonth);
         responseData.put("end", endofmonth);
         // 取得した情報を、responseDataに追加する
