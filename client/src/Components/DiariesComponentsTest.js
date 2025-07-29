@@ -11,7 +11,7 @@ export default class DiariesComponentTest extends Component {
     this.state = {
       login_id: '',
       sentence: '',
-      stamp: 0,
+      stamp: 3,
       resist_time: new Date().toISOString().split('.')[0],
       diary_time: today,
       image: null,
@@ -44,7 +44,7 @@ export default class DiariesComponentTest extends Component {
   handleSubmit = async (e) => {
     e.preventDefault(); // ページがリロードされないようにする
 
-    const {
+    let {
       login_id, sentence, stamp, resist_time, diary_time, image, imageName
     } = this.state;
 
@@ -58,6 +58,11 @@ export default class DiariesComponentTest extends Component {
       return;
     }
 
+     if(login_id==1){
+      sentence=sentence+" #公開";
+    }
+
+
     const data = {
       sentence: sentence,
       stamp: stamp,
@@ -67,6 +72,7 @@ export default class DiariesComponentTest extends Component {
       name: imageName,
     };
 
+   
     // Spring BootのバックエンドにPOSTリクエストを送信
     try {
       const res = await axios.post("/diary/register", data, {
@@ -93,9 +99,9 @@ export default class DiariesComponentTest extends Component {
           .then((res) => {
             alert('Diary and image submitted!');
           });
-        window.location.href = '/home';
+        
       }
-
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       alert("送信に失敗しました");

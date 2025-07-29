@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,9 +60,11 @@ public class TimelineController {
 		    throw new RuntimeException("ログインしていません");
 		}
 		
-		//現在全件取得になっている。まだできていない
-		List<Diary>diaryList= diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
-		System.out.println(diaryList.size()+"個のデータがあるよ");	
+		
+
+		List<Diary> diaryList=diariesrepository.findBySentenceLike("%" + "#公開" + "%");
+		diaryList.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime()));
+
 		
 		// リストが空でないか確認
 	    if (diaryList.isEmpty()) {
@@ -200,16 +201,19 @@ public class TimelineController {
 			
 			
 			
-			//タグ検索（未解決）
+			//タグ検索
 			@GetMapping("/timeline/serchtag")
 		    public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session){
 		    	
 		    	String loginId = (String) session.getAttribute("loginId");
 		    	if (tag == null || tag.trim().isEmpty()) {
-		        	return diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
+		    		List<Diary> diaryList=diariesrepository.findBySentenceLike("%" + "#公開" + "%");
+		    		diaryList.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime()));
+
+		    		return diaryList;
 		        	
 		        }
-		    	List<Diary> diary=diariesrepository.findBySentenceLike("%" + "#" + tag + "%");
+		    	List<Diary> diary= diariesrepository.findBySentenceLikeAndSentenceLike("%" + "#" + tag + "%", "%" + "#公開"+ "%");
 		    	diary.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime()));
 		    	return diary;
 		    }
