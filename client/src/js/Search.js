@@ -145,10 +145,10 @@ const stampIcons = {
                             <img
                                 src={imagePreview}
                                 alt="プロフィール画像"
-                                style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                                style={{ width: '3.5vw', height: '3.5vw', borderRadius: '50%' }}
                             />
                           ) : (
-                            <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                            <div style={{ width: '3.5vw', height: '3.5vw', backgroundColor: '#ccc', borderRadius: '50%' }} />
                           )}</Link>
                       </span>
                           {/*className="userNameSearch"もつけると、名前を円で囲む*/}
@@ -170,24 +170,17 @@ const stampIcons = {
                       <div classname="reactionAiconConteiner">
                         <span className="reactionIcon">{stampIcons[diary.stamp]}</span>
                 <Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}>
-                <button className="commentAll">💬{diary.comments.length}</button></Link>
+                  <button className="commentAll">💬</button>
+                  <span className="commentsCount">
+                    {diary.comments.length}
+                  </span>
+                </Link>
                       </div>                      
                     </div>
 
                   ))}
                 </div>
             </div>
-
-            {/*モーダルやら*/}
-            {/*<input type="submit" onClick={this.toggleModal} value="削除"></input>*/}
-            {showModal &&
-            <div className="modalArea">
-                <button onClick={this.toggleModal}>×</button>
-                <h2>日記を削除します。本当によろしいですか？</h2>
-                <button onClick={this.toggleModal}>キャンセル</button>
-                <button onClick={() => {this.deleteBook(index)}}>OK</button>
-            </div>
-            }
         </div>
             
         );
