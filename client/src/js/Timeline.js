@@ -68,7 +68,7 @@ export default class Timeline extends React.Component {
                 <form onSubmit={this.searchTag} className="timeline_box">
                     <input
                         type="text"
-                        placeholder="タグで検索（例: 頑張った）"
+                        placeholder="タグ検索"
                         onChange={this.onInput}
                         value={hashtag} // 入力が変更されるたびにstateを更新
                     />
