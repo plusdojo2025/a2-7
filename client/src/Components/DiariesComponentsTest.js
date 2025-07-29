@@ -11,7 +11,7 @@ export default class DiariesComponentTest extends Component {
     this.state = {
       login_id: '',
       sentence: '',
-      stamp: 0,
+      stamp: 3,
       resist_time: new Date().toISOString().split('.')[0],
       diary_time: today,
       image: null,
@@ -99,9 +99,9 @@ export default class DiariesComponentTest extends Component {
           .then((res) => {
             alert('Diary and image submitted!');
           });
-        window.location.href = '/home';
+        
       }
-
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       alert("送信に失敗しました");
