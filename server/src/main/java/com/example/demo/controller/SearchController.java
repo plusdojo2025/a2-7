@@ -34,7 +34,7 @@ public class SearchController {
     public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session){    	
     	String loginId = (String) session.getAttribute("loginId");
     	if (tag == null || tag.trim().isEmpty()) {
-        	return diaryRepository.findByUser_LoginIdOrderByResistTime(loginId);       	
+        	return diaryRepository.findByUser_LoginIdOrderByResistTimeDesc(loginId);       	
         }
     	System.out.println(tag);
         return diaryRepository.findByUser_LoginIdAndSentenceLike(loginId,"%" + "#" + tag + "%");
