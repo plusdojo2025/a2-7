@@ -1,7 +1,3 @@
-/*{
-    background-color: black;
-    color: white;
-}*/
 
 .userNameSearch{
     font-size: 0.7vw;
@@ -15,17 +11,58 @@
     color: black;
 }
 .searchButton{
-    background-color: transparent;
-    border: solid 0.1vw black;
+    background-color: #ffffe5;
+    border: solid 0.1vw #f08080;
     margin-right: -1vw;
     font-size: 1vw;
+    color: rgb(119, 53, 53);/*文字色*/
+    border: 2px solid #f08080;
+    border-radius: 1vw;/*角の丸み*/
 }
 .searchTag{
-    border: 0.1vw solid black;
+    border: 0.2vw solid #f08080;
     height: 1.5vw;
     width: 15vw;
     margin-right: 1vw;
     font-size: 1vw;
+    color: rgb(119, 53, 53);/*文字色*/
+    background: #ffffe5;
+    border-radius: 1vw;/*角の丸み*/
+}
+/*日記の範囲すべて*/
+.commentAreaContainer {
+   gap: 2vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/*日記文章範囲*/
+.diaryCard {
+    margin-top: 3.5vw;
+     padding: 1.5vw; 
+  width: 45vw;
+  background: #ffffe5;
+  color: rgb(119, 53, 53);
+  border: 0.2vw solid #f08080;
+  border-radius: 5vw;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+/*時間*/
+.diaryTime{
+    color: rgb(119, 53, 53);
+    margin-left: 0.5vw;
+    margin-top: 1.4vw;
+    float: left;
+}
+.userImgSearch{
+    float: left;
+    margin-left: 2.5vw;
+    margin-top: 0.5vw;
+}
+.searchNickname{
+    float: left;
+    margin-left: 0.4vw;
+    margin-top: 1.3vw;
 }
 /*リアクションスタンプ*/
 .reactionAicon{
@@ -35,31 +72,6 @@
     font-size: 1.5vw;
     background-color: transparent;
     border-style: none;
-}
-/*日記の範囲すべて*/
-.commentAreaContainer {
-   /* gap: 2vw; */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-/*日記文章範囲*/
-.diaryCard {
-    margin-top: 3.5vw;
-    font-size: 1.5vw;
-  width: 50vw;
-  height: 15vw;
-  background-color: #fefefe;
-  border: 0.2vw solid black;
-  border-radius: 1vw;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-/*時間*/
-.diaryTime{
-    margin-right: 1vw;
-    margin-top: 1.5vw;
-    float: right;
-    font-size: 1.3vw;
 }
 /*💬マーク*/
 .commentAll{
@@ -84,6 +96,7 @@ a{
     border: none;
     text-decoration: none;
 }
+
 input[type="button"],button{
     cursor: pointer;
     background-color: transparent;

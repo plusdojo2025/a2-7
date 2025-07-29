@@ -19,6 +19,7 @@ export default class Search extends React.Component {
             inputText: '',
             usernames: [],
             users: [],
+            user: '',
             sentence: '',
             tags: [],
             hashtag:"",
@@ -55,7 +56,6 @@ componentDidMount() {
             .then(json => {
                 this.setState({
                     user: json,
-                    aFewWords: json.afewWords,
                     imagePreview: '/api/images/' + json.imageId,
                 });
             })
@@ -111,7 +111,7 @@ componentDidMount() {
 
     render(){
         
-        const {tag, showModal, key, index, user, comment} = this.state;
+        const {showModal,index,comment, imagePreview} = this.state;
         
         let comsize = comment.length;
         
@@ -136,18 +136,26 @@ const stampIcons = {
 
 {/* user関連のあれこれ */}
             <div className="searchDiary">
-                <span className="userImgSearch"><Link to="/mypage">{this.state.userimage}  
-                ●</Link>
-                </span>
-                <span className="userNameSearch"><Link to="/mypage">
-                    カラス</Link>
-                </span>
-
                 <div className="commentAreaContainer">
-                  {this.state.diaries.map((diary, user) => (
+                  {this.state.diaries.map((diary) => (
                     <div key={diary.id}>
 
-                      {/* <span>{user.nickname}</span> */}
+                      <span className="userImgSearch">
+                        <Link to="/mypage">{imagePreview ? (
+                            <img
+                                src={imagePreview}
+                                alt="プロフィール画像"
+                                style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                            />
+                          ) : (
+                            <div style={{ width: '50px', height: '50px', backgroundColor: '#ccc', borderRadius: '50%' }} />
+                          )}</Link>
+                      </span>
+
+                      <span className="searchNickname userNameSearch">
+                        <Link to="/mypage">{this.state.user.nickname}</Link>
+                      </span>
+
                       <span className="diaryTime">{diary.diaryTime}</span>
                       <div className="diaryCard">
                         <p>{diary.sentence}
