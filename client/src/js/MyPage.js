@@ -12,7 +12,7 @@ export default class MyPage extends React.Component{
             aFewWords: '',
             imagePreview: null,
             imageFile: null,
-            isOwner: false, 
+            
             
         }
     }
@@ -32,7 +32,7 @@ export default class MyPage extends React.Component{
             this.setState({
                 nickname: json.nickname,
                 aFewWords: json.afewWords,
-                isOwner: json.isOwner,
+                
                 //imagePreview: `/images/${json.imageId}`,
                 //imagePreview: 'http://localhost:8080/api/images/' + json.imageId
                 imagePreview: json.imageId ? `/api/images/${json.imageId}` : null
@@ -88,6 +88,10 @@ export default class MyPage extends React.Component{
         e.preventDefault();
         const { nickname, aFewWords} = this.state;
 
+        if (!nickname || nickname.trim().length === 0) {
+            alert("ニックネームは1文字以上入力してください");
+            return;
+        }
         const data = {
         nickname,
         aFewWords
@@ -121,10 +125,10 @@ export default class MyPage extends React.Component{
     //ニックネームと自己紹介はセットにする
     //isOwnerで本人のみにボタンが表示されるように
     render(){
-        const { nickname, aFewWords, imagePreview, isOwner } = this.state;
+        const { nickname, aFewWords, imagePreview } = this.state;
         // ここに追加
     console.log("描画時の aFewWords:", aFewWords);
-    console.log("isOwner in render:", this.state.isOwner);
+    
         return(
             <div>
                 <h2 className="mypagetitle">マイページへようこそ!!!!</h2>
@@ -163,7 +167,7 @@ export default class MyPage extends React.Component{
                                 //disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="ニックネーム"
-                                class="area-input"
+                                className="area-input"
                             />
                         </div>
 
@@ -176,12 +180,12 @@ export default class MyPage extends React.Component{
                                 //disabled={!isOwner}
                                 onChange={this.onInput}
                                 placeholder="自己紹介を入力"
-                                class="area-input"
+                                className="area-input"
                             />
 
                         {/* ④ 更新ボタン */}
                         <div style={{ textAlign: 'center' }}>
-                            <button type="submit" className="update-button">更新する</button>
+                            <button type="submit" className="update-button">プロフィールを更新する</button>
                         </div>
                     </form>
                 </div>
