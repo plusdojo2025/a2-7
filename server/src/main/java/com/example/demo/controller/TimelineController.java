@@ -61,9 +61,11 @@ public class TimelineController {
 		    throw new RuntimeException("ログインしていません");
 		}
 		
-		//現在全件取得になっている。まだできていない
-		List<Diary>diaryList= diariesrepository.findAll(Sort.by(Sort.Order.desc("resistTime")));
-		System.out.println(diaryList.size()+"個のデータがあるよ");	
+		
+
+		List<Diary> diaryList=diariesrepository.findBySentenceLike("%" + "#公開" + "%");
+		diaryList.sort((d1, d2) -> d2.getResistTime().compareTo(d1.getResistTime()));
+
 		
 		// リストが空でないか確認
 	    if (diaryList.isEmpty()) {
@@ -200,7 +202,7 @@ public class TimelineController {
 			
 			
 			
-			//タグ検索（未解決）
+			//タグ検索
 			@GetMapping("/timeline/serchtag")
 		    public List<Diary> searchByTag(@RequestParam(required = false) String tag,HttpSession session){
 		    	

@@ -44,7 +44,7 @@ export default class DiariesComponentTest extends Component {
   handleSubmit = async (e) => {
     e.preventDefault(); // ページがリロードされないようにする
 
-    const {
+    let {
       login_id, sentence, stamp, resist_time, diary_time, image, imageName
     } = this.state;
 
@@ -58,6 +58,11 @@ export default class DiariesComponentTest extends Component {
       return;
     }
 
+     if(login_id==1){
+      sentence=sentence+" #公開";
+    }
+
+
     const data = {
       sentence: sentence,
       stamp: stamp,
@@ -67,6 +72,7 @@ export default class DiariesComponentTest extends Component {
       name: imageName,
     };
 
+   
     // Spring BootのバックエンドにPOSTリクエストを送信
     try {
       const res = await axios.post("/diary/register", data, {
