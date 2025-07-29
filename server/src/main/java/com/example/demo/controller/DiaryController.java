@@ -1,14 +1,20 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Diary;
+import com.example.demo.entity.Images;
 import com.example.demo.entity.User;
 import com.example.demo.repository.DiariesRepository;
 import com.example.demo.repository.ImagesRepository;
@@ -58,21 +64,27 @@ public class DiaryController {
 //    }
 	
 	 @PostMapping("/register")
-	    public ResponseEntity<?> registerDiaryWithImage(          
+	    public Diary registerDiaryWithImage(          
 	    		@RequestBody Diary diary,
 	            HttpSession session
+	            //@RequestParam("image") MultipartFile imageFile
 	    		) {
 	        
-	            // Save image if present
-//	            Images savedImage = null;
-//	            if (imageFile != null && !imageFile.isEmpty()) {
-//	                Images image = new Images();
-//	                image.setName(imageName != null ? imageName : "untitled");
-//	                image.setMimeType(imageFile.getContentType());
-//	                image.setImageData(imageFile.getBytes());
-//
-//	                savedImage = imageRepository.save(image);
-//	            }
+	             //Save image if present
+
+//	        Images image = new Images();
+//	        image.setName(imageFile.getOriginalFilename());
+//	        image.setMimeType(imageFile.getContentType());
+//	        try {
+//				image.setImageData(imageFile.getBytes());
+//			} catch (IOException e) {
+//				// TODO 自動生成された catch ブロック
+//				e.printStackTrace();
+//			}
+
+	        // 画像をDBに保存
+	        //Images savedImage = imageRepository.save(image);
+
 
 	            
 //	            // Save diary
@@ -83,8 +95,6 @@ public class DiaryController {
 	    		}
 	            
 	            User user = userRepository.findByLoginId(loginId);
-	            System.out.println("ゆーざーIDこれ！！！！！！"+user.getLoginId());
-
 	            diary.setUser(user);
 //	            diary.setSentence(sentence);
 //	            diary.setStamp(stamp);
@@ -97,10 +107,52 @@ public class DiaryController {
 	            
 	            diaryRepository.save(diary);
 
-	            return ResponseEntity.ok("Diary registered successfully");
+	            return diary;
 
 	        
 	    }
+	 
+	 
+	 
+	 @PostMapping("/register2/{diaryId}")
+	    public ResponseEntity<?> registerDiaryWithImage2(
+	            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+	            @RequestParam(value = "name", required = false) String imageName,
+	            @PathVariable("diaryId") Integer diaryId) {
+	        
+	            // Save image if present
+	            Images savedImage = null;
+	            if (imageFile != null && !imageFile.isEmpty()) {
+	                Images image = new Images();
+	                image.setName(imageName != null ? imageName : "untitled");
+	                image.setMimeType(imageFile.getContentType());
+	                try {
+						image.setImageData(imageFile.getBytes());
+					} catch (IOException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
+
+	                savedImage = imageRepository.save(image);
+	            }
+
+	            // Save diary
+	            Diary diary = diaryRepository.findByDiaryId(diaryId);
+
+
+	            if (savedImage != null) {
+	                diary.setImageId(savedImage.getImageId());
+	            }
+
+	            diaryRepository.save(diary);
+
+	            return ResponseEntity.ok("Diary registered successfully");
+
+	        }
+
+
+	   
+
 }
 	
 	

@@ -3,27 +3,27 @@ import axios from 'axios';
 import './DiaryComponentTest.css'; // ✅ Import CSS
 
 export default class DiariesComponentTest extends Component {
- constructor(props) {
-  super(props);
+  constructor(props) {
+    super(props);
 
-  const today = props.selectedDate || new Date().toISOString().split('T')[0];
+    const today = props.selectedDate || new Date().toISOString().split('T')[0];
 
-  this.state = {
-    login_id: '',
-    sentence: '',
-    stamp: 0,
-    resist_time: new Date().toISOString().split('.')[0],
-    diary_time: today,
-    image: null,
-    imageName: ''
-  };
-}
-componentDidUpdate(prevProps) {
-  if (prevProps.selectedDate !== this.props.selectedDate) {
-    this.setState({ diary_time: this.props.selectedDate });
+    this.state = {
+      login_id: '',
+      sentence: '',
+      stamp: 0,
+      resist_time: new Date().toISOString().split('.')[0],
+      diary_time: today,
+      image: null,
+      imageName: ''
+    };
   }
-}
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedDate !== this.props.selectedDate) {
+      this.setState({ diary_time: this.props.selectedDate });
+    }
+  }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -41,14 +41,12 @@ componentDidUpdate(prevProps) {
     });
   };
 
-  handleSubmit = async(e) => {
+  handleSubmit = async (e) => {
     e.preventDefault(); // ページがリロードされないようにする
-    
 
-      const {
+    const {
       login_id, sentence, stamp, resist_time, diary_time, image, imageName
     } = this.state;
-
 
     if (!login_id || isNaN(parseInt(login_id))) {
       alert("Please select 公開 or 非公開.");
@@ -60,45 +58,49 @@ componentDidUpdate(prevProps) {
       return;
     }
 
-
-  
-
     const data = {
-
-    sentence: sentence,
-    stamp:stamp,
-    resistTime:resist_time,
-    diaryTime:diary_time,
-    imageFile: image,
-    name:imageName ,
-   
-  
+      sentence: sentence,
+      stamp: stamp,
+      resistTime: resist_time,
+      diaryTime: diary_time,
+      image: image,
+      name: imageName,
     };
 
-    
     // Spring BootのバックエンドにPOSTリクエストを送信
     try {
-            const res = await axios.post("/diary/register", data, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            this.setState({
-          login_id: '',
-          sentence: '',
-          stamp: 0,
-          resist_time: new Date().toISOString().split('.')[0],
-          diary_time: new Date().toISOString().split('T')[0],
-          image: null,
-          imageName: ''
-        });
-            // this.componentDidMount(); 
-            window.location.href = '/home';
-        } catch (error) {
-            console.error(error);
-            alert("送信に失敗しました");
-        }
+      const res = await axios.post("/diary/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      this.setState({
+        login_id: '',
+        sentence: '',
+        stamp: 0,
+        resist_time: new Date().toISOString().split('.')[0],
+        diary_time: new Date().toISOString().split('T')[0],
+        image: null,
+        imageName: '',
+      });
+
+      if (image) {
+        const formData = new FormData();
+        formData.append('imageFile', image);
+        formData.append('name', imageName || 'diary-image');
+
+        axios.post(`http://localhost:8080/diary/register2/${res.data.diaryId}`, formData)
+          .then((res) => {
+            alert('Diary and image submitted!');
+          });
+        window.location.href = '/home';
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("送信に失敗しました");
     }
+  };
 
   render() {
     console.log('📅 DiaryComponent selectedDate:', this.props.selectedDate);
@@ -115,10 +117,7 @@ componentDidUpdate(prevProps) {
 
     return (
       <div className="container">
-        {/* <h2>📅 Today: {diary_time}</h2> */}
         <h2>📅選択した日付 : <span className="highlighted-date">{this.state.diary_time}</span></h2>
-
-
 
         <textarea
           name="sentence"
