@@ -55,7 +55,21 @@ INSERT INTO keywords (keywords) VALUES ('頑張った');
 INSERT INTO keywords (keywords) VALUES ('疲れた');
 INSERT INTO keywords (keywords) VALUES ('帰りたい');
 INSERT INTO keywords (keywords) VALUES ('眠い');
-
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('がんばった',3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('頑張れた', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ガンバッタ', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('つかれた', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ツカレタ', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('かえりたい', 5);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('カエリタイ', 5);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてー', 5);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてえ', 5);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねみい', 6);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('寝たい', 6);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('眠すぎ', 6);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねっむ', 6);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねむい', 6);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ネムイ', 6);
 --コメント
 INSERT INTO comments (diary_id,login_id,time,sentence) VALUES (1,1,'2025-06-05 10:00:00','テストコメントです');
 INSERT INTO comments (diary_id,login_id,time,sentence) VALUES (1,2,'2025-07-02 12:00:00','テストコメント2です');
