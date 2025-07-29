@@ -247,7 +247,7 @@ fetch(`/myId`)
         .then(json => {
             console.log(json);
             alert("削除しました。");
-            window.location.href = '/timeline';
+            window.location.href = '/search';
 
         })
           .catch(error => {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -122,12 +123,12 @@ public class UserDiaryController {
 	
 				//日記詳細初期表示
 			@GetMapping("/myId")
-			public String myId(HttpSession session){
+			public ResponseEntity<?> myId(HttpSession session){
 				String loginId = (String) session.getAttribute("loginId");
 				if (loginId == null) {
 					   throw new RuntimeException("ログインしていません");
 				}
-				return loginId;
+				 return ResponseEntity.ok(new String(loginId));
 			}
 	
 	//コメント送信(コメント登録)
