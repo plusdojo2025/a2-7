@@ -54,22 +54,21 @@
 }
 /*時間*/
 .diaryTime{
-    font-size: 0.8vw;
+    font-size: 1.05vw;
     color: rgb(119, 53, 53);
     margin-left: 0.3vw;
-    margin-top: 1.35vw;
+    margin-top: 1.1vw;
     float: left;
 }
 .userImgSearch{
     float: left;
     margin-left: 1.2vw;
-    margin-top: 0.2vw;
 }
 .searchNickname{
-    font-size: 0.85vw;
+    font-size: 1vw;
     float: left;
     margin-left: 0.4vw;
-    margin-top: 1.3vw;
+    margin-top: 1.1vw;
 }
 /*リアクションスタンプ*/
 .reactionIcon{

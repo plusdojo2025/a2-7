@@ -110,10 +110,7 @@ componentDidMount() {
     };
 
     render(){
-        
-        const {showModal,index,comment, imagePreview} = this.state;
-        
-        let comsize = comment.length;
+        const {showModal,index, imagePreview} = this.state;
         
 const stampIcons = {
   1: "😡",
@@ -173,7 +170,7 @@ const stampIcons = {
                       <div classname="reactionAiconConteiner">
                         <span className="reactionIcon">{stampIcons[diary.stamp]}</span>
                 <Link to={"/diarypage/"+diary.diaryId} state={{ diary: {diary} }}>
-                <button className="commentAll">💬</button></Link>
+                <button className="commentAll">💬{diary.comments.length}</button></Link>
                       </div>                      
                     </div>
 

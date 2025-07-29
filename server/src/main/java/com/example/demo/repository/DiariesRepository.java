@@ -23,7 +23,7 @@ public interface DiariesRepository extends JpaRepository<Diary, Integer>{
 	List<Diary> findByUser_LoginIdOrderByResistTimeDesc(String loginId);
 	List<Diary> findBySentenceLike(String tag);
 	List<Diary> findBySentenceLikeAndSentenceLike(String keyword1, String keyword2);
-	
+	List<Diary> findByUser_LoginIdAndSentenceLikeOrderByResistTimeDesc(String loginId, String keyword);
 	
     @Modifying
     @Transactional

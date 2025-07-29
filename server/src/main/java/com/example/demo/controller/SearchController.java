@@ -37,7 +37,7 @@ public class SearchController {
         	return diaryRepository.findByUser_LoginIdOrderByResistTimeDesc(loginId);       	
         }
     	System.out.println(tag);
-        return diaryRepository.findByUser_LoginIdAndSentenceLike(loginId,"%" + "#" + tag + "%");
+        return diaryRepository.findByUser_LoginIdAndSentenceLikeOrderByResistTimeDesc(loginId,"%" + "#" + tag + "%");
     }
 	
 
