@@ -75,6 +75,10 @@ export default class Timeline extends React.Component {
                     <input type="submit" value="検索" />
                 </form>
 
+                <span>
+          <a href="#" className="topPage">topへ</a>         
+        </span>
+
                 {/* diaryが空の配列の場合にメッセージを表示 */}
                 {Array.isArray(diary) && diary.length === 0 ? (
                     <p>日記が見つかりませんでした。</p>
