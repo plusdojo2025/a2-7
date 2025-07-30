@@ -316,7 +316,7 @@ fetch(`/myId`)
 
 
         <main className="mmain">
-        <h1>日記ページ</h1>
+ 
              
 
 
