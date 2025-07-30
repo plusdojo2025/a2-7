@@ -49,27 +49,179 @@ insert into diaries (login_id, sentence, stamp,resist_time,diary_time) values
 (5,'来週から忙しくなるから、今週末はリラックスして過ごす予定 #公開 #リラックス',3,'2025-06-11 09:00:00','2025-06-11 09:00:00');
 
 --キーワード
-INSERT INTO keywords (keywords) VALUES ('テスト');
-INSERT INTO keywords (keywords) VALUES ('テストデータ');
 INSERT INTO keywords (keywords) VALUES ('頑張った');
-INSERT INTO keywords (keywords) VALUES ('疲れた');
-INSERT INTO keywords (keywords) VALUES ('帰りたい');
-INSERT INTO keywords (keywords) VALUES ('眠い');
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('がんばった',3);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('頑張れた', 3);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ガンバッタ', 3);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('つかれた', 4);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ツカレタ', 4);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('かえりたい', 5);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('カエリタイ', 5);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてー', 5);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてえ', 5);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねみい', 6);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('寝たい', 6);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('眠すぎ', 6);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねっむ', 6);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねむい', 6);
-INSERT INTO synonyms (synonym, keyword_id) VALUES ('ネムイ', 6);
+INSERT INTO keywords (keywords) VALUES
+('疲れた'),
+('眠い'),
+('帰りたい'),
+('しんどい'),
+('だるい'),
+('つまらない'),
+('やる気ない'),
+('早く帰りたい'),
+('イライラ'),
+('緊張する'),
+('不安'),
+('楽しい'),
+('嬉しい'),
+('悲しい'),
+('寂しい'),
+('びっくり'),
+('最高'),
+('最悪'),
+('めんどくさい'),
+('落ち着かない'),
+('わくわく'),
+('おなかすいた'),
+('眠れない'),
+('寒い'),
+('暑い')
+('食べた'),
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('がんばった',1);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('頑張れた', 1);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ガンバッタ', 1);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('つかれた', 2);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ツカレタ', 2);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('かえりたい', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('カエリタイ', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてー', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('帰りてえ', 4);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねみい', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('寝たい', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('眠すぎ', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねっむ', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねむい', 3);
+INSERT INTO synonyms (synonym, keyword_id) VALUES ('ネムイ', 3);
+
+INSERT INTO synonyms (synonyms, keyword_id) VALUES
+('疲労困憊', 2),
+('くたびれた', 2),
+('へばった', 2),
+('だるい', 2),
+
+('睡魔', 3),
+('うとうと', 3),
+('ねむたい', 3),
+('まどろむ', 3),
+
+('帰宅願望', 4),
+('家に帰りたい',4),
+('Uターンしたい', 4),
+
+('つらい', 5),
+('苦しい', 5),
+('きつい', 5),
+('骨が折れる', 5),
+
+('倦怠感', 6),
+('けだるい', 6),
+('気力がない', 6),
+('かったるい', 6),
+
+('面白くない', 7),
+('退屈', 7),
+('興味ない', 7),
+('くだらない', 7),
+
+('意欲がない', 8),
+('モチベーション低い', 8),
+('無気力', 8),
+('気が乗らない', 8),
+
+('早退したい', 9),
+('とっとと帰りたい', 9),
+('もう帰る', 9),
+
+('ムカムカ', 10),
+('カッカする', 10),
+('腹立つ', 10),
+('癇に障る', 10),
+
+('プレッシャー', 11),
+('ドキドキ', 11),
+('そわそわ', 11),
+('固くなる', 11),
+
+('心配', 11),
+('気がかり', 11),
+('落ち着かない', 11),
+('心細い', 11),
+
+('愉快', 12),
+('面白い', 12),
+('エンジョイ', 12),
+('ハッピー', 12),
+
+('喜ばしい', 13),
+('やったー', 13),
+('ハッピー', 13),
+('ご機嫌', 13),
+
+('悲嘆', 14),
+('切ない', 14),
+('落ち込む', 14),
+('しょんぼり', 14),
+
+('孤独', 15),
+('心細い', 15),
+('人恋しい', 15),
+('一人ぼっち', 15),
+
+('驚く', 16),
+('仰天', 16),
+('度肝を抜かれる', 16),
+('ギョッとする', 16),
+
+('素晴らしい', 17),
+('ベスト', 17),
+('極上', 17),
+('文句なし', 17),
+
+('最低', 18),
+('ひどい', 18),
+('ガッカリ', 18),
+('絶望的', 18),
+
+('億劫', 19),
+('面倒', 19),
+('手間がかかる', 19),
+('だるい', 19),
+
+('そわそわ', 20),
+('ザワザワ', 20),
+('居ても立っても居られない', 20),
+('不安', 20),
+
+('ドキドキ', 21),
+('楽しみ', 21),
+('期待', 21),
+('胸が躍る', 21),
+
+('空腹', 22),
+('腹ペコ', 22),
+('飯食いたい', 22),
+('飢えている', 22),
+
+('不眠', 23),
+('寝付けない', 23),
+('目が冴える', 23),
+('寝不足', 23),
+
+('肌寒い', 24),
+('冷え込む', 24),
+('凍える', 24),
+('身を切るような', 24),
+
+('蒸し暑い', 25),
+('うだるような', 25),
+('熱い', 25),
+('汗ばむ', 25),
+
+('食した', 26),
+('喫食した', 26),
+('平らげた', 26),
+('口にした', 26);
+
 --コメント
 INSERT INTO comments (diary_id,login_id,time,sentence) VALUES (1,1,'2025-06-05 10:00:00','テストコメントです');
 INSERT INTO comments (diary_id,login_id,time,sentence) VALUES (1,2,'2025-07-02 12:00:00','テストコメント2です');

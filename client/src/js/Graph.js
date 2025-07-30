@@ -113,8 +113,9 @@ export default class Graph extends React.Component{
             <h3>期間：{this.state.start}~{this.state.end}</h3>
 
             <div className="tab-flex">
+            
             {nostampdata ? (<p>表示するスタンプデータがありません。</p>) : (
-                
+                <>
                 <PieChart
                 data={stampdata} // ここにデータ渡すだけで勝手に割合計算してくれる
                 label={({ dataEntry }) => `${dataEntry.title} ${dataEntry.value}`} // 円グラフ上のラベル
@@ -125,8 +126,7 @@ export default class Graph extends React.Component{
                 style={{ height: '500px', width: '500px'}}
                 className="graph-pie-chart"
                 />
-            )
-                }
+                
                 <div className="tab-legend">
                 <h4 style={{ fontSize: '30px'}}>スタンプ集計</h4>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
@@ -146,6 +146,10 @@ export default class Graph extends React.Component{
                     ))}
                 </ul>
                 </div>
+                </>
+            )
+                }
+                
                 </div>
           </div>
           <div className="tab-content content2" style={{ display: this.state.activeTab === 'tab2' ? 'block' : 'none' }}>
