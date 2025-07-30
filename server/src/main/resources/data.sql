@@ -75,8 +75,8 @@ INSERT INTO keywords (keywords) VALUES
 ('おなかすいた'),
 ('眠れない'),
 ('寒い'),
-('暑い')
-('食べた'),
+('暑い'),
+('食べた');
 INSERT INTO synonyms (synonym, keyword_id) VALUES ('がんばった',1);
 INSERT INTO synonyms (synonym, keyword_id) VALUES ('頑張れた', 1);
 INSERT INTO synonyms (synonym, keyword_id) VALUES ('ガンバッタ', 1);
@@ -93,7 +93,7 @@ INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねっむ', 3);
 INSERT INTO synonyms (synonym, keyword_id) VALUES ('ねむい', 3);
 INSERT INTO synonyms (synonym, keyword_id) VALUES ('ネムイ', 3);
 
-INSERT INTO synonyms (synonyms, keyword_id) VALUES
+INSERT INTO synonyms (synonym, keyword_id) VALUES
 ('疲労困憊', 2),
 ('くたびれた', 2),
 ('へばった', 2),
